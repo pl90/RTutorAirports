@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "\nif (!require(devtools))\n  install.packages(\"devtools\")\nsource_gist(\"gist.github.com/skranz/fad6062e5462c9d0efe4\")\ninstall.rtutor(update.github=TRUE)\n\ninstall_github(\"pl90/RTutorAirports\", upgrade_dependencies=FALSE)\n\n\nlibrary(RTutorAirports)\n\n# Adapt your working directory to an existing folder\nsetwd(\"C:/Users/Lau/Patrick/uni/Masterarbeit/Test/RTutorProc\")\n# Adapt your user name\nrun.ps(user.name=\"pl90\", package=\"RTutorAirports\",\n       load.sav=TRUE, sample.solution=FALSE)\n\n\n\n\nif (!require(devtools))\n  install.packages(\"devtools\")\nsource_gist(\"gist.github.com/skranz/fad6062e5462c9d0efe4\")\ninstall.rtutor(update.github=TRUE)\n\ninstall_github(\"Fcolli/RTutorProcurementAuction\")\n\n\nlibrary(RTutorProcurementAuction)\n\n# Adapt your working directory to an existing folder\nsetwd(\"C:/Users/Lau/Patrick/uni/Masterarbeit/Test/RTutorProc\")\n# Adapt your user name\nrun.ps(user.name=\"pl90\", package=\"RTutorProcurementAuction\",\n       load.sav=TRUE, sample.solution=FALSE)\n\n\n\n#2ter Fall\n\n\nif (!require(devtools))\n  install.packages(\"devtools\")\nsource_gist(\"gist.github.com/skranz/fad6062e5462c9d0efe4\")\ninstall.rtutor(update.github=TRUE)\n\ninstall_github(\"msporer/RTutorEnvironmentalRegulation\")\n\n\n\nlibrary(RTutorEnvironmentalRegulations)\n\n# Adapt your working directory to an existing folder\nsetwd(\"C:/Users/Lau/Patrick/uni/Masterarbeit/Test/RTutorProc\")\n# Adapt your user name\nrun.ps(user.name=\"pl90\", package=\"RTutorEnvironmentalRegulations\",\n       load.sav=TRUE, sample.solution=FALSE)\n\n\n#3ter Fall\n\nif (!require(devtools))\n  install.packages(\"devtools\")\nsource_gist(\"gist.github.com/skranz/fad6062e5462c9d0efe4\")\ninstall.rtutor(update.github=TRUE)\n\ndevtools::install_github(\"b-lux/RTutorCarbonLeakage\", upgrade_dependencies=FALSE)\n\nlibrary(RTutorCarbonLeakage)\n\n# Adapt your working directory to an existing folder\nsetwd(\"C:/Users/Lau/Patrick/uni/Masterarbeit/Test/RTutorProc\")\n# Adapt your user name\nrun.ps(user.name=\"pl90\", package=\"RTutorCarbonLeakage\",\n       load.sav=TRUE, sample.solution=FALSE)\n\n\n\n#4ter Fall\n\n\nif (!require(devtools))\n  install.packages(\"devtools\")\nsource_gist(\"gist.github.com/skranz/fad6062e5462c9d0efe4\")\ninstall.rtutor(update.github=TRUE)\n\ninstall_github(\"fischeruu/RTutorNAFTAfreetrade\")\n\nlibrary(RTutorNAFTAfreetrade)\n\n# Adapt your working directory to an existing folder\nsetwd(\"C:/Users/Lau/Patrick/uni/Masterarbeit/Test/RTutorProc\")\n# Adapt your user name\nrun.ps(user.name=\"pl90\", package=\"RTutorNAFTAfreetrade\",\n       load.sav=TRUE, sample.solution=FALSE)\n\n\n\n#5ter Fall\n\n\nif (!require(devtools))\n  install.packages(\"devtools\")\nsource_gist(\"gist.github.com/skranz/fad6062e5462c9d0efe4\")\ninstall.rtutor(update.github=TRUE)\n\ninstall_github(\"ClaraUlmer/RTutorSoapOperas\")\n\n\nlibrary(RTutorSoapOperas)\n\n# Adapt your working directory to an existing folder\nsetwd(\"C:/Users/Lau/Patrick/uni/Masterarbeit/Test/RTutorProc\")\n# Adapt your user name\nrun.ps(user.name=\"pl90\", package=\"RTutorSoapOperas\",\n       load.sav=TRUE, sample.solution=FALSE)\n\n",
+    "created" : 1508860985961.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1180681232",
+    "id" : "1377D5FD",
+    "lastKnownWriteTime" : 1508861493,
+    "last_content_update" : 1508861493545,
+    "path" : "C:/Users/Lau/Patrick/uni/Masterarbeit/R/Testfälle.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

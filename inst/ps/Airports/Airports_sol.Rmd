@@ -1,0 +1,2932 @@
+
+# Problem Set Airports
+
+
+#< ignore
+
+```{r ""}
+library(RTutor)
+library(yaml)
+#library(restorepoint)
+setwd("C:/Users/Lau/Patrick/uni/Masterarbeit/R/Github")
+ps.name = "Airports"; sol.file = paste0(ps.name,"_sol.Rmd")
+libs = c("ggplot2","foreign","ggthemes","lfe","stargazer","tidyr","gridExtra","ggmap","regtools","googleVis","dplyr","multcomp") #  character vector of all packages you load in the problem set
+#name.rmd.chunks(sol.file) # set auto chunk names in this file
+create.ps(sol.file=sol.file, ps.name=ps.name, user.name=NULL,libs=libs, stop.when.finished=FALSE, addons="quiz",extra.code.file = "mycode.r")
+show.ps(ps.name, load.sav=FALSE,  sample.solution=!TRUE, is.solved=FALSE, catch.errors=TRUE, launch.browser=TRUE)
+stop.without.error()
+```
+#ausrufezeichen vor True in sample.solution
+#>
+
+## Willkommen
+
+Willkommen zu diesem interaktiven RTutor Problem Set, welches Teil meiner Masterarbeit bei Herrn Prof. Kranz an der Universität Ulm war.
+Dieses Problem Set ist mit Hilfe des Papers **"History and Industry Location: Evidence from German Airports"** von Stephen J. Redding, Daniel M. Sturm und Nikolaus Wolf entwickelt, welches im August 2011 im "The Review of Economics and Statistics" veröffentlicht wurde. Sowohl das Paper als auch die Stata Codes können unter folgendem Link gedownloadet werden:
+
+<a href="https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/17402" target="_blank">https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/17402</a>.
+
+## Einführung
+
+Als die Alliierten im Zweiten Weltkrieg japanische Städte bombardierten und damit komplett zerstörten wurde mit Überraschen festgestellt, dass die Bevölkerung recht schnell wieder in ihre Städte zurückkehrte und die wirtschaftliche Aktivität sich dort schnell wieder erholte. Selbst ein großer Schock wie diese Zerstörung, führte also nicht zu einer Standortverlagerung der dort ansässigen Industrien. Das bestätigt verschiedene Theorien, welche besagen, dass es für Branchen- und Industriestandorte einen eindeutigen Steady State, herbeigeführt durch wirtschaftliche Rahmenbedingungen, gibt. Selbst nach einer vorübergehenden Verlagerung der Aktivitäten aufgrund eines Schocks werden sich die Standorte nach einer gewissen Zeit wieder zum Steady State begeben (vgl. Davis und Weinstein (2002)).
+
+Im Gegensatz dazu gibt es die These, dass Branchen- und Industriestandorte nicht eindeutig von wirtschaftlichen Rahmenbedingungen bestimmt werden und multiple Steady States für Standorte existieren. Welcher dieser Steady States gewählt wird, hängt von Anfangsbedingungen und vergangenen Schocks ab. Erfahrungen haben gezeigt, dass kleine, zeitlich begrenzte Schocks große, dauerhafte Auswirkungen haben können. Standorte können von einem Steady State zu einem anderen verschoben werden  (vgl. Marshall 1920 und Krugman 1991, S. 483-499). 
+
+In diesem Problem Set wollen wir die These von Marshall (1920) am Beispiel deutscher Flughäfen untermauern. Besonders interessant hierfür sind für uns der Zweite Weltkrieg mit der Teilung Deutschlands und die Wiedervereinigung im Jahre 1990 als exogene Einflussfaktoren. Dieses sogenannte "natürliche Experiment" beinhaltet einige vorteilhafte Eigenschaften für uns. Die Teilung Deutschlands hat einen großen exogenen Schock verursacht, welcher erhebliche Auswirkungen auf die Attraktivität von Standorten hatte. Deutschland war über 40 Jahre geteilt und man musste davon ausgehen, dass dieser Zustand von Dauer ist. Dies hatte großen Einfluss auf die Wahl von Standorten. 
+Die Wiedervereinigung führte zu einem zweiten Schock, der die Wahl von Standorten beeinflussen sollte und teilweise den Auswirkungen der Teilung Deutschlands entgegenwirkte. 
+Mit Hilfe dieser zwei Schocks wollen wir nun untersuchen, ob die Teilung Deutschlands zu einer dauerhaften Verlagerung von Wirtschaftsstandorten zwischen zwei Steady States geführt hat. Wir fokussieren uns dabei auf Luftverkehrsknotenpunkte (air hubs). Als Luftverkehrsknotenpunkt oder Luftfahrt-Drehkreuz werden Flughäfen bezeichnet, die zahlreiche Umsteigemöglichkeiten bieten. 
+Die Wahl von Luftverkehrsknotenpunkten zur Untersuchung unserer Theorie bietet uns einen entscheidenden Vorteil: Es gibt sehr viele historische, aber auch aktuelle Daten und Statistiken zu Flughäfen und Passagieren, die wir für unsere Berechnungen gut gebrauchen können.
+
+
+## Exercise Content
+
+Es ist nicht zwingend notwendig das Problem Set in der gegebenen Reihenfolge zu bearbeiten, wird aber aufgrund des aufeinander aufbauenden Inhaltes empfohlen. Innerhalb einer Aufgabe müssen alle Übungen der Reihe nach bearbeitet werden. Im oberen Bereich dieser Seite findest du verschiedene Reiter: Content, 1, 2, ... . Hier kannst du die verschiedenen Aufgaben anklicken. Auf dem Reiter rechts von "Data Explorer" kannst du jederzeit nachschauen wie viel Prozent des Problem Sets du bereits bearbeitet hast und wie viel Programmieraufgaben du korrekt gelöst hast.
+
+Das Problem Set ist wie folgt gegliedert:
+
+  1. Entwicklung der Fluggastanteile
+  
+  2. Die Wahl zugunsten Frankfurts
+  
+  2.1 Zusatzaufgabe ggplot
+  
+  3. Internationaler Vergleich - Marktanteil
+  
+  3.1. Internationaler Vergleich - Flugverbindungen
+  
+  4. Difference in Difference Schätzer - Beispiel
+  
+  4.1 Schätzer für die Teilung Deutschlands
+  
+  4.2 Schätzer für die Wiedervereinigung
+  
+  5. Die Marktanbindung
+  
+  5.1 Aufteilung der Abflugzahlen
+  
+  6. Regionale wirtschaftliche Aktivitäten und lokale Flüge
+  
+  6.1 Zerlegung der Passagieranteile
+  
+  6.2 Beziehung zwischen lokalen Flügen und der regionalen wirtschaftlichen Aktivität
+  
+  6.3 Regionale wirtschaftliche Aktivität
+  
+  7. Zusammenfassung
+  
+  8. Quellen
+
+
+## Exercise 1 -- Entwicklung der Fluggastanteile
+
+Hier eine kleines Quiz zum Aufwärmen. In den folgenden Aufgaben werden immer wieder Quiz auftauchen um dein Verständnis zu überprüfen. Solltest du eine Frage falsch beantworten, wird dir `RTutor` das zeigen und du kannst eine andere Antwort auswählen. Die Antworten müssen immer auf Deutsch mit korrekter Groß- und Kleinschreibung gegeben werden.
+
+**Aufgabe:** Löse das folgende Quiz
+
+***Frage:***
+#< quiz "Frage1"
+question: Von welchem deutschen Flughafen sind bis ca. 1960 die meisten Passagiere abgeflogen?
+sc:
+    - München
+    - Berlin*
+    - Frankfurt
+    - Düsseldorf
+    - Hamburg
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+***Frage:***
+#< quiz "Frage2"
+question: Wann fand der Zweite Weltkrieg statt?
+sc:
+    - 1940 bis 1944
+    - 1914 bis 1918
+    - 1939 bis 1945*
+    - 1938 bis 1944
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+***Frage:***
+#< quiz "Frage3"
+question: Welcher deutsche Flughafen ist der derzeit größte, gemessen am Passagieraufkommen?
+sc:
+    - München
+    - Berlin
+    - Frankfurt*
+    - Düsseldorf
+    - Hamburg
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+<br>
+In dieser Aufgabe wollen wir uns näher mit dem in Frage 1 und Frage 3 erwähnten Passagieraufkommen und dessen Entwicklung beschäftigen.
+
+Zu Beginn wollen wir untersuchen, welchen Anteil an Fluggästen die zehn größten deutschen Flughäfen in den Jahren von 1927 bis 2002 hatten. 
+Hierfür lesen wir unsere erste Datei ein. Um eine Datei einzulesen benutzen wir den Befehl `read.dta`. Schau dir in der InfoBox an, wie dieser Befehl genutzt wird.  
+
+
+#< info "read.dta"
+Mit dem Befehl `read.dta()` aus dem Package `foreign` kannst du die Datei `data.dat` in R einlesen.
+```{r "1",eval=FALSE}
+library(foreign)
+read.dta("data.dat")
+```
+Um eine Datei unter der Variable `MeineVariable` zu speichern, gehe folgendermaßen vor:
+```{r "1__2",eval=FALSE}
+library(foreign)
+MeineVariable=read.dta("data.dat")
+```
+Wenn du mehr über `read.dta()` erfahren willst, klicke auf folgenden Link: 
+<a href="https://stat.ethz.ch/R-manual/R-devel/library/foreign/html/read.dta.html" target = "_blank">stat.ethz.ch/R-manual/R-devel/library/foreign/html/read.dta.html</a>.
+#>
+
+Zu Beginn jeder **Aufgabe** muss einmal der `edit` Button gedrückt werden, danach kannst du deinen Code eingeben. Drücke danach `check` um den Code laufen zu lassen. Solltest du nicht weiter wissen, kannst du dir mit `hint` einen Hinweis oder direkt die Lösung anzeigen lassen indem du `solution` anklickst. 
+
+Um einen Befehl aus einem Package zu verwenden, müssen wir dieses zuerst laden.
+
+**Aufgabe:** Lade das Package `foreign`, indem du `library(foreign)` in das Programmierfenster eingibst. Drücke danach auf `check`.
+```{r "1__0"}
+#< task
+
+#>
+#< hint
+display("Schreibe `library(foreign)` in die Zeile oben und drücke dann `check`")
+#>
+library(foreign)
+```
+
+Sehr gut, du hast nun erfolgreich das Package `foreign` geladen und wir können jetzt alle Befehle nutzen, die in diesem Package enthalten sind.
+
+**Aufgabe:** Lies nun die Datei `airports-time-series.dta` ein und speichere sie unter der Abkürzung `atsf`. Lösche dazu das `#`- Zeichen und ersetze die ???
+```{r "1__3"}
+#< task
+#???=read.dta("???")
+#>
+
+#< hint
+display("Schreibe `atsf=read.dta(\"airports-time-series.dta\")` und drücke danach auf `check`")
+#>
+atsf=read.dta("airports-time-series.dta")
+```
+
+#< award "Datei einlesen"
+  Herzlichen Glückwunsch. Du hast deine erste Datei erfolgreich in R eingelesen.
+
+  Während dieses Problem Sets kannst du dir immer wieder "Awards" für neu erlerntes Wissen verdienen. Am Ende kannst du dir unter **Fazit** deine verdienten "Awards" ansehen.
+#>
+
+Wenn du auf `data` drückst, kommst du in den `Data Explorer` den du auch oben in der Inhaltsangabe als letzten Reiter finden kannst. Hier kannst du dir unsere eingelesenen Datensätze anschauen. Schaue dir den Datensatz `atsf` an und kehre dann zurück zu **Aufgabe 1**.
+
+Geben wir `atsf` in das Programmfenster ein, zeigt uns RTutor die ersten 25 Zeilen unserer Datei `atsf`. Dies ist eine gute Möglichkeit um sich einen ersten Überblick über die Datei zu verschaffen.
+
+**Aufgabe:** Lasse dir die Datei `atsf` anzeigen
+```{r "1__4" }
+#< task
+
+#>
+
+#< hint
+display("Einfach check drücken")
+#>
+atsf
+```
+
+Die Tabelle besteht aus den sieben Spalten: airport, iata, year, depart, arrival, f_depart und f_arrival. Die Spalte `airport` beschreibt den Standort des jeweiligen Flughafens. `iata` ist ein Kürzel für den jeweiligen Flughafen. In `year` können wir ablesen, in welchem Jahr unsere Daten aufgezeichnet wurden. Die Spalten `arrival` und `depart` geben an wie viele Personen im jeweiligen Jahr vom jeweiligen Flughafen gestartet bzw. gelandet sind.
+Die Spalten `f_depart` und `f_arrival` beschreiben die Fracht in Tonnen, die im jeweiligen Jahr angekommen bzw. abgeflogen wurde. 
+Unsere Daten reichen vom Jahr 1927 bis ins Jahr 2002. Aufgrund des Zweiten Weltkriegs gibt es keine verfügbaren Daten von 1939-1949. Die Daten aus den Jahren 1927-1938 stammen vom Statistischen Jahrbuch des Deutschen Reiches. Die Daten von 1950-2002 stammen aus dem Statistischen Jahrbuch für die Bundesrepublik Deutschland, veröffentlicht vom Statistischen Bundesamt (verschiedene Jahre).
+
+**Frage:**
+#< quiz "Berlin_1950"
+question: Wie viele Passagiere sind im Jahr 1950 vom Flughafen Berlin abgeflogen?
+answer: 113383
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+Da wir nur den Passagierbetrieb untersuchen sind die Spalten `f_depart` und `f_arrival` für uns irrelevant und wir wollen diese aus unserem Datensatz entfernen. Hierzu eignet sich der Befehl `select` aus dem Package `dplyr`. Mit diesem Befehl können wir bestimmte Spalten einer Tabelle auswählen. Du kannst wieder in der InfoBox genaueres über den Befehl `select` nachlesen.
+
+#< info "select()"
+Der Befehl `select()` aus dem Package `dplyr` wird genutzt, um bestimmte Spalten einer Tabelle auszuwählen. Wenn du zum Beispiel einen Datensatz `dat` mit den Spalten `Land`, `Stadt`, `Einwohner` und `Jahr` hast und du willst nur die Spalten `Stadt` und `Einwohner`, kannst du dies folgendermaßen tun:
+
+```{r "1__6", eval=FALSE}
+library(dplyr)
+select(dat, Stadt, Einwohner)
+```
+
+Wenn du mehr über `select()` erfahren willst, kannst du folgenden Link anklicken: <a href="https://rdrr.io/cran/dplyr/man/select.html" target = "_blank"> https://rdrr.io/cran/dplyr/man/select.html</a>.
+#>
+
+Überschreibe die Tabelle `atsf` indem du nur die Spalten `airport`,`year`,`depart` und `arrival` auswählst. Lasse dir die Datei `atsf` im Anschluss wieder anzeigen.
+
+**Aufgabe:** Entferne das `#`-Zeichen und ersetze die ???
+```{r "1__7" }
+#< task
+#library(dplyr)
+#atsf=select(???)
+#atsf
+#>
+library(dplyr)
+atsf=select(atsf,airport,year,depart,arrival)
+atsf
+
+```
+Jetzt haben wir die Spalten `f_depart` und `f_arrival` aus der Tabelle `atsf` entfernt.
+
+Da wir im folgenden nur mit den zehn größten deutschen Flughäfen rechnen wollen, müssen wir noch die Flughäfen Dresden, Erfurt, Leipzig, Münster und Saarbrücken aus unserer Tabelle entfernen. Von Diesen sind keine vollständigen Daten vorhanden. Hierfür ist der Befehl `filter()` aus dem Package `dplyr` hilfreich. Schau dir in der InfoBox an wie der Befehl genutzt wird.
+
+
+#< info "filter()"
+Der Befehl `filter()` aus dem Package `dplyr` wird genutzt um bestimmte Zeilen eines Datensatzes ausgeben zu lassen. Wenn du zum Beispiel einen Datensatz `dat` hast, der die Spalte `year` enthält und du einen neuen Datensatz `dat_2001`, der nur die Daten aus dem Jahr 2001 enthält, erstellen möchtest, kannst du dies folgendermaßen tun:
+
+```{r "1__8" ,eval=FALSE}
+library(dplyr)
+dat_2001 = filter(dat, year == 2001)
+```
+
+Wenn du mehr über `filter()` erfahren willst, klicke auf folgenden Link: <a href="https://rdrr.io/cran/dplyr/man/filter.html" target = "_blank"> https://rdrr.io/cran/dplyr/man/filter.html</a>.
+#>
+
+Wir könnten nun den folgenden Code verwenden um die oben genannten Flughäfen aus unserer Datei `atsf` zu löschen: `atsf=filter(atsf,atsf$airport!="Dresden" & atsf$airport!="Erfurt" & atsf$airport!="Münster"& atsf$airport!="Saarbrücken"& atsf$airport!="Leipzig")`. Einfacher und übsersichtlicher geht es aber mit der sogenannten "Pipe"-Schreibweise:
+
+**Aufgabe:** Ersetze die Fragezeichen im Code und lösche `#` um ALLE oben genannten Flughäfen aus unserer Datei zu entfernen
+```{r "1__9" }
+#< task
+#atsf=atsf %>% filter(!airport %in% c("???","???","Münster","Saarbrücken","Leipzig"))
+#>
+atsf=atsf %>% filter(!airport %in% c("Dresden","Erfurt","Münster","Saarbrücken","Leipzig"))
+
+
+```
+
+Wir werden später etwas mehr über die "Pipe"-Schreibweise lernen.
+
+Unser Datensatz ist nun vollständig bereinigt und für unsere erste Berechnung bereit. Zur Erinnerung: Wir wollen untersuchen, welchen Anteil an Fluggästen die zehn größten deutschen Flughäfen in den Jahren von 1927 bis 2002 jeweils hatten.  
+
+#< info "summarise() und group_by()"
+`group_by` wird genutzt um Dateien zu gruppieren. Mit `summarise()` werden dann bestimmte Variablen zusammengefasst. Angenommen wir wollen unsere Datei `atsf` nach `airport` gruppieren und danach eine neue Spalte `mean_depart` erzeugen, in der die durchschnittliche Abfluganzahl aller Jahre steht, dann gehen wir wie folgt vor:
+
+
+```{r "1__91" }
+summarise(group_by(atsf,airport),mean_depart=mean(depart))
+```
+
+Mehr über `summarise()` und `group_by()` findest du unter folgendem Link: <a href="https://www.rdocumentation.org/packages/dplyr/versions/0.7.2/topics/summarise" target = "_blank"> https://www.rdocumentation.org/packages/dplyr/versions/0.7.2/topics/summarise</a>.
+
+#>
+
+Zu Beginn wollen wir unsere Datei mit dem Befehl `summarise` aus dem Package `dplyr` zusammenfassen. Dieser wird üblicherweise mit dem Befehl `group_by()` aus dem selben Package verwendet. Schau dir in der InfoBox an wie dies funktioniert.
+Berechne jetzt die Gesamtanzahl der Passagiere, die für die jeweiligen Jahre 1927 bis 2002 von allen Flughäfen zusammen abgeflogen sind.
+
+**Aufgabe:** Entferne das `#`-Zeichen und ersetze die ???
+```{r "1__10" }
+#< task
+#summarise(group_by(???,year),sum_depart=sum(???))
+#>
+summarise(group_by(atsf,year),sum_depart=sum(depart))
+```
+
+Wir haben eine neue Tabelle erstellt, in der für jedes Jahr die Anzahl der Abflüge in der Spalte "sum_depart" steht.
+Wir sehen aber auch, dass wir unter anderem die Spalten `airport` und `depart` verloren haben. Wir könnten jetzt unsere neue Tabelle  mit `atsf` pro Jahr zusammenfügen. Dies würde mit dem Befehl `left_join` aus dem Package `dplyr` funktionieren.
+
+Einfacher geht es jedoch, indem wir die Befehle `mutate` und `group_by` verbinden. `mutate` fügt einem Datensatz eine neue Variable hinzu. Schau dir in der InfoBox an wie dies funktioniert.
+
+#< info "mutate() und transmute()"
+Der Befehl `mutate` aus dem Package `dplyr` wird genutzt um einem Datensatz eine Spalte hinzuzufügen. Wir wollen dem Datensatz `dat`, der die Spalten `x` und `y` enthält, die Spalte `z` hinzufügen. Es soll gelten: `z=x+y`.
+```{r "1__92",eval=FALSE}
+mutate(dat,z=x+y)
+```
+`transmute()` funktioniert genau gleich wie `mutate()`, allerdings bleiben uns bei `mutate()` die Spalte `x` und `y` erhalten und bei `transmute()` werden sie gelöscht.
+Um mehr über `mutate()` und `transmute()` zu erfahren suche bei Google nach den Schlagwörtern: `dplyr`, `R`, `mutate` und `transmute`
+#>
+
+Wir erzeugen also eine neue Spalte `sum_depart`, die für jedes Jahr die Gesamtzahl der Passagiere beinhaltet, die von einem der zehn Flughäfen abgeflogen sind.
+
+**Aufgabe:** Ersetze die Fragezeichen sinnvoll und lasse dann den folgenden Code laufen
+```{r "1__11" }
+#< task
+#atsf=mutate(group_by(atsf,???),sum_depart=sum(???))
+
+#>
+atsf=mutate(group_by(atsf,year),sum_depart=sum(depart))
+```
+
+Nun wollen wir in einer neuen Spalte `pshare` den Fluggastanteil mit folgender Formel berechnen:
+
+$\textrm{pshare}=\frac{\textrm{depart}}{\textrm{sum_depart}}*100$
+
+Füge dem Datensatz `atsf` eine neue Spalte `pshare` hinzu, in der du den prozentualen Anteil aller Fluggäste berechnest. 
+
+**Aufgabe:** Ersetze die ??? und entferne `#`
+```{r "1__12" }
+#< task
+#atsf=mutate(???,pshare=(???)*100)
+#>
+atsf=mutate(atsf,pshare=(depart/sum_depart)*100)
+```
+
+Als letzten Schritt dieser Aufgabe wollen wir die Fluggastanteile für jeden Flughafen für die Jahre 1927 bis 2002 in eine Graphik plotten. Das machen wir zunächst mit Standardbefehlen wie `plot()` und `lines()`. 
+
+**Aufgabe:** Drücke `check` um das Ergebnis anzeigen zu lassen 
+```{r "1__13" }
+#< task
+
+year=filter(atsf,airport=="Berlin")$year
+plot(filter(atsf,airport=="Berlin")$year,filter(atsf,airport=="Berlin")$pshare,type="b",main="Passagieranteile",ylab="Passagieranteile in %", xlab="Jahr",	ylim=c(0,50),pch=16,col="black")
+abline(v =1939)
+abline(v =1949)
+lines(year,filter(atsf,airport=="Frankfurt")$pshare, type="b",pch=17,lty=1,col="grey")
+lines(year,filter(atsf,airport=="München")$pshare, type="b",pch=0,lty=1)
+lines(year,filter(atsf,airport=="Düsseldorf")$pshare, type="b",pch=4,lty=3)
+lines(year,filter(atsf,airport=="Hamburg")$pshare, type="b",pch=3,lty=3)
+lines(year,filter(atsf,airport=="Bremen")$pshare, type="l",lty=2)
+lines(year,filter(atsf,airport=="Hannover")$pshare, type="l",lty=2)
+lines(year,filter(atsf,airport=="Stuttgart")$pshare, type="l",lty=2)
+lines(year,filter(atsf,airport=="Köln")$pshare, type="l",lty=2)
+lines(year,filter(atsf,airport=="Nürnberg")$pshare, type="l",lty=2)
+
+legend("topright", c("Berlin","Frankfurt","München"), pch = c(16,17,0),bty = 'n',xpd=TRUE)
+#>
+
+```
+
+
+**Frage:**
+#< quiz "Gap"
+question: Wie ist die Lücke zwischen 1938 und 1950 zu erklären?
+sc:
+    - sieht einfach schöner aus
+    - keine Daten aufgrund des Zweiten Weltkrieges*
+    - spielt für unsere Berechnungen keine Rolle
+    - alle Flugzeuge kaputt
+    - welche Lücke?
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+**Frage:**
+#< quiz "Ausschlag"
+question: Wie lässt sich der starke Anstieg von Berlin im Jahr 1954 erklären?
+sc:
+    - viele Deutsche haben Ostdeutschland fluchtartig über Berlin verlassen *
+    - Die Luftbrücke verfälscht unsere Daten
+    - Die Sowjetunion hat den Berliner Flughafen genutzt um Deutschland mit ihren Truppen zu verlassen
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+#< award "Quizmaster Lv.1"
+Sehr gut, du hast die Fragen richtig beantwortet und die Graphik verstanden.
+#>
+
+Wir wollen noch das Package `ggplot2` kennenlernen, mit welchem wir die Graphik optisch ansprechender darstellen können.
+
+## ggplot2
+
+Zum Abschluss dieser Aufgabe wollen wir noch kurz das Package `ggplot2` kennenlernen. `ggplot2` ist sehr mächtig wenn es darum geht, verschiedene Arten von Graphiken zu plotten. Als Einstieg wollen wir die Graphik von oben mit `ggplot2` plotten. Der Code wirkt auf den ersten Blick sehr kompliziert, ist aber bei näherer Betrachtung sehr strukturiert aufgebaut. Für eine ausführliche Anleitung vgl. Wickham (2009) oder Teutonico (2015)
+
+#< info "ggplot2()"
+Wenn du mehr über`ggplot2` erfahren willst, klicke auf folgenden Link: <a href="https://cran.r-project.org/web/packages/ggplot2/ggplot2.pdf" target = "_blank"> https://cran.r-project.org/web/packages/ggplot2/ggplot2.pdf</a>.
+
+Einen nützlichen Spickzettel findest du unter <a href="https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf" target = "_blank"> https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf</a>.
+#>
+
+Der Hintergrund der Graphik wird mit dem Befehl `ggplot` erzeugt. `ggplot` benötigt als Input den Datensatz `data` und unter `aes(x=...,y=...)` unsere Werte für die x- und y-Achse. `colour=airport` ist optional und lässt unsere  Flughäfen gleich in unterschiedlichen Farben erscheinen. Danach kann die Graphik beliebig erweitert oder bearbeitet werden. Dies geschieht ganz einfach mit einem `+`. Wir starten also mit `ggplot()` und fügen bspw. zuerst unsere Fluggastanteile mit `+geom_line()` hinzu und ändern dann unsere Achsenbeschriftung mit `+labs()`.
+
+**Aufgabe:** Drücke `check` um das Ergebnis anzeigen zu lassen 
+```{r "1__14" }
+#< task
+ggplot(data=atsf,aes(x=year, y=pshare, colour=airport)) +
+  geom_line() +
+  labs(x="Jahr",y="Passagieranteil in %",title="Passagieranteile deutscher Flughäfen",colour="Flughafen")
+#>
+
+
+```
+
+Um den Bereich 1938-1950 auszublenden, fügen wir mittels `+annotate()` einen weißen Balken ein. Mit `+theme_bw()` kann das Aussehen einer Graphik geändert werden. So können wir Graphiken zum Beispiel ähnlich denen eines wissenschaftlichen Journals aussehen lassen.
+
+**Aufgabe:** Drücke `check` um das Ergebnis anzeigen zu lassen 
+```{r "1__15" }
+#< task
+ggplot(data=atsf,aes(x=year, y=pshare, colour=airport)) +
+  geom_line() +
+  labs(x="Jahr",y="Passagieranteil in %",title="Passagieranteile deutscher Flughäfen",colour="Flughafen") +
+  scale_x_log10(breaks=c(1925, 1935,1945, 1955, 1965, 1975, 1985, 1995, 2005)) +
+  theme_bw() +
+  annotate("rect", fill = "white", xmin = 1938, xmax = 1950,   ymin = -Inf, ymax = Inf) +
+  geom_vline(xintercept = c(1938,1950), color = "black", size=0.5)
+
+#>
+
+
+```
+#< award "ggplot Anfänger"
+Sehr gut, du hast deinen ersten Plot mit `ggplot` erstellt.
+#>
+              
+Die einzelnen Trends lassen sich in diesem Plot schwer auseinanderhalten, deshalb machen wir noch einen weiteren Plot. Mit `+facet_wrap(~airport)` erzeugen wir für jeden Flughafen einen eigenen Plot.
+
+**Aufgabe:** Drücke `check` um das Ergebnis anzeigen zu lassen 
+```{r "1__15", fig.width=12,fig.height=7}
+#< task
+ggplot(data=atsf,aes(x=year, y=pshare, colour=airport)) +
+  geom_line() +
+  labs(x="Jahr",y="Passagieranteil in %",title="Passagieranteile deutscher Flughäfen",colour="Flughafen") +
+  scale_x_log10(breaks=c(1925, 1935,1945, 1955, 1965, 1975, 1985, 1995, 2005)) +
+  theme_bw() +
+  annotate("rect", fill = "white", xmin = 1938, xmax = 1950,   ymin = -Inf, ymax = Inf) +
+  geom_vline(xintercept = c(1938,1950), color = "black", size=0.5) +
+  facet_wrap(~airport) + 
+  theme(axis.text.x = element_text(angle = 60, vjust = 0.5, hjust=0.5))
+
+#>
+
+```                                                                                                                                                                                                                                                      
+  
+
+**Frage:**
+#< quiz "Frankfurt_beginn"
+question: Wie viel Prozent aller Passagiere sind in Deutschland im Jahr 1927 vom Frankfurter Flughafen aus gestartet?
+sc:
+    - ca. 10%*
+    - ca. 5%
+    - ca. 20%
+    - ca. 25%
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+**Frage:**
+#< quiz "leader"
+question: Von welchem deutschen Flughafen sind im Jahr 2002 die meisten Passagiere abgeflogen?
+answer: Frankfurt
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+
+Wie der Graphik zu entnehmen ist, war Berlin vor dem Zweiten Weltkrieg der mit großem Abstand meistgenutzte Flughafen in Deutschland. Tatsächlich war im Jahr 1927 der Passagieranteil von Berlin mehr als doppelt so groß wie der des Frankfurter Flughafens. Vor 1938 waren die Flughäfen Frankfurt, München, Hamburg und Köln auf den Plätzen zwei bis fünf. Alle hatten einen Marktanteil von ungefähr 10%. 
+
+
+Die Vorrangstellung von Berlin änderte sich nach der Spaltung von Deutschland. Während Berlin im Jahr 1950 immer noch den größten Flughafen Deutschlands hatte, war Frankfurt bereits mit deutlichem Vorsprung der zweitgrößte Flughafen. Von 1950 an ging der Passagieranteil von Berlin stetig zurück. Im Jahr 1960 wurde Berlin von Frankfurt als größter deutscher Flughafen abgelöst. In den 1980er Jahren hatte Frankfurt einen stabilen Marktanteil von 35-40%, während Berlins Marktanteil unter 10% gefallen war. Der kleine Anstieg von Berlins Fluggastanteil im Jahr 1990 ist der Tatsache geschuldet, dass wir die Daten von Tempelhof und Tegel (Westberlin) und Schönefeld (Ostberlin) ab diesem Jahr zusammengerechnet haben (Wiedervereinigung). Abgesehen von dieser kleinen Erhöhung ist der Marktanteil von Berlin seit der Wiedervereinigung im Jahr 1990 stetig gefallen. Im gleichen Zeitraum hat sich Frankfurt klar als bedeutendster deutscher Flughafen etabliert. 
+
+Auf Grundlage aller Daten, die wir bis hierhin haben, gibt es keine Anzeichen die darauf hindeuten, dass Berlin eines Tages wieder der größte deutsche Flughafen werden könnte. Dies ist ein erstes Anzeichen dafür, dass die Verlagerung von Berlin nach Frankfurt eine dauerhafte Verlagerung des Luftverkehrsknotenpunkts zwischen Multiple Steady States ist. Dies würde der These von Davis und Weinstein (2002) wiedersprechen, die besagt, dass ein eindeutiger Steady State existiert.
+
+
+## Exercise 2 -- Die Wahl zugunsten Frankfurts
+
+Während die Ergebnisse aus ***Aufgabe 1*** andeuten, dass Deutschlands Luftverkehrsknotenpunkt zwischen zwei Steady States gewechselt hat, wäre eine alternative Erklärung, dass der Standortwechsel von Deutschlands größtem Flughafen auf einen Wechsel von wirtschaftliche Rahmenbedingungen zurückzuführen ist. In diesem und den folgenden Aufgaben werden wir aber zeigen, dass es sich tatsächlich um einen Wechsel zwischen zwei Steady States handelt.
+
+In ***Aufgabe 1*** haben wir gelernt, dass Deutschlands Luftverkehrsknotenpunkt nach der Teilung Deutschlands von Berlin nach Frankfurt gezogen ist. Doch warum gerade Frankfurt? Warum nicht ein anderer Flughafen? Vor der Teilung Deutschlands gab es dafür keine Anzeichen. Die Flughäfen Frankfurt, Köln, München und Hamburg hatten alle in etwa das gleiche Passagieraufkommen, wie wir unserer Graphik entnehmen können. 
+
+Um diese Frage zu beantworten lohnt sich ein Blick auf die deutsche Geschichte.
+
+## Geschichtlicher Hintergrund
+
+Da die Teilung und Wiedervereinigung Deutschlands eine wichtige Rolle für unser RTutorium spielen, möchte ich hier eine kleine geschichtliche Zusammenfassung geben:
+
+In der Folge des Zweiten Weltkrieges (1939-1945) und zu Beginn des Kalten Krieges war Deutschland in zwei ungefähr gleich große Teile aufgeteilt und durch den sogenannten "Eisernen Vorhang" in Ost- und Westdeutschland geteilt. Ostdeutschland war von der Sowjetunion besetzt, Westdeutschland wurde in eine britische, französische und amerikanische Zone aufgeteilt (siehe Abb. 1).  
+
+ <figure>
+  <img src="besatzungszonen.gif" alt="" hight="400" width="400" >
+  <figcaption>Abb. 1 - Besatzungszonen Deutschland nach Ende des Zweiten Weltkriegs. Quelle: http://www.geschichtsatlas.de/~gf5/neuheim.html</figcaption>
+</figure> 
+
+Berlin lag ungefähr 200 Kilometer östlich der Grenze zwischen West- und Ostdeutschland, also in der Sowjetischen Zone. Da Berlin als Hauptstadt jedoch eine besondere Rolle für die Alliierten spielte, wurde Berlin ebenfalls in vier Sektoren geteilt. 
+
+Im August 1961 wurde Berlin durch die Berliner Mauer in zwei Teile geteilt. Westberlin beinhaltete die Sektoren von Frankreich, Großbritannien und den USA. Ostberlin gehörte zum Sowjetischen Sektor. 
+
+Westberlin lag also mitten in der Sowjetischen Zone, was sich als großes Problem herausstellen sollte. Es gab Anfangs zwar eine Vereinbarung zwischen den Alliierten und den Sowjets über Zugangsrouten von Westdeutschland nach Westberlin, diese wurden ab 1948 aber von den Sowjets blockiert. Während dieser Blockade wurde Westberlin für über ein Jahr per Luftbrücke mit Hilfsgütern und Nahrungsmitteln beliefert bis man sich wieder auf Verkehrsrouten am Boden einigen konnte.
+
+1985 startete der Prozess zur Wiedervereinigung von Deutschland. 1989 fiel die Mauer in Folge von starken Demonstrationen in Ostdeutschland und bereits im Oktober 1990 war Deutschland offiziell wiedervereinigt (vgl. Loth (1988)). 
+
+**Frage:**
+#< quiz "Besatzungszonen"
+question: In wie viele Besatzungszonen wurde Deutschland in Folge des Zweiten Weltkriegs aufgeteilt?
+sc:
+    - 4*
+    - 5
+    - 3
+    - 6
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+**Frage:**
+#< quiz "Wiedervereinigung"
+question: Wann fand die Wiedervereinigung von Deutschland statt?
+sc:
+    - 1985
+    - 1989
+    - 1944
+    - 1990*
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+Wir haben nun etwas über die deutsche Geschichte gelernt. Lasse jetzt den folgenden Code laufen um dir auf Google Maps anzuschauen, wo genau unsere 15 deutschen Transitflughäfen liegen. Wenn du auf die roten Kegel klickst erscheint der Name des jeweiligen Flughafens. Danach beantworte die darauffolgende Frage. Der Code ist nicht wichtig für uns und muss deshalb nicht nachvollzogen werden. 
+
+**Aufgabe:** Drücke `check` um den Code laufen zu lassen. Vergiss nicht: bei der ersten Aufgabe eines Kapitels muss zuerst `edit` gedrückt werden.
+```{r "2__3",results="asis"}
+#< task_notest
+Karte <- gvisMap(mutate(summarise(group_by(read.dta("Gravity2002.dta"),expname),nlatitude_e=mean(nlatitude_e),nlongitude_e=mean(nlongitude_e),deppass=sum(deppass)),LatLong=paste(nlatitude_e,":",nlongitude_e,sep="")), "LatLong" ,"expname", options=list(showTip=TRUE, showLine=TRUE, enableScrollWheel=TRUE,mapType='terrain', useMapTypeControl=TRUE))
+
+print(Karte, tag="chart")
+#>
+
+```
+
+
+**Frage:**
+#< quiz "Frankfurt_Zone"
+question: In welcher der Besatzungszonen befand sich Frankfurt?
+sc:
+    - amerikanische Besatzungszone*
+    - britische Besatzungszone
+    - französische Besatzungszone
+    - sowjetische Besatzungszone
+    - chinesische Besatzungszone
+    
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+#< award "Quizmaster Lv.2"
+Sehr gut, die deutsche Geschichte zum Zweiten Weltkrieg hast du auch verstanden.
+#>
+
+Die Antwort auf die oben stehende Frage ist laut den Autoren des Papers der Grund dafür, dass Frankfurt und nicht Köln oder Hamburg heute den Hauptflughafen von Deutschland stellt (vgl. Redding, Sturm und Wolf (2011), S.823). Die USA haben Frankfurt 1948 zu ihrem Europäischen Hauptflughafen gemacht, fast der komplette militärische Transport flog über Frankfurt. Deshalb war Frankfurt auch der Hauptflughafen von dem aus die Berliner Luftbrücke gestartet wurde. Dies war auch der Grund warum der Frankfurter Flughafen zu dieser Zeit nochmals ausgebaut und vergrößert wurde. Während Frankfurt bereits 1950 schon sehr viel größer war als z.B. München, Köln oder Hamburg, dauerte es noch eine ganze Zeit bis Frankfurt endlich Berlin eingeholt hatte. Wir stellen fest: Während es einen großen Schock wie die Teilung Deutschlands benötigte um die wirtschaftliche Aktivität von einem bestehenden Steady State zu entfernen, genügte ein verhältnismäßig kleiner Schock, wie die Wahl Frankfurts zum Hauptflughafen der US-Streitkräfte in Europa, um einen neuen möglichen Steady State zu wählen. 
+
+Wir haben in dieser Aufgabe gelernt, warum gerade Frankfurt zum größten deutschen Flughafen nach der Teilung Deutschlands aufgestiegen ist.
+
+## Exercise 2.1 -- Zusatzaufgabe ggplot
+ 
+
+In dieser **Aufgabe** lernen wir etwas mehr über `ggplot` und geben einen kleinen Ausblick darauf, welche Möglichkeiten dieses Package bietet. Diese Aufgabe ist nicht Teil des Papers und kann bei Bedarf übersprungen werden.
+
+In **Aufgabe 1** haben wir bereits ein wenig über `ggplot2` erfahren. An dieser Stelle möchten wir noch eine Graphik mit `ggplot2` erzeugen. Wir wollen eine Karte von Deutschland erstellen, in der die Standorte unserer Flughäfen markiert werden.
+
+Führe zunächst folgenden Code aus. Der Befehl `get_map` erlaubt es uns verschiedene Landkarten zu laden. In unserem Fall laden wir die Karte von Deutschland.
+
+**Aufgabe**: Drücke `check` und lasse den folgenden Code laufen
+```{r "2__01",fig.width=8,fig.height=8}
+#< task
+p <- ggmap(get_map(location = "Germany", zoom =6) ) 
+p
+#>
+
+```
+
+Wir haben also eine Karte von Deutschland erzeugt und diese unter `p` gespeichert. Um die Standorte unserer Flughäfen zu erzeugen benötigen wir deren Längen- und Breitengrade.
+
+Lade dazu zunächst die Datei `Gravity2002.dta`, und speichere sie unter `Gravity`.
+
+**Aufgabe**: Lade die Datei `Gravity2002.dta` und speichere sie unter `Gravity`.
+```{r "2__1" }
+#< task
+
+#>
+Gravity=read.dta("Gravity2002.dta")
+```
+
+Den genauen Inhalt von `Gravity` werde ich in ***Aufgabe 5*** erklären, wenn wir uns ausführlicher mit dem Datensatz beschäftigen. Im Moment ist für uns nur wichtig, dass wir unter `nlatitude_e` den Breitengrad und unter `nlongitude_e` den Längengrad des Flughafens `expname` finden können. Diese Angaben entstammen der Homepage <a href="http://worldaerodata.com/" target = "_blank"> http://worldaerodata.com/</a>. Benutze die Homepage um folgende Frage zu beantworten.
+
+**Frage:**
+#< quiz "worldaerodata"
+question: Wie viele Meter befindet sich der Fankfurter Flughafen über dem Meeresspiegel?
+answer:  111
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+Im Feld `deppass` befinden sich die Passagierabflüge des jeweiligen Flughafens. Wir gruppieren unseren Datensatz `Gravity` also nach den Flughäfen.
+
+**Aufgabe**: Drücke `check` und lasse den folgenden Code laufen
+```{r "2__2" }
+#< task
+temp=summarise(group_by(Gravity,expname),
+               nlatitude_e=mean(nlatitude_e),
+               nlongitude_e=mean(nlongitude_e),
+               deppass=sum(deppass))
+temp
+#>
+
+```
+
+Wir wollen der Karte `p` nun die Standpunkte der Flughäfen hinzufügen. Mit `+geom_point()` können wir Punkte einfügen. Der y-Wert soll der Breitengrad `nlatitude_e` sein, der x-Wert dementsprechend der Längengrad. Die Größe des Punktes soll `deppass/1000000` betragen. Mit `+geom_text()` können wir die Punkte beschriften und mit `+labs()` beschriften wir die Achsen und geben der Graphik einen Titel.
+
+**Aufgabe**: Entferne die Kommentarfunktion und ersetze die Fragezeichen
+```{r "2__3",fig.width=8,fig.height=8}
+#< task
+#p <- p + geom_point(data=temp, aes(y=???, x=???, size=???), color="red") +geom_text(data=temp,aes(y=nlatitude_e, x=nlongitude_e,label=expname), color="red",hjust=0.5, vjust=1.4,size=5) +labs(size="Abflüge in Mio",title="Lage deutscher Flughäfen",x="Längengrad",y="Breitengrad")
+#p
+#>
+p <- p + 
+  geom_point(data=temp, aes(y=nlatitude_e, x=nlongitude_e, size=deppass/1000000), color="red") +
+  geom_text(data=temp,aes(y=nlatitude_e, x=nlongitude_e,label=expname), color="red",hjust=0.5, vjust=1.4,size=5) +
+  labs(size="Abflüge in Mio",title="Lage deutscher Flughäfen",x="Längengrad",y="Breitengrad")
+p
+
+```
+#< award "ggplot Fortgeschritten"
+Sehr gut, du hast eine Deutschlandkarte mit den Standorten der Flughäfen mit ggplot erstellt.
+#>
+
+Wir haben also eine Deutschlandkarte mit den jeweiligen Standpunkten unserer Flughäfen erstellt, wobei die Größe des Punktes der Abflugzahl der Passagiere entspricht.
+
+
+
+## Exercise 3 -- Internationaler Vergleich - Marktanteil
+
+In dieser **Aufgabe** wollen wir einen weiteren Beleg dafür erbringen, dass es sich beim Wechsel des Luftverkehrsknotenpunkts von Berlin nach Frankfurt tatsächlich um einen Wechsel zwischen zwei Steady States handelt und dass der Standortwechsel nicht mit Veränderungen von wirtschaftlichen Rahmenbedingungen erklärbar ist. Hierfür betrachten wir in dieser **Aufgabe** und in **Aufgabe 3.1** die internationale Lage. Konkret wollen wir dabei Deutschland mit anderen europäischen Ländern vergleichen und zeigen, dass für gewöhnlich eine hohe Beständigkeit für den größten Flughafen des Landes herrscht.
+
+**Aufgabe:** Lese die Datei `internationaltable.dta` ein und speichere sie unter `int`. Lasse dir den Datensatz anschließend anzeigen
+```{r "3__" }
+#< task
+
+#>
+
+#< hint
+display("Lade zuerst die Datei mit int=read.dta() und lass dir dann die Datei mit `int` anzeigen ")
+#>
+int=read.dta("internationaltable.dta")
+int
+```
+
+
+Die Tabelle beinhaltet die 15 EU Länder (ausgenommen Luxemburg, kein Flughafen vor dem Zweiten Weltkrieg ) mit der Schweiz und Norwegen und ihre jeweils größten Flughäfen in den Jahren 1937 bzw. 2002. 
+In der Spalte `first_air_37` finden wir den Flughafen mit dem größten Marktanteil des Landes `country` im Jahr 1937. Das Selbe gilt für `first_air_02` für das Jahr 2002. Die Daten für das Jahr 1937 stammen vom Revue Aeronautique Internationale (1938), die Daten für das Jahr 2002 entstammen dem "Worldwide Airport Traffic Report 2002" (vgl. Airports Council International (2002)).
+
+**Frage:**
+#< quiz "Einhundert"
+question: In welchen Ländern gab es 1937 anscheinend nur einen Flughafen?
+mc:
+    - Österreich
+    - Deutschland
+    - Irland*
+    - Spanien
+    - Schweden
+    - Portugal*
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+<br>
+**Frage:**
+#< quiz "Deutschland"
+question: In welchem Land weicht der größte Flughafen des Jahres 2002 von dem des Jahres 1937 ab?
+answer: Deutschland
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+Deutschland ist also das einzige Land, indem der größte Flughafen des Jahres 2002 nicht der Selbe ist wie im Jahr 1937.
+Tatsächlich ist Berlin im Jahr 2002 nur noch auf Platz vier der größten Flughäfen Deutschlands (***siehe Aufgabe 1***). In allen anderen Ländern ist der größte Flughafen im Jahr 2002 noch der Selbe wie im Jahr 1937.
+
+Wir wollen an dieser Stelle eine neue Schreibweise für Befehle aus dem Package `dplyr`  kennenlernen. Hier werden Befehle mit sogenannten "Pipes" (`%>%`) voneinander getrennt. Dies ist vor allem dann nützlich, wenn wir mehrere Befehle verschachteln müssen. Wollen wir z.B. den Marktanteil von `Paris` aus dem Jahr 2002 herausfinden, würden wir folgenden Befehl wählen um uns das Ergebnis anzeigen zu lassen: `filter(select(int,first_air_02,mshare_02),first_air_02=="Paris")`. Mit der "Pipe"-Schreibweise sieht der Selbe Befehl wie folgt aus:
+`int %>% filter(first_air_02=="Paris") %>% select(first_air_02,mshare_02)`. Wir müssen also die Befehle nicht verschachteln sondern können beliebig viele mittels `%>%` aneinanderreihen. 
+
+**Aufgabe:**  Berechne mit der Pipe-Schreibweise den Marktanteil von Oslo im Jahr 2002. Ersetze dazu die ??? und entferne `#` 
+```{r "3__2" }
+#< task
+#??? %>% filter(??? ) %>% select(first_air_02,???)
+#>
+
+#< hint
+
+#>
+int %>% filter(first_air_02=="Oslo") %>% select(first_air_02,mshare_02)
+
+```
+
+
+Der Datensatz `int` gibt uns also den größten Flughafen des jeweiligen Landes im Jahr 1937 sowie seine Marktanteile im Jahr 1937 bzw. 2002. Was wir jetzt zeigen wollen ist, dass die Marktanteile von 1937 qualitativ gute Schätzer für die Marktanteile im Jahr 2002 sind. 
+
+**Aufgabe:** Erstelle zunächst einen Plot indem du die Werte von `mshare_37` auf der x-Achse und die Werte von `mshare_02` auf der y-Achse plottest. Mit dem `$` Zeichen kannst du dir bestimmte Spalten eines Datensatzes ausgeben lassen
+```{r "3__4" }
+#< task
+#plot(int$???,int$???)
+#>
+
+#< hint
+display("Füge die Spalte mshare_37 für die ersten Fragezeichen ein und mshare_02 für die zweiten")
+#>
+
+plot(int$mshare_37,int$mshare_02)
+```
+
+## Lineare Regression mit lm()
+
+Uns interessiert, ob eine linearer Zusammenhang zwischen `mshair_02` und `mshare_37` besteht. Um das herauszufinden führen wir eine lineare Regression zwischen der abhängigen Variablen (`mshair_02`) und der unabhängigen Variable `(mshare_37)` durch. Mathematisch sieht das wie folgt aus:
+\[  \textrm{mshair_02}= \beta*\textrm{mshair_37}
+\]
+
+Nun wollen wir einen Koeffizienten $\hat \beta$ schätzen. Dieser gibt die Steigung der Geraden an. Sind die Marktanteile perfekt korreliert, sollte die Steigung $\hat \beta =1$ betragen. Eine lineare Regression können wir in R mit `lm()` durchführen. Da wir keinen `intercept` (Achsenabschnitt) haben wollen, dies würde die Steigung der Geraden beeinflussen, fügen wir `-1` ans Ende der Gleichung. Führe nun eine lineare Regression mit `lm()` durch und schaue dir das Ergebnis anschließend mit `summary()` an indem du folgenden Code laufen lässt. 
+
+**Aufgabe:** Drücke `check` um das Ergebnis anzeigen zu lassen
+```{r "3__4" }
+#< task
+lm=lm(mshare_02~mshare_37-1,data=int)
+summary(lm)
+#>
+
+#< hint
+
+#>
+
+```
+
+Unter `Estimate` kannst du den Schätzer $\hat \beta$ finden. Der Wert $Pr(>|t|)$ gibt den zugehörigen p-Wert an. Der p-Wert ist als Wahrscheinlichkeit definiert. Ist der p-Wert kleiner oder gleich dem vorgegebenen Signifikanzniveau $\alpha$, so wird die vorher definierte Nullhypothese $H_0$ verworfen (vgl. Fahrmeir/ Heumann/ Künstler/ Pigeot/ Tutz (2016), S. 420). Die Sterne geben das Signifikanzniveau an. 
+Bei einem p-Wert von $\leq 10 \%$ spricht man von einem signifikanten (ein Stern), bei einem Wert von $\leq 5 \%$  spricht man von einem sehr signifikanten (zwei Sterne) und bei einem Wert von $\leq 1 \%$ spricht man von einem hoch signifikanten (drei Sterne) Ergebnis.
+
+***Frage:***
+#< quiz "beta"
+question: Welchen Wert haben wir für die Steigung der linearen Regression geschätzt?
+answer:  0.88486
+roundto: 0.01
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+In Zukunft wollen wir unsere Ergebnisse aber nicht mit `summary()` anzeigen lassen, sondern mit dem Befehl `stargazer()` aus dem gleichnamigen Package. Dieser liefert uns schöne, übersichtliche Ergebnistabellen, wie wir sie aus wissenschaftlichen Artikeln oder Büchern kennen.
+
+**Aufgabe:** Drücke `check` um das Ergebnis anzeigen zu lassen  
+```{r "3__4",results="asis"}
+#< task
+library(stargazer)
+stargazer(lm,type="html")
+#>
+
+#< hint
+
+#>
+```
+
+<br>
+
+Der Wert R^2 gibt das sogenannte ***Bestimmtheitsmaß*** an. Wir erhalten hier einen Wert von 0.911, was für einen sehr hohen linearen Zusammenhang spricht. 91% der Variation der abhängigen Variable kann durch die unabhängige Variable erklärt werden. Mehr dazu findest du in der InfoBox.
+
+#< info "Bestimmtheitsmaß"
+
+$R^2$ ist ein Maß für die Güte des geschätzten linearen Modells und berechnet sich wie folgt:
+\[ R^2=1-\frac{\sum_{i=1}^{n}(y_i-\hat y_i)^2}{\sum_{i=1}^{n}(y_i-\bar y)^2}\]
+
+Der Teil $\sum_{i=1}^{n}(y_i-\hat y_i)^2$ ist genau dann 0, wenn alle Beobachtungspunkte auf der Regressionsgeraden liegen. Dann gilt: $R^2=1$. Vereinfacht können wir also sagen, dass das Bestimmtheitsmaß immer im Intervall [0,1] liegt und je höher der Wert ist, desto besser wird die Varianz der abhängigen Variable durch die unabhängigen Variablen erklärt (vgl. Kennedy (2008), S.26f und Auer (2013), S.186f).
+#>
+
+Um zu veranschaulichen was wir berechnet haben, wollen wir die Regressionsgerade jetzt in unsere Graphik plotten. Hierfür können wir den Befehl `abline()` verwenden.
+
+**Aufgabe:** Drücke `check` um den Code laufen zu lassen  
+```{r "3__5" }
+#< task
+plot(int$mshare_37,int$mshare_02)
+abline(lm)
+#>
+
+#< hint
+
+#>
+```
+
+#< award "Lineare Regression mit lm()"
+Sehr gut, du hast erfolgreich deine erste lineare Regression durchgeführt.
+#>
+
+Die Autoren des Papers gehen hier von heteroskedasten Störgrößen aus. Das bedeutet, dass die Streuung der Punkte um die Gerade nicht konstant ist und sich die Varianz der Störgrößen somit signifikant unterscheiden. Mehr dazu findest du in der InfoBox. 
+
+#< info "Heteroskedastizität"
+
+Ist die Varianz der Störgrößen unabhängig von der Beobachtung konstant $\sigma^2$, sprechen wir von homoskedasken Störgrößen. Ist diese Voraussetzung nicht erfüllt, dann variiert die Varianz und wir sprechen von heteroskedasten Störgrößen (vgl. Auer (2013), S.363ff und Wooldridge (2015) S. 244f ).
+
+Betrachte dazu Abb. 2. In der linken Abbildung herrscht Homoskedastizität, die Streuung der Punkte um die Gerade ist konstant und legt sich wie ein Schlauch um die Regressionsgerade. In der rechten Abbildung wird die Streuung der Punkte nach rechts hin größer, wir sprechen von Heteroskedastizität. 
+
+ <figure>
+  <img src="Homo1.gif" alt="" hight="800" width="800" >
+  <figcaption>Abb. 2 - Homoskedastizität vs. Heteroskedastizität. Quelle: http://www.datasciencecentral.com/profiles/blogs/understanding-linear-regression</figcaption>
+</figure>
+
+
+#>
+
+Da bei unserer Graphik nicht eindeutig auf Heteroskedastizität geschlossen werden kann, wollen wir noch die Residuen gegen die vorhergesagten Werte (fitted values) plotten, dies ist ein übliches Vorgehen um Störgrößen auf Heteroskedastizität zu untersuchen. Als vorhergesagte Werte werden die y-Werte bezeichnet, die wir aufgrund unserer Regressionsanalyse für unsere Datenpunkte bestimmt haben. Residuen werden die Abstände der y-Werte von den empirischen Daten zu den vorhergesagten Werten genannt (vgl. Wollschläger (2017), S. 199-200). Du kannst dir also einfach eine senkrechte Linie von jedem Datenpunkt zur Regressionsgerade vorstellen. Die länge dieser Linien entspricht den Residuen.
+
+**Aufgabe:** Drücke `check` um den Code laufen zu lassen  
+```{r "3__51" }
+#< task
+plot(fitted(lm),residuals(lm))
+abline(h=0)
+#>
+
+#< hint
+
+#>
+```
+
+Wir untersuchen wieder die Streuung der Punkte um die Gerade und können auch hier keine eindeutige Aussage über die Art der Störgrößen machen. Wir kommen am Ende dieser Aufgabe darauf zurück.  
+
+## Lineare Regression mit felm()
+
+Wir haben nun den Befehl `lm()` kennengelernt. In den verbleibenden Aufgaben werden wir aber mit dem Befehl `felm()` aus dem Package `lfe` arbeiten. `felm()` bietet sehr viel mehr Möglichkeiten und erlaubt uns jede Art von Regression durchzuführen. 
+Um zu sehen wie `felm()` angewendet wird, schaue dir die folgende InfoBox an.
+
+
+#< info "felm()"
+Der Befehl `felm()` aus dem Package `lfe` kann verwendet werden um eine lineare Regression durchzuführen. Um die Regression $y=\beta_0 + \beta_1*x1 + \beta_2*x2$ zu berechnen, gehe folgendermaßen vor:
+```{r "3_66",eval=FALSE}
+library(lfe)
+felm(y~x1+x2,data=dat)
+```
+
+Solltest du keinen y-Achsenabschnitt ($\beta_0$) schätzen wollen, lautet der Code so:
+
+```{r "3_77",eval=FALSE}
+felm(y~x1+x2-1,data=dat)
+```
+Wenn du mehr über `felm()` erfahren willst, klicke auf folgenden Link:
+<a href="https://www.rdocumentation.org/packages/lfe/versions/2.5-1998/topics/felm
+" target = "_blank">https://www.rdocumentation.org/packages/lfe/versions/2.5-1998/topics/felm</a>.
+#>
+
+
+
+Wir führen jetzt die oben beschriebene Regression mit `felm()` durch und vergleichen sie anschließend mit dem Befehl `stargazer()` mit unserem Ergebnis für `lm()`.
+
+**Aufgabe:** Drücke `check` um das Ergebnis anzeigen zu lassen  
+```{r "3__6",results="asis"}
+#< task
+felm=felm(mshare_02~mshare_37-1,data=int)
+stargazer(felm,lm, type="html")
+#>
+
+#< hint
+
+#>
+```
+
+<br>
+`felm()` und `lm()` liefern uns also dieselben Ergebnisse.
+
+Wie oben bereits erwähnt müsste die Steigung bei perfekter Korrelation zwischen den Marktanteilen von 1937 und 2002 genau eins sein. Um zu testen ob solch eine statistisch signifikante Korrelation besteht, führen wir einen `Waldtest` durch.
+Der Waldtest ist ein statistischer Hypothesentest mit dem die Hypothesen
+
+\[ H_0: \theta=\theta_0 \textrm{   gegen  } H_1: \theta \not= \theta_0 \]
+getestet werden (vgl. Kennedy (2008), S.56f).
+
+Wir benutzen nun den Befehl `waldtest()` aus dem Package `lfe`.
+
+#< info "waldtest()"
+Eine gute Anleitung findest du zum Beispiel unter folgendem Link:
+<a href="https://rdrr.io/cran/lfe/man/waldtest.html" target = "_blank">https://rdrr.io/cran/lfe/man/waldtest.html</a>.
+#>
+
+In unserem Fall wollen wir testen, ob der Schätzer $\hat \beta=1$ ist. Der `waldtest()` aus dem Package `lfe` berechnet $H_0: R*beta=r$, weshalb wir $r=1$ und $R=1$ übergeben. Mit type="robust" nehmen die Autoren heteroskedaske Störgrößen an, damit der Test weniger sensibel auf Ausreißer reagiert. 
+
+**Aufgabe:** Führe einen Waldtest durch um zu testen ob unsere Lineare Regression die Steigung 1 hat. Entferne dazu `#` und ersetze die ???
+```{r "3__5" }
+#< task
+#waldtest(felm,r=???,R=???,type="robust")
+#>
+
+#< hint
+
+#>
+
+waldtest(felm,r=1,R=1,type="robust")
+```
+
+Für die F-Statistik erhalten wir einen p-Wert von 0,162. Dieser Wert ist größer als das von uns gewählte Signifikanzniveau von 10%. Daraus schließen wir, dass es eine statistisch signifikante Korrelation zwischen den vergangenen und den aktuellen Marktanteilen gibt. Somit verwerfen wir die Nullhypothese, dass der Koeffizient für den Marktanteil von 1937 eins ist, nicht. 
+
+Da wir weiter oben festgestellt haben, dass wir keine genaue Aussage über die Art der Störgrößen machen können, wollen wir den Waldtest zusätzlich noch für homoskedaske Störgrößen berechnen.
+
+**Aufgabe:** Drücke `check` um das Ergebnis anzeigen zu lassen
+```{r "3__6" }
+#< task
+waldtest(felm,r=1,R=1)
+#>
+
+
+```
+
+Auch hier liegt der p-Wert über dem Signifikanzniveau von 10% und wir verwerfen die Nullhypothese nicht. Die Wahl der Störgrößen hat in diesem Fall also keine große Auswirkung auf unser Ergebnis.
+
+Die Marktanteile von 1937 sind also statistisch gute Schätzer für die Marktanteile von 2002. Die außergewöhnliche Beständigkeit für den Standort des größten Flughafens eines Landes zeigt uns, dass der Wechsel des Luftverkehrsknotenpunkts von Berlin nach Frankfurt ein Einzelfall ist.
+
+
+## Exercise 3.1 -- Internationaler Vergleich - Flugverbindungen
+
+Nachdem wir die Korrelation der Marktanteile in **Aufgabe 3** untersucht haben, wollen wir in dieser Aufgabe untersuchen, wie sich der Anteil der direkten Verbindungen der Flughäfen über die Jahre entwickelt hat.
+
+**Aufgabe:** Lade hierzu den Datensatz `directconnections1930s.dta` und speichere ihn unter der Variable `dir`. Schau dir den Datensatz anschließend unter `data` kurz an.
+
+```{r "31__1" }
+#< task
+
+#>
+
+#< hint
+
+#>
+dir=read.dta("directconnections1930s.dta")
+
+```
+
+In diesem Datensatz kann man genau ablesen welche zwei europäischen Flughafen im Jahr 1935 eine direkte Flugverbindung hatten.
+Eine `1` im Feld $A_{ij}$ steht für eine direkte Verbindung von Flughafen $j$ nach Flughafen $i$.
+
+**Aufgabe:** Benutze  die `filter` Funktion um die darauffolgende Frage zu beantworten
+```{r "31__2" }
+#< task
+
+#>
+
+#< hint
+display("Versuche filter(dir,destination=\"???\" ")
+#>
+filter(dir,destination=="Barcelona")
+
+```
+
+**Frage:**
+#< quiz "barcelona"
+question: Von welchem deutschen Flughafen konnte man im Jahr 1935 nach Barcelona fliegen?
+answer:  Stuttgart
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+Uns interessiert wie viel Prozent aller europäischen Flughäfen 1935 und 2002 von den Flughäfen Frankfurt und Berlin angeflogen wurden.
+Generiere nun einen neuen Datensatz `temp` indem nur die Spalten `destination`, `berlin` und `frankfurt` enthalten sind. Lasse dir `temp` anschließend andzeigen.
+
+**Aufgabe:** Ersetzte die ??? und entferne das `#`-Zeichen
+```{r "31__3" }
+#< task
+#temp=select(???)
+#temp
+#>
+
+#< hint
+
+#>
+temp=select(dir,destination, berlin,frankfurt)
+temp
+```
+
+Um zu berechnen, wie viel Prozent der europäischen Flughäfen 1935 von Frankfurt aus angeflogen wurden, benutze folgende Formel: $(y/z)*100$ wobei `y` der Anzahl der Einsen in der Spalte `frankfurt` entspricht und `z` der Anzahl an Reihen insgesamt. Mit `sum()` kannst du die Summe einer Spalte berechnen. Mit `length()` kannst du die Gesamtanzahl der Einträge einer Zeile bestimmen.
+
+**Aufgabe:** Berechne wie viel Prozent der europäischen Flughäfen 1935 von Frankfurt aus angeflogen wurden. Ersetze dazu die ??? und entferne `#` 
+```{r "31__3" }
+#< task
+#sum(dir$???)/length(dir$???)*???
+#>
+
+#< hint
+
+#>
+sum(dir$frankfurt)/length(dir$frankfurt)*100
+```
+
+**Aufgabe:** Führe die gleiche Berechnung für Berlin durch 
+```{r "31__3" }
+#< task
+
+#>
+
+#< hint
+
+#>
+sum(dir$berlin)/length(dir$berlin)*100
+```
+
+Im Jahr 1935 war es also möglich, 71% aller europäischen Flughäfen von Berlin aus anzufliegen. Von Frankfurt aus wurden 31% der Flughäfen erreicht. Diese Werte wollen wir nun mit denen aus dem Jahr 2002 vergleichen.
+
+Um zu berechnen, wie viel Prozent der europäischen Flughäfen im Jahr 2002 von den Flughäfen Frankfurt und Berlin angeflogen wurden, benötigen wir nun einen anderen Datensatz.
+
+**Aufgabe:** Lade hierzu den Datensatz `Gravity2002.dta` und speichere ihn unter der Variable `Gravity`. Lasse ihn dir anschließend anzeigen
+```{r "31__4" }
+#< task
+
+#>
+
+#< hint
+
+#>
+Gravity=read.dta("Gravity2002.dta")
+Gravity
+```
+
+Der Datensatz `Gravity` ist sehr umfänglich. Die Daten stammen alle aus dem Jahr 2002. Wir können unter anderem ablesen wie viel Passagiere jeweils von einem deutschem Flughäfen zu jedem anderen Flughafen der Welt geflogen sind (Spalte `deppass`). Diese Daten entstammen dem Statistischen Bundesamt (2003). Der Datensatz gibt uns aber noch sehr viel mehr Informationen, wie z.B. die exakte Lage des Zielflughafens mit Längen- und Breitengraden, die Anzahl der lokalen Fluggäste und die Anzahl der Durchreisefluggäste. Auch die Einwohnerzahl und das Bruttoinlandsprodukt der Stadt des Herkunftsflughafens können abgelesen werden. Wir werden für unsere Berechnungen nicht alle Spalten benötigen. Was die einzelnen Spalten genau beschreiben werde ich genauer erläutern sobald wir diese benötigen.
+
+**Aufgabe:** Benutze die `filter` Funktion um herauszufinden wie viel Fluggäste 2002 von Hannover nach Rhodos geflogen sind
+```{r "31__6" }
+#< task
+#filter(???,expname=="???",???)
+#>
+
+#< hint
+display("Unter expname steht der Exportflughafen und unter impname der Importflughafen")
+#>
+filter(Gravity,expname=="Hannover",impname=="Rhodos")
+```
+
+**Frage:**
+#< quiz "rhodos"
+question: Wie viele Fluggäste sind im Jahr 2002 von Hannover nach Rhodos geflogen?
+answer:  17502
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+Wir erinnern uns an unser eigentliches Ziel: Wir wollen wissen, wie viel Prozent der europäischen Flughäfen 2002 von den Flughäfen Frankfurt und Berlin angeflogen wurden. Da wir hier einen anderen Datensatz als für das Jahr 1935 vorliegen haben müssen wir uns jetzt überlegen wie wir dies berechnen können.
+Hilfreich ist an dieser Stelle die Funktion `summarise()`. 
+
+Wir fassen den Datensatz `Gravity` zusammen und gruppieren ihn nach den Exportflughäfen (`expname`). Gleichzeitig fügen wir eine neue Spalte mit dem Namen `Anteil_2002` hinzu, in der wir die Summe aller Flughafen berechnen, in die mindestens ein Passagier geflogen ist (`deppass>0`). Diese Summe teilen wir durch 376 (Gesamtanzahl aller Flughäfen) und multiplizieren sie mit 100 um die Prozentangabe zu bekommen.
+
+**Aufgabe:** Ersetze die Fragezeichen um das gewünschte Ergebnis zu erhalten
+```{r "31__6" }
+#< task
+#s=Gravity %>% group_by(???) %>% summarise(Anteil_2002=sum(???)/???*100)
+#s
+#>
+#< hint
+#>
+s=Gravity %>% group_by(expname) %>% summarise(Anteil_2002=sum(deppass>0)/376*100)
+s
+```
+
+Wir haben eine Spalte `Anteil_2002` erstellt, die uns für jeden deutschen Flughafen das gewünschte Ergebnis anzeigt.
+
+**Frage:**
+#< quiz "2002"
+question: Wie viel Prozent aller Flughäfen weltweit, die aus Deutschland angeflogen wurden, konnte man 2002 von Berlin aus erreichen?
+sc:
+    - ca. 55%*
+    - ca. 15%
+    - ca. 30%
+    - ca. 45%
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+Wir wollen das Ergebnis veranschaulichen und verwenden `ggplot` um ein Säulendiagramm für das Jahr 2002 zu erstellen.
+
+**Aufgabe:** Drücke `check` um das Ergebnis anzeigen zu lassen
+```{r "31__6" }
+#< task
+ggplot(s, aes(x=expname, y=Anteil_2002)) + 
+  geom_bar(stat = "identity" ,color="black") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+#>
+
+#< hint
+
+#>
+
+```
+
+Zusammenfassend lässt sich sagen, dass Berlin 1935 72% aller Flughäfen angeflogen hat, die aus Deutschland angeflogen werden konnten und damit doppelt so viele wie Frankfurt (31%). Im Jahr 2002 hingegen hat Frankfurt 95% aller Flughäfen, die aus Deutschland angeflogen werden konnten, angeflogen, Berlin hingegen nur etwa 55%. 
+Dies ist ein weiteres Indiz dafür, dass Frankfurts Dominanz im Jahr 2002 mit der Dominanz von Berlin vor dem Zweiten Weltkrieg verglichen werden kann. Berlin galt zu dieser Zeit als das Luftkreuz Europas (vgl. Weise (1928)).
+Desweiteren ist Deutschland aktuell das einzige Land in Europa, in dem sich der größte Flughafen nicht in der größten Stadt des Landes befindet. In allen anderen europäischen Ländern herrscht eine perfekte Korrelation zwischen größter Stadt und größtem Flughafen.
+
+Fassen wir die Ergebnisse aus ***Aufgabe 3*** und ***Aufgabe 3.1*** zusammen, bestätigt sich die Vermutung, dass Deutschlands größter Flughafen heute in Berlin wäre, hätte es den Zweiten Weltkrieg nicht gegeben. Und es ist zumindest nicht offensichtlich, dass Berlin, die mit großem Abstand größte deutsche Stadt, auch heute noch ein möglicher Steady State für deutschlands Luftverkehrsknotenpunkt wäre.
+
+Zum Abschluss noch eine Interaktive Karte die ich mit `googleVis` erstellt habe. Hier kannst du dir anschauen welche Flughäfen weltweit im Jahr 2002 von Frankfurt aus erreichen werden konnten. Die Daten für die Längen- und Breitengrade der Flughafen entstammen folgender Homepage: <a href="http://worldaerodata.com/" target = "_blank"> http://worldaerodata.com/</a>. Mit einem Klick auf einen der roten Kegel wird dir der Standort des Flughafens angezeigt.
+
+**Aufgabe:** Drücke `check` um den Code laufen zu lassen
+```{r "2__3",results="asis"}
+#< task_notest
+Karte <- gvisMap(
+  mutate(filter(read.dta("Gravity2002.dta"),expname=="Frankfurt"&deppass>0),LatLong=paste(nlatitude_i,":",nlongitude_i,sep="")),"LatLong" ,"impname", options=list(showTip=TRUE, showLine=TRUE, enableScrollWheel=TRUE,mapType='terrain', useMapTypeControl=TRUE))
+
+print(Karte, tag="chart")
+#>
+
+```
+
+**Frage:**
+#< quiz "Weltkarte"
+question: Welches Land wurde 2002 nicht von Frankfurt aus angefolgen?
+sc:
+    - Moldawien
+    - Chile
+    - Nigeria
+    - Kambodscha*
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+## Exercise 4 -- Difference in Difference Schätzer- Beispiel
+
+Nachdem wir die Regressionsanalyse kennen gelernt und die wichtigsten Eregnisse der deutschen 
+Geschichte ab 1930 eingeorndet haben, wollen wir nochmals einen Blick auf unsere Graphik aus Aufgabe 1 werfen.
+
+
+ <figure>
+  <img src="Verteilung.png" alt="" hight="600" width="600" >
+  <figcaption>Abb. 3 - Graphik aus Aufgabe 1. Quelle: Eigene Darstellung</figcaption>
+</figure> 
+
+Die Graphik lässt vermuten, dass der Krieg und die Teilung Deutschlands große Auswirkungen auf die Passagierverteilung der Flughäfen hatte. Betrachte hierzu die Linien links und rechts des weißen Balkens. Im Gegensatz dazu scheint die Wiedervereinigung Deutschlands (rote Linie) kaum Auswirkungen auf die Passagieranteile deutscher Flughäfen gehabt zu haben. Wir wollen versuchen diesen Sachverhalt mittels der ***Difference in Difference Methode*** zu belegen. Dies ist eine, vor allem in der Ökonomie, übliche Methode um Auswirkungen von Experimenten oder Ereignissen zu untersuchen.
+
+
+Das Prinzip dieser Methode möchte ich zunächst an einem einfachen Beispiel (siehe Abb. 4) erklären: Wir betrachten Stadt A (6,2% Drogenabhängige) und Stadt B (4,7% Drogenabhängige). Stadt B führt nun ein Projekt ein, das Drogenabhängigen helfen soll, von Drogen los zu kommen. Nach Abschluss dieses Projekts hat Stadt A noch 5,8% Drogenabhängige. Aus irgendwelchen Gründen hat sich die Situation also gebessert obwohl in Stadt A nichts dafür getan wurde. Stadt B verzeichnet noch 3% Drogenabhängige. Nun berechnen wir die Differenz von Drogenabhängigen vor bzw. nach der Maßnahme. Stadt A: 6,2%-5,8%=0,4% Senkung. Stadt B: 4,7%-3%=1,7% Senkung. Wir können aber nicht davon ausgehen, dass die 1,7% ausschließlich auf unsere Anti-Drogenmaßnahme zurückzuführen ist, da Stadt A auch eine Senkung der Drogenabhängigkeit vorweisen kann. Es könnten also auch andere Faktoren eine Rolle spielen. Wir gehen also davon aus, dass Stadt B auch ohne Einführung der Maßnahme eine Senkung von 0,4% hätte aufweisen können. Deshalb berechnen wir nun die **Differenz der Differenzen**. In unserem Fall 1,7%-0,4%=1,3%. Der Anteil Drogenabhängiger ist also im Vergleich zu Stadt A um 1,3% gesunken, weshalb wir davon ausgehen, dass die Maßnahme erfolgreich war. Wichtig hierbei ist, dass ein signifikanter Unterschied zu beobachten ist. 
+
+ <figure>
+  <img src="DID.png" alt="" hight="600" width="600" >
+  <figcaption>Abb. 4 - Bsp: Difference in Difference. Quelle: Eigene Darstellung</figcaption>
+</figure>
+
+Für unsere Berechnung benötigen wir zwei vergleichbare Gruppen, eine Versuchsgruppe und eine Kontrollgruppe. Wir gehen davon aus, dass sich beide Gruppen ohne ein bestimmtes Ereignis oder Programm gleich entwickelt hätten. Mathematisch lässt sich der Difference in Difference Schätzer $\delta$ wie folgt berechnen:
+\[
+\delta=(\bar y_{NE,A}- \bar y_{NE,B})-(\bar y_{VE,A}- \bar y_{VE,B})
+\]
+
+$\bar y_{NE,A}$ steht für den Durchschnittswert von Gruppe A nach dem Ereignis, $\bar y_{VE,B}$ für den Durchschnittswert von Gruppe B vor dem Ereignis (vgl. Wooldridge (2015), S.408ff).
+
+Diese Methode wollen wir in **Aufgabe 4.1** anwenden, um zu zeigen, dass die Teilung Deutschlands einen statistisch signifikanten Einfluss auf den Luftverkehrsknotenpunkt hatte. In **Aufgabe 4.2** wollen wir dann zeigen, dass die Wiedervereinigung keinen nennenswerten Einfluss auf die Passagieranteile deutscher Flughäfen hatte.
+
+## Exercise 4.1 -- Schätzer für die Teilung Deutschlands 
+
+Wir haben in **Aufgabe 4.1** den Difference in Difference Schätzer kennengelernt und wollen ihn nun in dieser Aufgabe auf die Teilung Deutschlands anwenden.
+In unserem speziellen Fall wollen wir untersuchen, wie sich die Passagieranteile von Frankfurt und Berlin vor und nach der Teilung Deutschlands entwickelt haben. Dafür machen wir zunächst eine Regressionsanalyse um das jährliche Wachstum der Passagieranteile von Frankfurt und Berlin vor bzw. nach der Teilung Deutschlands zu berechnen. Hierzu benutzen wir das folgende Regressionsmodell:
+
+\[
+share_{at}=\sum_{a=1}^{A} \eta_{ap} + \sum_{a=1}^{A} \beta_{ap}time_{t} + u_{at}
+\]
+
+Die abhängige Variable $share_{at}$ beschreibt den Passagieranteil von Flughafen $a$ zum Zeitpunkt $t$. $p$ beschreibt eine Periode. Wir unterteilen in drei Perioden: Vor der Teilung, nach der Teilung und nach der Wiedervereinigung. $\eta_{ap}$ beschreibt die Fixeffekte der Flughäfen in der Periode $p$. Der Koeffizient $\beta_{ap}$ ermöglicht es Trends für Passagieranteile von Flughafen $a$ in Periode $p$ zu bestimmen. $u_{at}$ ist der stochastische Fehlerterm.
+
+Wir berechnen also zunächst das durchschnittliche jährliche Wachstum der Passagieranteile von Frankfurt und Berlin. Vergleiche hierzu die Regressionsgeraden in Abb. 5, die durch die roten Punkte bzw. die grünen Dreiecke verlaufen. Die Steigung der jeweiligen Geraden entspricht gerade dem durchschnittlichen jährlichen Wachstum der Passagieranteile. Wir vergleichen dann mittels der Difference in Difference Methode das durchschnittliche Wachstum vor bzw. nach der Teilung Deutschlands um zu entscheiden ob diese Auswirkungen auf die Passagieranteile hatten.
+
+ <figure>
+  <img src="Anteil_Ber_Fra.png" alt="" hight="600" width="800" >
+  <figcaption>Abb. 5 - Regression der Passagieranteile in Abhängigkeit von der Teilung Deutschlands. Quelle: Eigene Darstellung</figcaption>
+</figure> 
+
+Die Steigung der vier Regressionsgeraden aus Abb. 5 entspricht also genau den Werten $\bar y_{NE,A}$, $\bar y_{NE,B}$, $\bar y_{VE,A}$ und $\bar y_{VE,B}$
+
+Wir wollen zunächst das jährliche Wachstum der Passagieranteile von Berlin vor der Teilung Deutschlands berechnen, also die Steigung der Geraden die durch die roten Punkte in Abb. 5 verläuft.
+Zunächst brauchen wir hierfür wieder den Datensatz `airports-time-series.dta`.
+
+**Aufgabe:** Lade den Datensatz `airports-time-series.dta` und speichere ihn unter `data`
+```{r "4__1" }
+#< task
+
+#>
+data=read.dta("airports-time-series.dta")
+
+
+```
+
+Mit dem folgenden Code wollen wir wieder die Flughäfen Dresden, Erfurt, Münster, Saarbrücken und Leipzig aus dem Datensatz entfernen.
+
+**Aufgabe:** Drücke `check`
+```{r "4__2" }
+#< task
+atsf=data %>% filter(!airport %in% c("Dresden","Erfurt","Münster","Saarbrücken","Leipzig"))
+#>
+
+
+```
+
+
+**1) Difference in Difference für die Teilung Deutschlands** 
+
+In dem Datensatz `atsf` befinden sich nun Daten zu Abfluganteilen für die jeweiligen Flughäfen von 1927-2002. Diese wollen wir wie folgt in drei Perioden aufteilen:
+
+Periode 1: 1927-1938 (vor der Teilung)
+
+Periode 2: 1950-1989 (nach der Teilung)
+
+Periode 3: 1990-2002 (nach der Wiedervereinigung)
+
+Wir fügen dem Datensatz `atsf` nun die Spalte `period` hinzu, in der die jeweilige Periode stehen soll. Hierzu eignet sich der Befehl `ifelse()`. Dieser wird folgendermaßen genutzt: ***Variablenname=`ifelse`(Bedingung, Ist-Wert, Sonst-Wert)***. Im folgenden Code verschachteln wir zwei `ifelse` Bedingungen um die Spalte `period` zu erstellen. Wir schreiben also, wenn `year<1950`, dann soll `period=1` gelten. Sonst, wenn `year` zwischen 1950 und 1989 liegt, soll `period=2` gelten, sonst gelte `period=3`.
+
+**Aufgabe:** Drücke `check` um den Code laufen zu lassen
+```{r "4__3" }
+#< task
+atsf=mutate(atsf,period=ifelse(year<1950,1,ifelse(year %in% 1950:1989,2,3)))
+
+#>
+
+```
+Unter `data` kannst du dir anschauen wie die Spalte `period` aussieht.
+
+Da das $share_{t}$ dem Passagieranteil zum Zeitpunkt $t$ entspricht, benötigen wir noch die Spalte `pshare`. Diese haben wir in ***Aufgabe 1*** schon ausführlich bestimmt. `pshare` lässt sich auch schön kurz mit einer Programmzeile bestimmen.
+
+**Aufgabe:** Drücke `check`
+```{r "4__7" }
+#< task
+atsf=mutate(group_by(atsf,year),pshare=(depart/sum(depart))*100)
+#>
+
+
+```
+
+Jetzt haben wir unseren Datensatz in drei Perioden aufgeteilt und können die Steigung der Geraden durch die roten Punkte für Berlin bestimmen.
+
+**Aufgabe:** Entferne die Kommentarfunktion und ersetze die ???
+```{r "4__31",results="asis"}
+#< task
+#lm=lm(???,data=filter(atsf,airport=="???"&period==???))
+#stargazer(lm,type="html")
+#>
+lm=lm(pshare~year,data=filter(atsf,airport=="Berlin"&period==1))
+stargazer(lm,type="html")
+
+```
+
+<br>
+Für die Geradensteigung erhalten wir einen hoch signifikanten Wert von 1,851. Das bedeutet, dass die Passagieranteile von Berlin im Schnitt um 1,851 Prozentpunkte gestiegen sind.
+
+Berechne nun selbständig die Steigung der Geraden in Periode 2.
+
+**Aufgabe:** Entferne die Kommentarfunktion und ersetze die ???
+```{r "4__32",results="asis"}
+#< task
+#lm2=???
+#stargazer(lm2,type="html")
+#>
+lm2=lm(pshare~year,data=filter(atsf,airport=="Berlin"&period==2))
+stargazer(lm2,type="html")
+
+```
+
+<br>
+Auf diese Art und Weise könnten wir alle vier Steigungen berechnen. Aber wie passt diese Rechnung mit der oben angegebenen Regressionsgleichung zusammen? Und lassen sich auch alle Steigungen in einer Regression berechnen? 
+
+Wir erinnern uns an unsere Regressionsgleichung von oben:
+\[
+share_{at}=\sum_{a=1}^{A} \eta_{ap} + \sum_{a=1}^{A} \beta_{ap}time_{t} + u_{at}
+\]
+
+Zunächst betrachten wir nur den Flughafen `Berlin`, also $a=Berlin$ was unsere Regressionsgleichung etwas einfacher und übersichtlicher macht:
+\[
+share_{t}= \eta_{p} + \beta_{p}time_{t} + u_{t}
+\]
+
+Aber was ist $time_{t}$? $time_{t}$ gibt einen Zeitpunkt an. Also $time_{1927}=1$, $time_{1928}=2$ usw.. Da wir unseren Datensatz aber in drei Perioden aufgeteilt haben, brauchen wir drei $time$ Variablen. Es gelte also folgendes: In Periode 1 haben wir die Variable $time27$ die im Jahr 1927 mit eins beginnt und im Jahr 1938 den Wert zwölf annimmt. In Periode 2 und 3 nimmt die Variable den Wert null an. In Periode 2 haben wir die Variable $time50$, diese beginnt im Jahr 1950 mit dem Wert eins und nimmt im Jahr 1989 den Wert 40 an, sonst hat sie den Wert null. $time90$ beginnt im Jahr 1990 mit dem Wert eins und nimmt im Jahr 2002 den Wert 13 an, sonst beträgt sie null.
+
+Und damit sieht unsere Regression wie folgt aus:
+\[
+share_{t}= \eta_{p} + \beta_{1}time_{27} + \beta_{2}time_{50} + \beta_{3}time_{90} + u_{t}
+\]
+
+$\beta_{1}$ beschreibt dann das durchschnittliche jährliche Wachstum in Periode 1.
+Wir erstellen nun die drei Variablen `time27`, `time50` und `time90`. 
+                   
+**Aufgabe:** Drücke `check`
+```{r "4__5" }
+#< task
+ atsf = atsf %>%
+  mutate(time27=ifelse(period == 1,year-1926,0)) %>%
+  mutate(time50=ifelse(period == 2,year-1949,0)) %>%
+  mutate(time90=ifelse(period == 3,year-1989,0)) 
+#>
+
+```
+
+  
+Nun wollen wir die Regression mit `felm()`durchführen. 
+ 
+**Aufgabe:** Ersetze ??? durch die Datei `atsf`, wobei wir nur die Zeilen mit `airport=="Berlin"` nutzen wollen
+```{r "4__8",results="asis"}
+#< task
+#stargazer(felm(pshare~ time27+time50+time90,data=???),type="html")
+
+#>
+stargazer(felm(pshare~ time27+time50+time90,data=filter(atsf,airport=="Berlin")),type="html")
+
+
+
+```
+
+<br>
+Wir haben jetzt Werte für $\beta_{1}$, $\beta_{2}$ und $\beta_{3}$ erhalten. Wenn wir das Ergebnis nun mit dem von oben vergleichen sehen wir, dass wir nicht die gleichen Parameter erhalten.
+
+**Frage:**
+#< quiz "Fixeffekte"
+question: Wieso erhalten wir ein anderes Ergebnis?
+sc:
+    - Die Konstante verfälscht die Parameter
+    - Wir müssen für die drei Perioden auch drei verschiedene Fixeffekte betrachten*
+    - Dieses Ergebnis ist richtig, das Ergebnis von oben war falsch, da sich die Parameter nicht einzeln berechnen lassen
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+
+Wir erinnern uns nochmal an unsere Regression:
+\[
+share_{t}= \eta_{p} + \beta_{1}time_{27} + \beta_{2}time_{50} + \beta_{3}time_{90} + u_{t}
+\]
+Wo sind nun die Fixeffekte $\eta_{p}$? Um der Regression Fixeffekte hinzuzufügen, können wir einfach `|period` hinter die Gleichung schreiben. Wir führen die Regression von oben mit dem Faktor `period` durch. Anschließend betrachten wir das Ergebnis mit `stargazer`.
+#< info "Fortgeschritten: felm()"
+In Aufgabe 3 haben wir bereits erste Erfahrung mit `felm()` gesammelt. Nun wollen wir zusätzliche Features kennenlernen. Ich werde hier aber nur Funktionen erklären, die wir auch benötigen. Eine genaue Anleitung zu `felm()` findest du unter
+<a href="https://www.rdocumentation.org/packages/lfe/versions/2.5-1998/topics/felm
+" target = "_blank">https://www.rdocumentation.org/packages/lfe/versions/2.5-1998/topics/felm</a>.
+Um einer Gleichung den Faktor `Fixeffekt` hinzuzufügen, gehe wie folgt vor:
+```{r "4_81",eval=FALSE}
+felm(y~x1+x2|Fixeffekt,data=dat)
+```
+
+Willst du zusätzlich noch den Standardfehler nach der Variable `clustervar` clustern, lautet der Code wie folgt:
+
+```{r "4_82",eval=FALSE}
+felm(y~x1+x2|Fixeffekt|0|clustervar,data=dat)
+```
+#>
+
+**Aufgabe:** Entferne die `#` und ersetze die ???
+```{r "4__9",results="asis"}
+#< task
+#felmBerlin=felm(???~???|???,data=filter(atsf,airport=="Berlin"))
+#stargazer(felmBerlin,type="html",title="Titel",covariate.labels=c("1927-1938","1950-1989","1990-2002"),align=TRUE)
+
+#>
+felmBerlin=felm(pshare~time27+time50+time90|period,data=filter(atsf,airport=="Berlin"))
+stargazer(felmBerlin,type="html",title="Titel",covariate.labels=c("1927-1938","1950-1989","1990-2002"),align=TRUE)
+
+```
+  
+<br>
+
+Wir haben jetzt für $\beta_{1}$ und $\beta_{2}$ die gleichen Ergebnisse wie oben erhalten.
+Der Schätzer $\beta_{1}$ beschreibt die Steigung der Geraden durch die roten Punkte (vgl. Abb. 5), $\beta_{2}$ die Steigung durch die grünen Dreiecke und $\beta_{3}$ die Steigung durch die blauen Vierecke. Beachte, dass wir uns die Fixeffekte für die Flughäfen nicht anzeigen lassen, da sie im Moment nicht wichtig für uns sind. Wir werden aber in einer späteren Aufgabe damit rechnen.
+
+**Frage:**
+#< quiz "Wachstum_Berlin"
+question: Um wie viel Prozentpunkte ist der Passagieranteil von Berlin im Zeitraum 1927-1938 durchschnittlich pro Jahr gestiegen?
+answer:  1.851
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+Die exakt gleiche Rechnung führen wir nun für Frankfurt durch, da wir diese Werte ja vergleichen wollen.
+
+**Aufgabe:** Ersetze die ??? und entferne `#`
+```{r "4__11" }
+#< task
+#felmFrankfurt=felm(pshare~time27+time50+time90|period,data=???)
+
+#>
+felmFrankfurt=felm(pshare~time27+time50+time90|period,data=filter(atsf,airport=="Frankfurt"))
+
+
+```
+
+Nun vergleichen wir die Werte mit `stargazer` die Werte für Berlin und Frankfurt.
+
+**Aufgabe:** Drücke `check` um das Ergebnis anzeigen zu lassen
+```{r "4__12",results="asis"}
+#< task
+stargazer(felmBerlin,felmFrankfurt,type="html",title="Titel", column.labels=c("Berlin","Frankfurt"),covariate.labels=c("1927-1938","1950-1989","1990-2002"),align=T)
+
+#>
+```
+
+<br>
+Wir erinnern uns an die Formel für unseren Difference in Difference Schätzer:
+\[
+\delta=(\bar y_{NE,A}- \bar y_{NE,B})-(\bar y_{VE,A}- \bar y_{VE,B})
+\]
+
+$\bar y_{NE,A}$ steht für den Durchschnittswert von Gruppe A nach dem Ereignis, $\bar y_{VE,B}$ für den Durchschnittswert von Gruppe B vor dem Ereignis.
+
+Mit `coef(felm)` kannst du auf die Ergebnisse der Regression `felm` zugreifen. 
+
+**Aufgabe:** Drücke `check`
+```{r "4__13" }
+#< task
+coef(felmBerlin)
+coef(felmBerlin)[2]
+#>
+
+
+```
+
+Versuche mit diesem Wissen nun den Difference in Difference Schätzer selbst zu berechnen.
+
+**Aufgabe:** Berechne den Difference in Difference Schätzer
+```{r "4__14" }
+#< task
+#(???-???)-(???-???)
+
+#>
+(coef(felmFrankfurt)[2]-coef(felmBerlin)[2])-(coef(felmFrankfurt)[1]-coef(felmBerlin)[1])
+
+```
+
+Die Differenz der Differenzen steigt jährlich im Schnitt um 3,072 Prozentpunkte. Leider lässt sich so noch nichts über die Signifikanz dieses Wertes aussagen. Um zu zeigen, dass die 3,072 Prozentpunkte statistisch signifikant sind, benötigen wir alle vier Werte in einer Regression.
+
+Hierfür benötigen wir die Variablen `time27`, `time50` und `time90` sowohl für Berlin als auch für Frankfurt, weshalb wir `time27B`, `time27F`, ... usw. erzeugen. Auch der Faktor `period` muss für Frankfurt und Berlin getrennt betrachtet werden. Wir erzeugen deshalb die Variable `nairera`. Die Regression sieht nun wie folgt aus:
+\[
+share_{at}= \eta_{ap} + \beta_{a1}time_{27B} + \beta_{a2}time_{50B} + \beta_{a3}time_{90B} + \beta_{a1}time_{27F} + \beta_{a2}time_{50F} + \beta_{a3}time_{90F} + u_{at}
+\]
+
+**Aufgabe:** Drücke `check` um das Ergebnis anzeigen zu lassen
+```{r "4__15",results="asis"}
+#< task
+atsf = atsf %>%
+  mutate(time27B=ifelse(period==1&airport=="Berlin",year-1926,0)) %>%
+  mutate(time50B=ifelse(period==2&airport=="Berlin",year-1949,0)) %>%
+  mutate(time90B=ifelse(period==3&airport=="Berlin",year-1989,0)) %>%
+  mutate(time27F=ifelse(period==1&airport=="Frankfurt",year-1926,0)) %>%
+  mutate(time50F=ifelse(period==2&airport=="Frankfurt",year-1949,0)) %>%
+  mutate(time90F=ifelse(period==3&airport=="Frankfurt",year-1989,0)) 
+
+atsf=mutate(atsf,nairera=paste(airport,"-",period))
+felm=felm(pshare~ time27B+time50B+time90B+time27F+time50F+time90F|nairera,data=filter(atsf,airport=="Berlin"|airport=="Frankfurt"))
+stargazer(felm,type="html")
+#>
+
+
+```
+
+<br>
+Wir erhalten die selben Ergebnisse, die wir auch oben für die seperaten Regressionen erhalten haben. Nun wollen wir den Difference in Difference Schätzer auf seine Signifikanz untersuchen. Wir wollen also die folgende Hypothese für den testen:
+`time50F-time50B-time27F+time27B = 0`. Eine Möglichkeit diese Hypothese zu testen, ist der Befehl `glht()` aus dem Package `multcomp`. Glht steht für "general linear hypothesis test". Eine weitere Möglichkeit diese Hypothese zu testen ist der `waldtest()` aus dem Package `lfe`. Allerdings ist der Output bei `glht` etwas schöner und ausführlicher.  
+
+**Aufgabe:** Drücke `check` um das Ergebnis anzeigen zu lassen
+```{r "4__16" }
+#< task
+library(multcomp)
+summary(glht(felm, linfct = c("time50F-time50B-time27F+time27B = 0")))
+#>
+
+```
+
+Unter Estimate bekommen wir wieder den Schätzer von 3,072 Prozentpunkten heraus. Das gleiche Ergebnis haben wir weiter oben berechnet.
+
+**Frage:**
+#< quiz "Signifikanz2"
+question: Was lässt sich über die Signifikanz des Schätzers sagen?
+sc:
+    - nicht signifikant
+    - signifikant
+    - sehr signifikant
+    - hoch signifikant*
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+Wir beobachten also einen statistisch hoch signifikanten Einfluss der Teilung Deutschlands auf die Passagierzahlen der größten deutschen Flughafen.
+Nun wollen wir noch untersuchen ob die Wiedervereinigung auch einen signifikanten Einfluss hatte.
+
+## Exercise 4.2 -- Schätzer für die Wiedervereinigung 
+
+Wir haben in **Aufgabe 4.1** gezeigt, dass die Teilung Deutschlands große Auswirkungen auf die Passagierzahlen der Flughäfen von Berlin und Frankfurt hatte. Wir untersuchen nun in dieser Aufgabe ob sich auch für die Wiedervereinigung statistisch relevante Auswirkungen ergeben.
+
+
+In Abb. 3 (Aufgabe 4) sehen wir, dass die Entwicklung der Passagierzahlen im Großteil der Periode 1950-1989 von der Teilung Deutschlands beeinflusst worden ist. Ab ca. 1980 haben sich die Passagieranteile auf den Einfluss der Teilung angepasst. Deshalb betrachten wir nun ein etwas erweitertes Modell indem wir den Zeitraum von 1950-1989 in Dekaden aufteilen. Unsere Regressionsgleichung sieht dann wie folgt aus:
+\[
+share_{t}= \eta_{p} + \beta_{1}time_{27} + \beta_{2}dec_{50} + \beta_{3}dec_{60} + \beta_{4}dec_{70} + \beta_{5}dec_{80} + \beta_{6}time_{90} + u_{t}
+\]
+
+Zunächst benötigen wir wieder den bearbeiteten Datensatz `atsf` aus Aufgabe 4.1. Lasse dazu folgenden Code laufen.
+
+**Aufgabe:** Drücke `check` 
+```{r "41__1"}
+#< task
+atsf=read.dta("airports-time-series.dta") %>%
+  filter(!airport %in% c("Dresden","Erfurt","Münster","Saarbrücken","Leipzig"))  %>%
+  mutate(period=ifelse(year<1950,1,ifelse(year %in% 1950:1989,2,3))) %>%
+  group_by(year) %>%
+  mutate(pshare=(depart/sum(depart))*100) %>%
+  mutate(time27=ifelse(period == 1,year-1926,0)) %>%
+  mutate(time50=ifelse(period == 2,year-1949,0)) %>%
+  mutate(time90=ifelse(period == 3,year-1989,0)) %>%
+  mutate(time27B=ifelse(period==1&airport=="Berlin",year-1926,0)) %>%
+  mutate(time50B=ifelse(period==2&airport=="Berlin",year-1949,0)) %>%
+  mutate(time90B=ifelse(period==3&airport=="Berlin",year-1989,0)) %>%
+  mutate(time27F=ifelse(period==1&airport=="Frankfurt",year-1926,0)) %>%
+  mutate(time50F=ifelse(period==2&airport=="Frankfurt",year-1949,0)) %>%
+  mutate(time90F=ifelse(period==3&airport=="Frankfurt",year-1989,0))
+#>
+
+
+```
+
+Nun erstellen wir, vergleichbar zur Spalte `period` aus der letzten Aufgabe, die Spalte `decade`. Wir unterteilen unseren Zeitraum in sechs Dekaden:
+Dekade 1 (1927-1938), Dekade 2 (1950-1959), Dekade 3 (1960-1969), ..., Dekade 6 (1990-2002). Dekade 1 entspricht Periode 1 und Dekade 6 entspricht Periode 3 aus der vorigen Aufgabe.
+
+**Aufgabe:** Drücke `check` um den Code laufen zu lassen
+```{r "4__4" }
+
+
+#< task
+atsf=mutate(atsf,decade=ifelse(year<1950,1,
+                        ifelse(year %in% 1950:1959,2,
+                        ifelse(year %in% 1960:1969,3,
+                        ifelse(year %in% 1970:1979,4,
+                        ifelse(year %in% 1980:1989,5,
+                        ifelse(year>=1990,6,0)))))))
+
+#>
+
+```
+    
+    
+Die Variablen $time27$ und $time90$ sind gleich definiert wie in der Aufgabe zuvor. $dec50$ hat im Jahr 1950 den Wert eins und im Jahr 1959 den Wert zehn, sonst nimmt sie den Wert null an. $dec60$ hat im Jahr 1960 den Wert eins usw.. 
+
+**Aufgabe:** Drücke `check` um den Code laufen zu lassen
+```{r "4__6" }
+#< task
+atsf = atsf %>%
+  mutate(dec50=ifelse(decade == 2,year-1949,0)) %>%
+  mutate(dec60=ifelse(decade == 3,year-1959,0)) %>%
+  mutate(dec70=ifelse(decade == 4,year-1969,0)) %>%
+  mutate(dec80=ifelse(decade == 5,year-1979,0)) 
+
+#>
+
+```
+
+ <figure>
+  <img src="Verteilung2_Ber_Fra.png" alt="" hight="600" width="800" >
+  <figcaption>Abb. 6 - Regression der Passagieranteile in Abhängigkeit von der Wiedervereinigung Deutschlands. Quelle: Eigene Darstellung</figcaption>
+</figure> 
+
+Jetzt wollen wir die Steigung der Geraden durch die blauen Vierecke und die rosa Sterne vergleichen (vgl. Abb. 6).
+
+**Frage:**
+#< quiz "Dekade_Frankfurt"
+question: In welcher Dekade kann Frankfurt den größten Zuwachs an Passagieranteilen verzeichnen?
+sc:
+    - Dekade 1
+    - Dekade 2
+    - Dekade 3
+    - Dekade 4*
+    - Dekade 5
+    - Dekade 6
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+**Aufgabe:** Ersetze die ??? um die Regressionen durchzuführen
+```{r "4__15" }
+#< task
+#felmBerlin=felm(??? ,data=filter(atsf,airport=="Berlin"))
+#felmFrankfurt=felm(??? ,data=filter(atsf,airport=="Frankfurt"))
+
+#>
+felmBerlin=felm(pshare~ time27+dec50+dec60+dec70+dec80+time90|decade ,data=filter(atsf,airport=="Berlin"))
+felmFrankfurt=felm(pshare~ time27+dec50+dec60+dec70+dec80+time90|decade ,data=filter(atsf,airport=="Frankfurt"))
+
+```
+
+Wir schauen uns die Ergebnisse für die für uns wichtigen Variablen wieder mit `stargazer()` an.
+
+**Aufgabe:** Drücke `check` um das Ergebnis anzeigen zu lassen
+```{r "4__17",results="asis"}
+#< task
+stargazer(felmBerlin,felmFrankfurt,type="html",title="Titel", column.labels=c("Berlin","Frankfurt"),covariate.labels=c("1980-1989","1990-2002"),keep=c("time90","dec80"),align=T)
+
+#>
+
+
+```
+
+<br>
+**Frage:**
+#< quiz "Wachstum_Frankfurt"
+question: Um wie viel Prozentpunkte ist der Passagieranteil von Frankfurt im Zeitraum 1990-2002 im Durchschnitt pro Jahr gestiegen?
+answer:  0.037
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+
+Die vier Werte entsprechen wieder den Steigungen der vier Geraden.
+
+Berechne nun den Difference in Difference Schätzer von Frankfurt und Berlin für die Wiedervereinigung Deutschlands. 
+
+**Aufgabe:** Ersetze die ???
+```{r "4__17" }
+#< task
+#(???-???)-(???-???)
+
+#>
+(coef(felmFrankfurt)[6]-coef(felmBerlin)[6])-(coef(felmFrankfurt)[5]-coef(felmBerlin)[5])
+
+```
+
+Da der Wert für den Schätzer sehr gering ist, scheint die Wiedervereinigung Deutschlands keinen Einfluss auf die Steigung der Geraden zu haben. Über die Signifikanz können wir aber erst etwas aussagen, wenn wir alle Ergebnisse in einer Regression vereint haben und die Hypothese `time90F-time90B-dec80F+dec80B = 0` getestet haben. Wir legen also zunächst wieder die Variablen `dec50B`, `dec50F`, ... usw. an.
+
+**Aufgabe:** Drücke `check` 
+```{r "4__17" }
+#< task
+atsf = atsf %>%
+  mutate(dec50B=ifelse(decade==2&airport=="Berlin", year-1949,0)) %>%
+  mutate(dec60B=ifelse(decade==3&airport=="Berlin", year-1959,0)) %>%
+  mutate(dec70B=ifelse(decade==4&airport=="Berlin", year-1969,0)) %>%
+  mutate(dec80B=ifelse(decade==5&airport=="Berlin", year-1979,0)) %>%
+  mutate(dec50F=ifelse(decade==2&airport=="Frankfurt", year-1949,0)) %>%
+  mutate(dec60F=ifelse(decade==3&airport=="Frankfurt", year-1959,0)) %>%
+  mutate(dec70F=ifelse(decade==4&airport=="Frankfurt", year-1969,0)) %>%
+  mutate(dec80F=ifelse(decade==5&airport=="Frankfurt", year-1979,0))
+
+atsf=mutate(atsf,nairdec=paste(airport,"-",decade))
+
+#>
+
+
+```
+
+Nun können wir die Regression durchführen und das Ergebnis betrachten.
+
+**Aufgabe:** Drücke `check` um das Ergebnis anzeigen zu lassen
+```{r "4__17",results="asis"}
+#< task
+felm=felm(pshare~ time27B+dec50B+dec60B+dec70B+dec80B+time90B+time27F+dec50F+dec60F+dec70F+dec80F+time90F|nairdec,data=filter(atsf,airport=="Berlin"|airport=="Frankfurt"))
+stargazer(felm,type="html")
+
+#>
+
+
+```
+
+<br>
+Wir überprüfuen unsere Nullhypothese `time90F-time90B-dec80F+dec80B = 0` mit `glht()`.
+
+**Aufgabe:** Drücke `check` um das Ergebnis anzeigen zu lassen
+```{r "4__17" }
+#< task
+summary(glht(felm, linfct = c("time90F-time90B-dec80F+dec80B = 0")))
+#>
+
+
+```
+
+
+#< award "Difference in Difference"
+  Herzlichen Glückwunsch, Du hast das Prinzip der Difference in Difference Methode verstanden und erfolgreich gelöst.
+#>
+
+Der Difference in Difference Schätzer, der die jährliche Wachstumsrate der Passagieranteile von Frankfurt und Berlin zwischen den zwei Dekaden vergleicht, ergibt -0,012 Prozentpunkte. Das ist ein vernachlässigbarer und statistisch nicht signifikanter Wert. Die Nullhypothese wird nicht verworfen. Daraus schließen wir, dass die Wiedervereinigung Deutschlands im Jahr 1990 keine statistisch signifikante Auswirkung auf die Passagieranzahlen von Frankfurt und Berlin hatte.
+
+Es gibt also auch weiterhin keine Anzeichen dafür, dass sich Berlin wieder zum deutschen Luftverkehrsknotenpunkt entwickeln könnte. 
+
+
+## Exercise 5 -- Die Marktanbindung
+
+In bisherigen Übungen haben wir mit historischen Daten gearbeitet um zu zeigen, dass der Standortwechsel des deutschen Luftverkehrsknotenpunkts für Europa höchst ungewöhnlich ist. Außerdem haben wir gezeigt, dass es basierend auf historischen Daten schwer vorherzusehen war, dass gerade Frankfurt zum neuen Luftverkehrsknotenpunkt Deutschlands wird.
+
+In den verbleibenden Aufgaben nutzen wir zeitgemäße Daten um die aktuelle Dominanz von Frankfurt in Deutschlands Personenflugverkehr zu erklären.
+Unser Modell beinhaltet zwei wirtschaftliche Rahmenbedingungen um die Attraktivität der Lage eines Flughafens zu bestimmen:
+
+**1)**: Nähe zu anderen Flughäfen (Marktanbindung)
+
+**2)**: Regionale wirtschaftliche Aktivität
+
+Die regionale wirtschaftliche Aktivität behandeln wir in **Aufgabe 7**.
+In **Aufgabe 5** und **Aufgabe 5.1** wollen wir zeigen, dass sich Frankfurts Dominanz nicht durch die Marktanbindung erklären lässt. Wir bestimmen die Marktanbindung indem wir eine Gravitationsgleichung schätzen. Bekannt ist die Gravitationsgleichung aus der Physik, doch auch in der Ökonomie findet sie häufig Anwendung um bilaterale Handelsströme zu erklären (vgl. Bröcker/ Fritsch (2012), S.8ff).
+
+
+Wir nutzen dafür einen Datensatz der bilaterale Passagierflüge beinhaltet. Unsere Gravitationsgleichung sieht wie folgt aus:
+\[ ln(A_{ij})=m_i+s_j+\varphi ln(T_{ij}) + u_{ij} \]
+
+$A_{ij}$ beschreibt die Anzahl der Abflüge von Stadt i nach Stadt j. $m_i$ sind Fixeffekte am Zielflughafen, $s_j$ beschreibt die Fixeffekte am Herkunftsflughafen, $T_{ij}$ beschreibt die Reisekosten und $u_{ij}$ den stochastischen Fehlerterm.
+
+Um die Gravitationsgleichung zu schätzen, benutzen wir den Datensatz `Gravity`, dieser beinhaltet bilaterale Passagierabflüge der 15 deutschen Flughäfen von und zu allen Flughäfen weltweit im Jahr 2002 (vgl. Statistisches Bundesamt (2003)). Zu unseren bisherigen zehn Flughäfen betrachten wir jetzt zusätzlich noch Daten über die Flughäfen in Dresden, Erfurt, Leipzig, Münster und Saarbrücken.
+
+**Aufgabe:** Lade hierzu den Datensatz `Gravity2002.dta` und speichere ihn unter der Variable `Gravity`
+```{r "5__1" }
+#< task
+#>
+
+#< hint
+
+#>
+Gravity=read.dta("Gravity2002.dta")
+```
+
+Als Maß für die Reisekosten $T_{ij}$ dient die geographische Distanz zwischen zwei Flughäfen. Um andere Reisemöglichkeiten auszuschließen,
+wollen wir für die folgende Regression nur diejenigen Flughäfen berücksichtigen, welche mindestens 300 km vom nächsten deutschen Flughafen entfernt sind. Deshalb wollen wir alle Flughäfen, die näher an einem deutschen Flughafen sind, aus unserem Datensatz entfernen. Der Flughafen Zürich ist zum Beispiel weniger als 300 km vom Flughafen Stuttgart entfernt und wird deshalb aus der Datei entfernt.
+
+Wir berechnen mit dem Befehl `summarise` die minimale Distanz (`dist`) für jeden Importflughafen (`importer`).
+
+**Aufgabe:** Drücke `check` um die Spalte `min_dist` zu erstellen
+```{r "5__2" }
+#< task
+Gravity= Gravity %>% group_by(importer) %>% mutate(min_dist=min(dist))
+#>
+
+#< hint
+
+#>
+
+```
+
+
+**Aufgabe:** Wähle mit dem Befehl `filter` alle Flughäfen aus, deren `min_dist`>300 ist und speichere die neue Datei wieder unter `Gravity`
+```{r "5__4" }
+#< task
+#Gravity=???
+#>
+
+#< hint
+
+#>
+Gravity=filter(Gravity,min_dist>300)
+```
+
+Mit dem Befehl `arrange()` aus dem Package `dplyr` können wir Datensätze nach Variablen sortieren. Benutze Google um herauszufinden wie `arrange()` funktioniert und sortiere dann `Gravity` alphabetisch nach `exporter` und `importer`.
+
+**Aufgabe:** Ersetze ??? um `Gravity` zu sortieren
+```{r "5__5" }
+#< task
+#Gravity=arrange(???)
+#>
+
+#< hint
+
+#>
+Gravity=arrange(Gravity,exporter,importer)
+```
+
+Betrachten wir die aktuellen Forschungsergebnisse über internationalen Handel, müssen wir für unsere Regression auch Soziale Netzwerke und internationale Unternehmensnetzwerke berücksichtigen (vgl. hierzu insbesondere Rauch (2001) und Combes, Lafourcade und Mayer (2005)). Als Maß für das Soziale Netzwerk dienen Daten zur Einwanderung und Auswanderung zwischen deutschen Bundesländern und anderen Ländern (siehe Variable `formig`). Diese Daten entstammen dem Statistischen Jahrbuch der Bundesrepublik Deutschland. Als Maß für die Aktivität von Unternehmensnetzwerken dient uns die Variable `subsy`. `subsy` beschreibt die Anzahl der Niederlassungen von deutschen Firmen, mit Hauptsitz in der Stadt des Herkunftsflughafens (`expname`), in einem fremden Land (`country_i`). Die Kennzahlen entstammen der Homepage von Bureau Van Dijk. Dort findet sich mit Orbis eine Datenbank mit weltweiten Unternehmensinformationen. Mit folgendem Link gelangst du auf die Homepage: <a href="https://www.bvdinfo.com/de-de/our-products/company-information/international-products/orbis" target = "_blank">https://www.bvdinfo.com/de-de/our-products/company-information/international-products/orbis</a>.
+Für die Variablen `formig`, `subsy` und `deppass` addieren wir jeweils den Wert eins bevor wir den Logarithmus anwenden.
+
+
+**Aufgabe:** Füge der Datei `Gravity` folgende Variablen mit `mutate` hinzu: ldeppass=log(1+deppass), lformig=log(1+formig), lsubsy=log(1+subsy) und ldist=log(dist)
+```{r "4__6" }
+#< task
+
+#>
+
+#< hint
+
+#>
+Gravity=mutate(Gravity,
+               ldeppass=log(1+deppass),
+               lformig=log(1+formig),
+               lsubsy=log(1+subsy),    
+               ldist=log(dist)
+               )
+```
+
+Wir führen jetzt die Regression durch. Im ersten Schritt betrachten wir nur die Distanz als unabhängige Variable und die Fixeffekte am Zielflughafen `impname` als Faktorvariable, da uns die Ergebnisse für die Fixeffekte der Zielflughäfen nicht interessieren. Wir nehmen außerdem Cluster robuste Standardfehler für `country_i` an, da wir davon ausgehen, dass die Standardfehler innerhalb dieser Gruppe korreliert sind aber zwischen den Gruppen nicht. Schau dir dazu nochmals die InfoBox an.
+
+#< info "Fortgeschritten: felm()"
+Eine genaue Anleitung zu `felm()` findest du unter
+<a href="https://www.rdocumentation.org/packages/lfe/versions/2.5-1998/topics/felm
+" target = "_blank">https://www.rdocumentation.org/packages/lfe/versions/2.5-1998/topics/felm</a>.
+
+Um einer Gleichung den Faktor `Fixeffekt` hinzuzufügen, gehe wie folgt vor:
+```{r "4_81",eval=FALSE}
+felm(y~x1+x2|Fixeffekt,data=dat)
+```
+
+Willst du zusätzlich noch den Standardfehler nach der Variable `clustervar` clustern, lautet der Code wie folgt:
+
+```{r "4_82",eval=FALSE}
+felm(y~x1+x2|Fixeffekt|0|clustervar,data=dat)
+```
+#>
+
+Bevor wir die Regression durchführen, kannst du das Ergebnis schätzen. 
+
+**Frage:**
+#< quiz "Schätzfrage"
+question: Angenommen die Distanz zwischen zwei Flughäfen erhöht sich um ein Prozent. Wie verändern sich die Flugzahlen?
+sc:
+    - ca. +10%
+    - ca. +25%
+    - ca. -2%*
+    - ca. -0,01%
+    - ca. -30%
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+Wir berechnen die Regression mit dem Befehl `felm` und betrachten die Ergebnisse mit `stargazer()`
+
+**Aufgabe:** Entferne `#` und schaue dir das Ergebnis an
+```{r "4__5",results="asis"}
+#< task
+fe1=felm(ldeppass~ldist+exporter|impname|0|country_i,data=Gravity)
+stargazer(fe1,type="html")
+#>
+
+#< hint
+
+#>
+
+```
+
+<br>
+Wir betrachten das Ergebnis genauer. Wir erhalten je einen Schätzer für `ldist` und den Fixeffekt für jeden Herkunftsflughafen. Die Fixeffekte für die Zielflughäfen werden nicht angezeigt. Als Schätzer für `ldist` erhalten wir einen statistisch hoch signifikanten Wert von -1,6522. Das bedeutet, dass eine einprozentige Erhöhung der Flugdistanz zu geschätzt 1,65% weniger Passagieren führt.
+
+**Frage:**
+#< quiz "ldist"
+question: Angenommen die Distanz zwischen zwei Flughäfen halbiert sich, wie verändert sich die Passagieranzahl?
+sc:
+    - +8,25%
+    - -8,25%
+    - +82,5%*
+    - -82,5%
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+Als nächsten Schritt wollen wir zusätzlich Soziale Netzwerke in unserer Regression berücksichtigen. Wir fügen also die Variable `lformig` ein. Damit alles schön übersichtlich bleibt, blenden wir das Ergebnis der Fixeffekte für die Herkunftsflughäfen für die nächsten Berechnungen aus.
+
+**Aufgabe:** Drücke `check` und schaue dir das Ergenbis an
+```{r "4__5",results="asis"}
+#< task
+fe2=felm(ldeppass~ldist+lformig+exporter|impname|0|country_i,data=Gravity)
+stargazer(fe2,type="html",keep=c("ldist","lformig"))
+#>
+
+#< hint
+#>
+```
+
+<br>
+
+**Frage:**
+#< quiz "signifikanz3"
+question: Was kannst du über die Signifikanz des Schätzers für `lformig` sagen?
+sc:
+    - nicht signifikant
+    - signifikant
+    - sehr signifikant
+    - hoch signifikant*
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+Dieses Ergebnis interpretieren wir weiter unten.
+Als nächsten Schritt schätzen wir `ldeppass` mit den Variablen `ldist` und `lsubsy`. 
+
+**Aufgabe:** Ersetze die Fragezeichen und entferne `#`
+```{r "4__5",results="asis"}
+#< task
+# fe3=felm(???)
+#>
+
+#< hint
+
+#>
+fe3=felm(ldeppass~ldist+lsubsy+exporter|impname|0|country_i,data=Gravity)
+```
+
+Als letzten Schritt schätzen wir `ldeppass` mit den Variablen `ldist`, `lformig` und `lsubsy`.
+
+**Aufgabe:** Führe die Regression durch und speichere sie unter `f4`
+```{r "5__10" }
+#< task
+
+#>
+
+#< hint
+
+#>
+fe4=felm(ldeppass~ldist+lformig+lsubsy+exporter|impname|0|country_i,data=Gravity)
+```
+
+Diese ganzen Ergebnisse lassen sich übersichtlich mit dem Befehl `stargazer` als Tabelle anzeigen. Wir werden nur die Werte für `ldist`,`lsubsy` und `lformig` angezeigen, da in dieser Aufgabe nur diese Variablen von Bedeutung sind. Die Werte für die Fixeffekte der verschiedenen Herkunftsflughäfen werden wir in **Aufgabe 6** behandeln.
+
+**Aufgabe:** Drücke `check` um ein übersichtliches Ergebnis der vier Regressionen zu erhalten
+```{r "4__11",results="asis"}
+#< task
+stargazer(fe1,fe2,fe3,fe4,title="Determinants of Bilateral Passenger Departures",type = "html",covariate.labels=c("Logarithm of distance","Logarithm of foreign migration","Logarithm of subsidiaries"),keep = c("ldist","lsubsy","lformig"),align=TRUE)
+#>
+
+#< hint
+
+#>
+
+```
+
+<br>
+#< award "Regressionmaster mit felm()"
+Sehr gut, du kannst nun Regressionen mit felm() durchführen. Du hast gelernt, was Fixeffekte sind und kannst Standardfehler clustern.
+#>
+
+Unsere vier Regressionen sind nun von links nach rechts in den verschiedenen Spalten aufgelistet. Der Koeffizient für die geographische Distanz bleibt in allen Fällen negativ und statistisch hoch signifikant. Für Regressionen (3) - (4) besitzen die Maße für Soziale Netzwerke und Unternehmensnetzwerke eine positive Beziehung zu den Abflugzahlen. 
+
+**Frage:**
+#< quiz "lformig"
+question: Betrachte die vierte Spalte. Angenommen wir haben eine Erhöhung von 1% bei der Ein-bzw. Auswanderung zwischen zwei Staaten. Wie verhalten sich die Passagierzahlen?
+sc:
+    - sinken um ca. 0,3%
+    - steigen um ca. 0,3%*
+    - steigen um ca. 3%
+    - sinken um ca. 3%
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+Die Ergebnisse von Spalte 4 benötigen wir für **Aufgabe 5.1**.
+
+
+## Exercise 5.1 -- Aufteilung der Abflugzahlen
+
+In dieser Aufgabe wollen wir die Gesamtzahl der Flüge in die Beiträge Marktanbindung und Fixeffekte der Herkunftsflughäfen unterteilen, um deutlich zu machen, dass sich die Dominanz von Frankfurt nicht durch die Marktanbindung erklären lässt.
+
+Zunächst erinnern wir uns an die Gravitationsgleichung aus **Aufgabe 5**:
+
+\[ ln(A_{ij})=m_i+s_j+\varphi ln(T_{ij}) + u_{ij} \]
+
+Wobei wieder gilt: $A_{ij}$ beschreibt die Anzahl der Abflüge von Stadt i nach Stadt j. $m_i$ sind Fixeffekte am Zielflughafen, $s_j$ beschreibt die Fixeffekte am Herkunftsflughafen, $T_{ij}$ beschreibt die Reisekosten und $u_{ij}$ den Stochastischen Fehlerterm.
+
+Wenn wir nun die vorhergesagten Werte (fitted values) dieser Regression nehmen, diese exponenzieren und über die Zielflughäfen summieren erhalten wir folgende Gleichung:
+
+\[
+\widehat{A_j} = \sum_{i} \widehat{A_{ij}} = \left[ \sum_{i} T_{ij}^{\hat{\varphi}} \widehat{M_{i}} \right] \widehat{S_j} \equiv \widehat{MA_j} \widehat{S_j} 
+\]
+
+Diese Gleichung können wir nun nutzen um die Abweichung der Abflüge eines Flughafens in die Variablen $MA_j$ (`Marktanbindung`) und $S_j$ (`Fixeffekte des Herkunftsflughafens`) zu unterteilen. Die Hüte über den Variablen stehen für Schätzer und es gilt: $M_i \equiv exp(m_i)$ und $S_i \equiv exp(s_i)$.
+
+Die Marktanbindung entspricht also der gewichteten Summe der Reisekosten multipliziert mit den Fixeffekten der Zielflughäfen weltweit und beschreibt damit die Nähe eines Flughafens zu den Zielflughäfen weltweit.
+
+Wir wählen nun einen Flughafen als Basis und berechnen die prozentuale Abweichung der Gesamtabflugzahlen als Summe der prozentualen Abweichungen der Marktanbindung und der Fixeffekte der Herkunftsflughäfen.
+
+\begin{equation}
+ln \left(\frac{\hat A_j}{\widehat A_b}\right)=ln \left(  \frac{ \widehat{MA_j} }{ \widehat{MA_b}}\right)+ln \left( \frac{ \widehat S_j}{ \widehat S_b}\right)
+\end{equation}
+
+Das $b$ steht hier für unseren Basisflughafen. Als diesen wählen wir Berlin.
+
+Um die Aufteilung zu berechnen, benötigen wir die Regression `fe4` aus **Aufgabe 5**. Mit folgendem Code wird die Datei Gravity analog zu Aufgabe 5 bearbeitet und anschließend `fe4` erzeugt.
+Schau dir das Ergebnis nochmals an.
+
+**Aufgabe:** Drücke `check` um den Code laufen zu lassen
+```{r "51__1",results="asis"}
+#< task
+Data=read.dta("Gravity2002.dta")
+Gravity=as.data.frame(filter(mutate(group_by(Data,importer),min_dist=min(dist)),min_dist>300))
+Gravity=mutate(Gravity,
+               ldeppass=log(1+deppass),
+               lformig=log(1+formig),
+               lsubsy=log(1+subsy),
+               ldist=log(dist)
+               )
+fe4=felm(ldeppass~ldist+lformig+lsubsy+exporter|impname|0|country_i,data=Gravity)
+
+stargazer(fe4,type="html")
+#>
+
+#< hint
+
+#>
+
+```
+
+<br>
+Die Variablen exporterCGN bis exporterTXL stehen für die Fixeffekte der Herkunftsflughäfen.
+
+## Fixeffekte des Herkunftsflughafens
+Wir wollen zuerst die prozentuale Abweichung der Fixeffekte der Herkunftsflughäfen zu Berlin berechnen, also den Teil:
+
+
+\begin{equation}
+ln \left( \frac{ \widehat S_j}{ \widehat S_b}\right)
+\end{equation}
+
+Zum besseren Verständnis warum dies der Abweichung entspricht. Folgendes gilt:
+\begin{equation}
+ln \left( \frac{ \widehat S_j}{ \widehat S_b}\right)=ln \left( \frac{ exp(\widehat s_j)}{ exp(\widehat s_b)}\right)=\widehat s_j- \widehat s_b
+\end{equation}
+
+
+**Aufgabe:** Lade hierzu den Datensatz `airport_coef.dta` und speichere ihn unter der Variable `data`. Lasse dir dann die Datei mit `data` anzeigen
+```{r "51__2" }
+#< task
+
+#>
+
+#< hint
+
+#>
+data=read.dta("airport_coef.dta")
+data
+```
+Die Datei besteht aus den 15 Flughäfen und der Spalte `lsc`, in die ich die zugehörigen Fixeffekte aus der Regression `fe4` geschrieben habe. 
+Die Werte in `lsc` entsprechen also unserem $s_i$. Da gilt $S_i \equiv exp(s_i)$ müssen wir den Exponenten nehmen um auf $S_i$ zu gelangen. Außerdem fehlt uns noch $S_b \equiv exp(s_b)$.
+
+**Aufgabe:** Finde den Wert $s_b$ in der Tabelle `data` und speichere ihn unter der Variablen `s_b`
+```{r "51__3" }
+#< task
+
+#>
+
+#< hint
+
+#>
+s_b=2.005862
+```
+
+
+**Aufgabe:** Drücke `check` um dem Datensatz `data` die Variable `lsa` mit unserem Ergebnis hinzuzufügen
+```{r "51__3" }
+#< task
+data=mutate(data,lsa=log(exp(lsc)/exp(s_b)))
+data
+#>
+
+#< hint
+
+#>
+
+```
+
+**Frage:**
+#< quiz "lsa"
+question: Um wie viel Prozent sind die Fixeffekte von Frankfurt größer als die von Berlin? Runde dein Ergebnis auf zwei Nachkommastellen
+answer:  4.60
+success: Richtig!
+failure: Versuche es erneut.
+#>
+## Marktanbindung
+Nun fehlen noch die prozentualen Abweichungen der Marktanbindungen zu der Marktanbindung von Berlin, also:
+\begin{equation}
+ln \left(  \frac{ \widehat{MA_j} }{ \widehat{MA_b}}\right)
+\end{equation}
+
+Unser Vorgehen wird dabei wie folgt sein: 
+$ln(\widehat{A_{ij}})$ entspricht den vorhergesagten Werten aus der Regression `fe4` und ist deshalb gegeben. Wenn wir die Exponentialfunktion darauf anwenden, erhalten wir $\widehat{A_{ij}}$. Wir summieren über die Flughafen $i$ um $\widehat{A_j} = \sum_{i} \widehat{A_{ij}}$ zu erhalten. Da 
+\[
+\widehat{A_j} = \sum_{i} \widehat{A_{ij}} =  \widehat{MA_j} \widehat{S_j} 
+\]
+gilt, müssen wir nur noch durch $\widehat{S_j}$ teilen um 
+\[
+\widehat{MA_j}=\frac{\widehat{A_j}}{\widehat{S_j} } 
+\]
+zu erhalten. Damit berechnen wir dann die gesuchte Abweichung
+\begin{equation}
+ln \left(  \frac{ \widehat{MA_j} }{ \widehat{MA_b}}\right)
+\end{equation}
+
+Zu Beginn müssen wir die vorhergesagten Werte $\widehat{A_{ij}}$ bestimmen. Hierfür eignet sich der Befehl `predict.felm()` aus dem Package `regtool`.
+
+
+**Aufgabe:** Lade zunächst das Package `regtool` und speichere dann die vorhergesagten Werte unter `fit_ldp`
+```{r "51__4" }
+#< task
+#???
+#???=predict.felm(fe4,Gravity)
+#>
+
+#< hint
+
+#>
+library(regtools)
+fit_ldp=predict.felm(fe4,Gravity)
+```
+
+`fit_ldp` ist ein Zahlenvektor mit den 5130 vorhergesagten Werten für diee 5130 Zeilen der `Gravity` Tabelle. Es gilt nun $A_{ij}=exp(\text{fit_ldp})$.
+
+**Aufgabe:** Erstelle eine Tabelle `A` in der du der Tabelle `Gravity` die Spalte `A_ij` hinzufügst 
+```{r "51__5" }
+#< task
+#???=transmute(Gravity,expname,???)
+
+#>
+
+#< hint
+
+#>
+A=transmute(Gravity,exporter,A_ij=exp(fit_ldp))
+```
+Als nächsten Schritt summieren wir über die Flughafen $i$ um $\widehat{A_j} = \sum_{i} \widehat{A_{ij}}$ zu erhalten.
+
+
+**Aufgabe:** Gruppiere die Tabelle `A` nach `expname` und berechne `A_j=sum(A_ij)`
+```{r "51__6" }
+#< task
+#A_sum=A %>% group_by(exporter) %>% summarise(???)
+#>
+
+#< hint
+
+#>
+A_sum=A %>% group_by(exporter) %>% summarise(A_j=sum(A_ij))
+```
+Wir haben $\widehat{A_{j}}$ berechnet und müssen dies nun durch 
+$\widehat{S_j}$ teilen. Wir erinnern uns, dass $\widehat{S_j}=exp(\widehat{s_j})$ gilt. Wobei $\widehat{s_j}$ den Fixeffekten der Herkunftsflughäfen entspricht. Diese finden wir wie oben, in der Tabelle `data`. Um die Berechnung nun durchführen zu können fügen wir der Tabelle `data` die Spalte `A_j` aus der Tabelle `A_sum` hinzu.
+
+**Aufgabe:** Lösche die Kommentarfunktion und lasse folgenden Code laufen 
+```{r "51__7" }
+#< task
+#data2=mutate(data,A_j=A_sum$A_j)
+#data2
+#>
+
+#< hint
+
+#>
+data2=mutate(data,A_j=A_sum$A_j)
+data2
+```
+
+Nun berechnen wir $\widehat{MA_j}=\frac{\widehat{A_j}}{exp(\widehat{s_j}) }$.
+
+**Aufgabe:** Berechne die neue Variable  $\widehat{MA_j}$ und speichere sie unter `MA`  
+```{r "51__8" }
+#< task
+#data=mutate(data2,MA=???)
+#>
+
+#< hint
+
+#>
+data=mutate(data2,MA=A_j/exp(lsc))
+```
+
+Wir haben jetzt die Werte für $\widehat{MA_j}$ berechnet und wollen die Abweichung zu Berlin bestimmen, also:
+\begin{equation}
+ln \left(  \frac{ \widehat{MA_j} }{ \widehat{MA_b}}\right)
+\end{equation}
+
+**Aufgabe:** Finde den Wert für $\widehat{MA_b}$
+```{r "51__9" }
+#< task
+#filter(???,expname=="???")
+#>
+
+#< hint
+
+#>
+filter(data,expname=="Berlin")
+```
+
+**Aufgabe:** Berechne den Wert $ln \left(  \frac{ \widehat{MA_j} }{ \widehat{MA_b}}\right)$ und speichere ihn unter `lma`
+```{r "51__10" }
+#< task
+#data2=transmute(data,exporter,expname,lsa,lma=???)
+#data2
+#>
+
+#< hint
+
+#>
+data2=transmute(data,exporter,expname,lsa,lma=log(MA/168942.66))
+data2
+```
+\begin{equation}
+ln \left(\frac{\hat A_j}{\widehat A_b}\right)=ln \left(  \frac{ \widehat{MA_j} }{ \widehat{MA_b}}\right)+ln \left( \frac{ \widehat S_j}{ \widehat S_b}\right)
+\end{equation}
+Wir haben nun die Werte $lma=ln \left(  \frac{ \widehat{MA_j} }{ \widehat{MA_b}}\right)$ und $lsa=ln \left( \frac{ \widehat S_j}{ \widehat S_b}\right)$ bestimmt und wollen das ganze graphisch veranschaulichen. Um diesen Plot mit `ggplot` durchzuführen, müssen wir zuerst unsere Tabelle in eine etwas andere Form bringen. Hierfür verwenden wir den Befehl `gather()` aus dem Package `tidyr`. Wir schauen uns zunächst die transformierte Tabelle an, um zu sehen was `gather()` genau macht.
+
+#< info "tidyr"
+Das Package `tidyr` eignet sich sehr gut, um Dateien in eine andere Form zu bringen. 
+Eine schöne Übersicht zu Befehlen aus `tidyr` und `dplyr` findest du in folgender PDF: 
+<a href="https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf" target = "_blank">https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf</a>.
+#>
+
+**Aufgabe:** Drücke `check` und lasse den Code laufen
+```{r "51__11" }
+#< task
+library(tidyr)
+data=data2 %>% gather(type, value, lma:lsa)
+arrange(data,expname)
+#>
+
+#< hint
+
+#>
+
+```
+
+Unsere Tabelle hat jetzt mehr Zeilen als vorher. Wir haben eine neue Spalte `type` erhalten, in der `lma` oder `lsa` steht. In der Spalte `value` steht der zugehörige Wert. 
+Nun haben wir unsere Tabelle in der passenden Form um `ggplot` anwenden zu können.
+
+**Aufgabe:** Drücke `check` und lasse den Code laufen
+```{r "51__12",fig.width=8,fig.height=5}
+#< task
+ggplot(data, aes(x=expname, y=value, fill=type)) + 
+  geom_bar(position="dodge",stat = "identity") + 
+  coord_cartesian( ylim=c(-3,6)) +
+  scale_fill_discrete(name="",breaks=c("lma", "lsa"), labels=c("Marktanbindung", "Fixeffekte Herkunftsflughafen")) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+  labs(title = "Die Rolle der Marktanbindung", x="",y="Logarithmische Abweichung vom Wert für Berlin")
+#>
+
+#< hint
+
+#>
+
+```
+
+Wir haben die logarithmischen Abweichungen der Marktanbindung und den Fixeffekten der Herkunftsflughäfen zu den entsprechenden Werten von Berlin berechnet. Deutlich zu beobachten ist, dass die Marktanbindung zwischen den Flughäfen zwar variiert, ihr Beitrag zu den Gesamtabflugzahlen aber im Vergleich zu den Fixeffekten sehr klein ist. Das ist ein Indiz dafür, dass in verhältnismäßig kleinen Ländern wie Deutschland (Vergleich zu den USA, Russland, China oder Australien), die Flughäfen ausreichend nahe zusammenliegen, sodass die Marktanbindung keinen großen Einfluss auf die Abflugzahlen hat. Beispielsweise beträgt die Flugstrecke von Frankfurt nach San Francisco 9142 km, die Flugstrecke von Berlin nach San Francisco 9105 km. Die Differenz ist zu gering um Auswirkungen auf die Flugzahlen zu haben. Die durchschnittliche Flugstrecke von Frankfurt zu allen Flugzielen aus unserer Regression beträgt 3818 km, die entsprechende Flugstrecke von Berlin 3838 km. Deshalb lässt sich die Dominanz des frankfurter Flughafens nicht durch die Marktanbindung erklären. 
+
+Wir verdeutlichen diesen Sachverhalt durch ein sogenanntes Scatter-Boxplot.
+
+**Aufgabe:** Drücke `check` und lasse den Code laufen
+```{r "51__13" }
+#< task
+qplot(data=filter(Gravity,expname=="Frankfurt"|expname=="Berlin"),x=expname,y=dist,geom=c("boxplot","jitter"),fill=expname) +
+  stat_summary(fun.y=mean,geom="point",shape=20,size=5,color="red") +
+  theme_bw() +
+  labs(x="",y="Distanz",fill="Flughafen",title="Distanz zu den Flughäfen weltweit")
+#>
+
+#< hint
+
+#>
+
+```
+
+Dieses Scatter-Boxplot stellt die Distanz der Flughäfen Berlin und Frankfurt zu allen Flughäfen, die aus Deutschland angeflogen werden, dar. Wir sehen deutlich, dass sich der Mittelwert (roter Punkt) und der Median (waagrechte schwarze Linie) praktisch gar nicht voneinander unterscheiden. 
+
+Wir erzeugen zum Abschluss noch einen sogenannten Violinplot.
+
+**Aufgabe:** Drücke `check` und lasse den Code laufen
+```{r "51__13" }
+#< task
+ggplot(Gravity,aes(expname,dist)) +
+  geom_violin(aes(fill=expname)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(x="",y="Distanz",fill="Flughafen",title="Distanz zu den Flughafen weltweit")
+#>
+
+#< hint
+
+#>
+
+```
+#< award "ggplot Profi"
+Sehr gut, du berrscht jetzt ein breites Repertoire an ggplots.
+#>
+
+Hier wird die Verteilung der Distanzen dargestellt. Das heißt, je mehr Flughäfen die gleiche Entfernung von unserem Exportflughafen haben, desto breiter wird der Balken. Auch hier ist kein nennenswerter Unterschied zwischen den Flughäfen in Deutschland zu erkennen.
+Wir stellen fest: Die Marktanbindung ist für die Wahl zum Standort eines Luftverkehrsknotenpunkts nicht relevant.
+
+
+
+## Exercise 6 -- Regionale wirtschaftliche Aktivitäten und lokale Flüge
+
+In **Aufgabe 5.1** haben wir gezeigt, dass die Marktanbindung nur schwache Auswirkungen auf die Passagierzahlen eines Flughafens hat. Deshalb betrachten wir nun den zweiten entscheidenden Faktor genauer: Die **regionale wirtschaftliche Aktivität**. Wir wollen also wissen, ob der Standort Frankfurt Vorteile durch seine wirtschaftliche Aktivität hat.
+
+Um dies genauer zu untersuchen beginnen wir in **Aufgabe 6.1** damit, die Gesamtzahl der Passagiere, die von einem Flughafen abgeflogen sind, in regionale Flüge (Passagiere die aus der nahen Umgebung des Flughafens stammen) und verschiedene Formen von Transitflügen zu unterteilen.
+Diese Unterteilung benutzen wir, um in **Aufgabe 6.2** die Beziehung zwischen regionalen Flügen und regionaler wirtschaftlicher Aktivität zu ermitteln.
+
+
+## Exercise 6.1 -- Zerlegung der Passagieranteile  
+
+Wir unterteilen Passagiere die von unseren 15 deutschen Flughäfen abgeflogen sind in folgende vier Kategorien:
+
+I) ***internationale Transitpassagiere*** (international air transit passenger): Alle Passagiere, die am Flughafen umsteigen und sich sowohl deren Herkunftsflughafen als auch deren Zielflughafen im Ausland befinden.
+
+II) ***inländische Transitpassagiere*** (domestic air transit passenger): Alle Passagiere, die am Flughafen umsteigen und entweder deren Herkunftsflughafen oder deren Zielflughafen befinden sich in Deutschland.
+
+III) ***angereiste Transitpassagiere*** (ground transit passenger): Alle Passagiere, die von diesem Flughafen starten und mittels Bodentransport mehr als 50 km angereist sind.
+
+IV) ***lokale Passagiere*** (local passenger): Alle Passagiere, die von diesem Flughafen starten und mittels Bodentransport weniger als 50 km angereist sind.
+
+***Frage:***
+#< quiz "Passagierquiz"
+question: Zu welcher Kategorie Passagiere gehörst du, wenn du aus Ulm mit der Bahn nach Stuttgart fährst und von dort nach London fliegst?
+sc:
+    - internationale Transitpassagiere
+    - inländische Transitpassagiere
+    - angereiste Transitpassagiere*
+    - lokale Passagiere
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+
+Um diese Aufteilung durchzuführen, benötigen wir den Datensatz `Gravity2002.dta`
+
+**Aufgabe:** Drücke `check`
+```{r "6__1" }
+#< task
+Gravity=read.dta("Gravity2002.dta")
+#>
+
+#< hint
+
+#>
+
+```
+
+**Aufgabe:** Schaue dir mit `select` die Spalten `expname` und `nlocal` an
+```{r "6__11" }
+#< task
+
+#>
+
+#< hint
+
+#>
+select(Gravity,expname,nlocal)
+```
+
+
+Die Werte aus `nlocal` entstammen einer Umfrage vom Statistischen Bundesamt und der Arbeitsgemeinschaft Deutscher Verkehrsflughäfen aus dem Jahr 2003. Wilken, Berster und Gelhausen (2007) haben diese Daten hilfreich zusammengefasst und ausgewertet. `nlocal` bezeichnet den Anteil aller Fluggäste, deren Reise in einem Umkreis von weniger als 50 km des Flughafens begann. 
+
+**Aufgabe:** Benutze dieses Programmierfeld um die folgende Frage zu beantworten
+```{r "6__12",optional=TRUE}
+#< task
+
+#>
+
+#< hint
+
+#>
+
+```
+
+**Frage:**
+#< quiz "nlocal"
+question: Wie viel Prozent der Fluggäste des Flughafens Hannover sind im Jahr 2003 weniger als 50 km angereist?
+answer:  37
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+**Aufgabe:** Lasse den folgenden Code laufen
+```{r "6__2" }
+#< task
+Gravity= Gravity %>% group_by(expname) %>% summarise(dom_depart_e=mean(dom_depart_e),
+                  dom_transit_e=mean(dom_transit_e),
+                  for_depart_e=mean(for_depart_e),
+                  for_transit_e=mean(for_transit_e),
+                  total_depart_e=mean(total_depart_e),
+                  dom_for_transit_e=mean(dom_for_transit_e),
+                  for_for_transit_e=mean(for_for_transit_e),
+                  nlocal=mean(nlocal))
+
+
+Gravity
+#>
+
+#< hint
+
+#>
+
+```
+
+Wir haben unseren Datensatz nun mittels `summarise` zusammengefasst und nach `expname` gruppiert. Da die Einträge in `dom_depart_e`,`dom_transit_e` usw. für jeden Eintrag eines Exportflughafens gleich waren, haben wir einfach den Mittelwert mit `mean` berechnet, um den Wert nicht zu verändern. Wir haben jetzt noch alle Spalten zur Verfügung, die für die Aufteilung der Passagiere nötig sind.
+Wir speichern unsere Aufteilung unter folgenden Variablen:
+
+**Gesamtpassagieranzahl**: `total_depart`=total_depart_e
+
+**internationale Transitpassagiere**: `int_transit`=for_for_transit_e
+
+**inländische Transitpassagiere**: `dom_transit`=dom_transit_e+for_transit_e-for_for_transit_e
+
+**angereiste Transitpassagiere**:`ground_transit`=(total_depart_e-dom_transit_e-for_transit_e)-nlocal*(total_depart_e-dom_transit_e-for_transit_e)
+
+**lokale Passagiere**: `local_depart`=nlocal*(total_depart_e-dom_transit_e-for_transit_e)
+
+
+**Aufgabe:** Die Berechnungen für drei der vier oben stehenden Kategorien ist im Code unten schon angegeben. Ersetze die Fragezeichen um zusätzlich den Anteil für `dom_transit` zu berechnen
+```{r "6__3" }
+#< task
+#temp=transmute(Gravity,expname,local_depart=nlocal*(total_depart_e-dom_transit_e-for_transit_e),int_transit=for_for_transit_e,???,ground_transit=(total_depart_e-dom_transit_e-for_transit_e)-nlocal*(total_depart_e-dom_transit_e-for_transit_e),total_depart=total_depart_e)
+#temp
+#>
+
+#< hint
+
+#>
+temp=transmute(Gravity,expname,
+               local_depart=nlocal*(total_depart_e-dom_transit_e-for_transit_e),
+               int_transit=for_for_transit_e,dom_transit=dom_transit_e+for_transit_e-for_for_transit_e,
+               ground_transit=(total_depart_e-dom_transit_e-for_transit_e)-nlocal*(total_depart_e-dom_transit_e-for_transit_e),
+               total_depart=total_depart_e)
+temp
+```
+
+Um zu überprüfen, ob wir die Gesamtzahl der Passagiere korrekt und vollständig aufgeteilt haben, ziehen wir die vier neuen Variablen von der Gesamtpassagieranzahl ab. Sollten wir alles richtig gerechnet haben, sollte das Ergebnis Null betragen.
+
+**Aufgabe:** Füge nun `temp` eine neue Spalte `test` hinzu, in der du die vier oben berechneten Variablen von `total_depart` abziehst und runde das Ergebnis mit `round` auf neun Nachkommastellen
+```{r "6__4" }
+#< task
+#mutate(temp,test=round(total_depart-???-local_depart,9))
+#>
+
+#< hint
+
+#>
+mutate(temp,test=round(total_depart-int_transit-dom_transit-ground_transit-local_depart,9))
+```
+
+
+**Frage:**
+#< quiz "local_depart"
+question: Wie viele lokale Passagiere hatte Stuttgart im Jahr 2002?
+answer:  2226729
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+Wir plotten die Gesamtabflugzahl mit `ggplot`.
+
+**Aufgabe:** Drücke `check` um den folgenden Code laufen zu lassen
+```{r "6__5" }
+#< task
+g1=ggplot(temp, aes(x=expname, y=total_depart/1000000)) +
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(title="Abflüge", x="",y="Passagiere (in Mio)") + 
+  coord_cartesian(ylim = c(00, 25))
+g1
+#>
+
+#< hint
+
+#>
+
+```
+
+Deutlich zu sehen ist, dass die Gesamtabflugzahlen stark variieren: Von 0,2 Mio. in Saarbrücken bis zu 24 Mio. Passagiere in Frankfurt.
+
+Wir wollen nun die internationalen Transitpassagiere von den Gesamtpassagieren abziehen.
+Mit dem Befehl `grid.arrange()` aus dem Package `gridExtra` können wir mehrere Diagramme zusammen darstellen.
+
+**Aufgabe:** Führe nun denselben Plot durch wie oben, aber subtrahiere `int_transit` von `total_depart`. Ersetze ??? und entferne `#`
+```{r "6__6",fig.width=8,fig.height=4}
+#< task
+#library(gridExtra)
+#g2=ggplot(temp, aes(x=expname, y=(???)/1000000)) + geom_bar(stat = "identity") +theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + labs(title="Abflüge-internationale Transitflüge", x="",y="Passagiere (in Mio)")+coord_cartesian(ylim = c(00, 25))
+
+#grid.arrange(g1, g2, ncol=2, nrow =1)
+#>
+
+#< hint
+
+#>
+library(gridExtra)
+g2=ggplot(temp, aes(x=expname, y=(total_depart-int_transit)/1000000)) +
+  geom_bar(stat = "identity") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(title="Abflüge-internationale Transitflüge", x="",y="Passagiere (in Mio)") +
+  coord_cartesian(ylim = c(00, 25))
+
+grid.arrange(g1, g2, ncol=2, nrow =1)
+```
+
+Wenn wir also die internationalen Transitflüge von den Gesamtabflugzahlen subtrahieren, reduziert sich die Passagieranzahl von Frankfurt auf 16,4 Millionen.
+Vergleicht man `g1` mit `g2`, kann man sehen, dass sich nur die Passagieranzahl von Frankfurt deutlich verändert hat. Das bedeutet, dass der Großteil der internationalen Transitpassagiere, also Personen, die vom Ausland ins Ausland unterwegs sind und nur am Flughafen umsteigen, über Frankfurt fliegt (etwa 82%). Der Anteil der internationalen Transitpassagiere in Frankfurt, gemessen an der Gesamtzahl der Passagiere, liegt bei 32%. Das zeigt uns, dass der Status als Luftverkehrsknotenpunkt von Frankfurt eine wesentliche Rolle spielt, um einen gewissen Anteil von Frankfurts Vorrangstellung im Passagierluftverkehr zu erklären.
+Um diese Schlussfolgerung noch zu festigen, wollen wir noch zusätzlich die inländischen Transitpassagiere subtrahieren.
+
+**Aufgabe:** Ersetze die Fragezeichen indem du `int_transit` und `dom_transit` von `total_depart` subtrahierst
+```{r "6__7",fig.width=9,fig.height=9}
+#< task
+#g3=ggplot(temp, aes(x=expname, y=(???)/1000000)) + geom_bar(stat = "identity") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+ labs(title="Abflüge- (internationale und inländische Transitflüge)", x="",y="Passagiere (in Mio)")+coord_cartesian(ylim = c(00, 25))
+
+#grid.arrange(g1, g2, g3, ncol=2, nrow =2)
+#>
+
+#< hint
+
+#>
+g3=ggplot(temp, aes(x=expname,y=(total_depart-int_transit-dom_transit)/1000000)) + 
+  geom_bar(stat = "identity") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+  labs(title="Abflüge- (internationale und inländische Transitflüge)", x="",y="Passagiere (in Mio)") +
+  coord_cartesian(ylim = c(00, 25))
+
+grid.arrange(g1, g2, g3, ncol=2, nrow =2)
+```
+
+Der Balken von Frankfurt hat sich weiter reduziert und liegt nun bei etwa 12 Mio. Passagieren. Internationale und inländische Transitflüge machen etwa 50% aller Personenflüge von Frankfurt aus. Um nun zu der Anzahl von lokalen Passagieren zu gelangen, subtrahieren wir zusätzlich noch die Gruppe angereiste Transitpassagiere.
+
+**Aufgabe:** Drücke `check`
+```{r "6__8",fig.width=11,fig.height=11}
+#< task
+g4=ggplot(temp, aes(x=expname, y=(total_depart-int_transit-dom_transit-ground_transit)/1000000)) + 
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+  labs(title="lokale Passagiere", x="",y="Passagiere (in Mio)") +
+  coord_cartesian(ylim = c(00, 25))
+
+grid.arrange(g1, g2, g3, g4, ncol=2, nrow =2)
+#>
+
+#< hint
+
+#>
+
+```
+
+Nun ist die Dominanz von Frankfurt vollständig eliminiert.
+
+**Frage:**
+#< quiz "local_depart Dominanz"
+question: Welcher Flughafen fertigt die meisten lokalen Passagiere ab?
+sc:
+    - Düsseldorf
+    - Berlin*
+    - München
+    - Frankfurt
+    - Stuttgart
+success: Richtig!
+failure: Versuche es erneut.
+#>
+Diese Zerlegung weist darauf hin, dass Frankfurts sehr viel größeres Gesamtaufkommen an Flugpassagieren nicht durch lokale Passagiere zu erklären ist, sondern vielmehr durch die deutlich größere Anzahl an Transitpassagieren.
+
+
+Übersichtlich wird unser Ergebnis mit einem sogenannten "gestapelten Balkendiagramm". Auch dies lässt sich sehr schön mit `ggplot` erzeugen.
+
+**Aufgabe:** Drücke `check`
+```{r "6__11" }
+#< task
+Gravity2=temp %>%gather(type, value, -total_depart,-expname)
+ggplot(Gravity2, aes(fill=type, y=value, x=expname)) + 
+  geom_bar( stat="identity") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(title="Aufteilung der Passagiere", x="",y="Passagiere")
+#>
+
+#< hint
+
+#>
+
+```
+
+Wir sehen hier deutlich, wie sich die Passagierzahlen der verschiedenen Flughäfen zusammensetzen. Internationale Transitflüge machen fast ein Drittel aller Abflüge von Frankfurt aus. Außer Frankfurt hat hier nur noch München einen wesentlichen Anteil. Selbiges trifft auf die inländischen Transitflüge zu. Auch bei den angereisten Transitflügen, weist Frankfurt eine sehr viel höhere Anzahl an Passagieren auf als die restlichen Flughäfen. Betrachten wir nur die lokalen Passagiere sticht Frankfurt keineswegs als größter Flughafen Deutschlands heraus. Demnach lässt sich frankfurts Vormachtstellung im deutschen Flugverkehr nicht durch regionale Fluggäste erklären. In **Aufgabe 6.2** wollen wir nun zeigen, dass aber durchaus ein enger Zusammenhang zwischen lokalen Flügen und der regionalen wirtschaftlichen Aktivität herrscht.
+
+
+
+## Exercise 6.2 -- Beziehung zwischen lokalen Flügen und der regionalen wirtschaftlichen Aktivität
+
+In **Aufgabe 6.1** haben wir gezeigt, dass sich Frankfurts Vormachtstellung nicht durch lokale Passagiere erklären lässt. In dieser Aufgabe wollen wir deshalb den Zusammenhang von lokalen Flügen und der regionalen wirtschaftlichen Aktivität untersuchen. Als Maß für die regionale wirtschaftliche Aktivität nutzen wir das Bruttoinlandsprodukt (BIP) der Region. Zunächst benötigen wir wieder den Datensatz `Gravity2002.dta`.
+
+**Aufgabe:** Drücke `check`
+```{r "62__1" }
+#< task
+Gravity=read.dta("Gravity2002.dta")
+#>
+
+#< hint
+
+#>
+
+```
+
+Die Spalte `bip_vbg50` gibt an, wie hoch das Bruttoinlandsprodukt der Region (im Umkreis von 50 km) um den Flughafen `expname` im Jahr 2002 war.
+
+**Aufgabe:** Benutze dieses Programmierfeld um die Frage darunter zu beantworten. Tipp: Verbinde die Befehle `filter` und `select`
+```{r "62__1",optional=TRUE}
+#< task
+
+#>
+
+#< hint
+
+#>
+
+```
+
+
+**Frage:**
+#< quiz "BIP"
+question: Wie hoch war das BIP der Region Leipzig im Jahr 2002?
+answer:  35593973
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+Mit unten stehendem Code fassen wir den Datensatz `Gravity` wieder zusammen und gruppieren nach unseren deutschen Flughafen. 
+
+**Aufgabe:** Drücke `check` um den Code laufen zu lassen
+```{r "62__2" }
+#< task
+Gravity=Gravity %>% group_by(exporter,expname) %>% summarise(dom_depart_e=mean(dom_depart_e),
+               dom_transit_e=mean(dom_transit_e),
+               for_depart_e=mean(for_depart_e),
+               for_transit_e=mean(for_transit_e),
+               total_depart_e=mean(total_depart_e),
+               dom_for_transit_e=mean(dom_for_transit_e),
+               for_for_transit_e=mean(for_for_transit_e),
+               nlocal=mean(nlocal),
+               bip_vbg50=mean(bip_vbg50))
+#>
+
+#< hint
+
+#>
+
+```
+
+Da wir den Zusammenhang von regionalen Passagierzahlen und der wirtschaftlichen Lage der Region untersuchen wollen, interessieren uns die Spalten `local_depart` (Berechnung erfolgt identisch wie in Aufgabe 7.1) und `bip_vbg50`.
+
+**Aufgabe:** Drücke `check` um den Code laufen zu lassen
+```{r "62__3" }
+#< task
+Gravity=mutate(Gravity,local_depart=nlocal*(total_depart_e-dom_transit_e-for_transit_e))
+#>
+
+#< hint
+
+#>
+
+```
+
+Wir führen nun eine einfache lineare Regression durch, um das Verhältnis von `local_depart` und `bip_vbg50` zu bestimmen. Dabei nehmen wir von beiden Werten jeweils den Logarithmus. 
+
+**Aufgabe:** Ersetze die ??? und führe die lineare Regression durch
+```{r "62__4",results="asis"}
+#< task
+#felm=felm(log(???)~log(???),???)
+#stargazer(felm,type="html")
+#>
+
+#< hint
+
+#>
+felm=felm(log(local_depart)~log(bip_vbg50),data=Gravity)
+stargazer(felm,type="html")
+```
+
+<br>
+**Frage:**
+#< quiz "lm"
+question: Wie lässt sich das Ergebnis korrekt interpretieren?
+sc:
+    - log(local_depart)=log(bip_vbg50)*1,59-14,92
+    - log(bip_vbg50)=log(local_depart)*1,59-14,92
+    - log(bip_vbg50)=-14,92*log(local_depart)+1,59
+    - log(local_depart)=log(bip_vbg50)*1,59-14,92*
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+Wir plotten die Regressionsgerade und die Werte für `local_depart` und `bip_vbg50` zusammen in eine Graphik. Wir benutzen wieder das Package `ggplot2`. Mit dem Befehl `+geom_smooth()` können wir eine Regressionsgerade hinzufügen. Mit `method="lm"` geben wir die Methode an, mit der R die Regression berechnen soll. "lm" steht dabei für "linear model". `se=TRUE` erzeugt ein Konfidenzintervall.
+
+**Aufgabe:** Drücke `check` um den Plot mit `ggplot` zu erstellen
+```{r "63__8" }
+#< task
+ggplot(Gravity, aes(x=log(bip_vbg50), y=log(local_depart))) +
+  geom_point() + 
+  geom_text(aes(x=log(bip_vbg50), y=log(local_depart),label=exporter),hjust=0.5, vjust=1.4) +
+  geom_smooth(method="lm" , color="red", se=TRUE) +
+  labs(title="regionale Flüge und lokales BIP",x="log lokales BIP",y="log regionale Flüge") +
+  theme_stata()
+#>
+
+#< hint
+
+#>
+
+```
+
+Da wir keine großen Ausreißer haben und die Regressionsgerade eine Steigung nahe eins hat, schließen wir daraus, dass die regionale wirtschaftliche Aktivität und die Anzahl der lokalen Passagiere eine enge Beziehung zueinander haben. Bestätigt wird das ganze noch durch das Ergebnis unserer Regressionsgeraden. Über 80% der Streuung von local_depart wird durch die Regression erklärt (siehe $R^2$) und der Koeffizient für log(bip_vbg50) ist hoch signifikant.
+
+
+## Exercise 6.3 -- Regionale wirtschaftliche Aktivität
+
+Um unsere bisherigen Erkenntnisse, dass Frankfurt nicht notwendigerweise die attraktivste Lage für Deutschlands Luftverkehrsknotenpunkt ist, zu untermauern, wollen wir das lokale Bruttoinlandsprodukt unserer 15 Flughafenstädte genauer betrachten. Genau genommen wollen wir das lokale BIP unserer Flughafenstädte mit denen aller anderen deutschen Städte mit mehr als 50.000 Einwohnern vergleichen.
+Zuerst benötigen wir den Datensatz `AllMunicipalities.dta`.
+
+**Aufgabe:** Lade die Datei `AllMunicipalities.dta` und speichere sie unter `allmuni`. Lasse sie dir anschließend ausgeben
+```{r "63__1" }
+#< task
+#allmuni=???
+#allmuni
+#>
+
+#< hint
+
+#>
+allmuni=read.dta("AllMunicipalities.dta")
+allmuni
+```
+
+
+Die Datei enthält alle deutschen Kommunen (`OriginName`), ihre Einwohnerzahl (`MunPop`), ihre Einwohnerzahl im Umkreis von 50 km (`MunPop50km`) und ihr lokales Bruttoinlandsprodukt im Umkreis von 50 km (`MunGDP50km`). Die Daten stammen aus dem Arbeitskreis Volkswirtschaftliche Gesamtrechnung der Länder (2005) und dem Bundesamt für Kartographie und Geodäsie.
+
+Da wir nur Kommunen mit mehr als 50.000 Einwohnern berücksichtigen wollen, löschen wir zuerst alle kleineren Kommunen aus unserer Datei.
+
+**Aufgabe:** Benutze `filter()` um alle Kommunen mit weniger als 50.000 Einwohnern aus der Datei `allmuni` zu löschen
+```{r "63__2" }
+#< task
+#allmuni=???
+#>
+
+#< hint
+
+#>
+allmuni=filter(allmuni,MunPop>50000)
+```
+
+Wir wollen jetzt jeder Kommune einen Rang zuordnen, d.h. die Kommune mit dem größten lokalen BIP bekommt Rang 1, die Kommune mit dem zweitgrößten lokalen BIP Rang 2 usw..
+Dafür müssen wir zunächst die Datei absteigend nach der Höhe des lokalen BIP sortieren.
+
+**Aufgabe:** Benutze `arrange` um `allmuni` absteigend zu sortieren
+```{r "63__3" }
+#< task
+#allmuni=???(allmuni, desc(???))
+#allmuni
+#>
+
+#< hint
+
+#>
+allmuni=arrange(allmuni, desc(MunGDP50km))
+allmuni
+```
+
+**Aufgabe:** Drücke `check` um eine neue Variable `rank` hinzuzufügen
+```{r "63__4" }
+#< task
+allmuni=mutate(allmuni,rank=1:nrow(allmuni))
+allmuni
+#>
+
+#< hint
+
+#>
+
+```
+
+**Aufgabe:** Benutze das folgende Programmierfeld um die untenstehende Frage zu beantworten
+```{r "63__5",optional=TRUE}
+#< task
+
+#>
+
+#< hint
+
+#>
+
+
+
+
+```
+
+**Frage:**
+#< quiz "rank"
+question: Wir betrachten alle deutschen Kommunen mit mehr als 50.000 Einwohnern. Welchen Rang der Kommunen mit dem größten lokalen BIP belegt Stuttgart?
+answer:  56
+success: Richtig!
+failure: Versuche es erneut.
+#>
+
+Erstelle nun einen Datensatz `allmuni2`, in dem nur unsere 15 Flughafenstädte zu finden sind. 
+
+**Aufgabe:** Drücke `check` um den Code laufen zu lassen
+```{r "63__6" }
+#< task
+allmuni2=filter(allmuni,expname!="")
+#>
+
+#< hint
+
+#>
+
+```
+
+Wir plotten nun das Verhältnis von log(rank) zu log(BIP). Das wäre mit den Standardbefehlen `plot()`, `text()` und `lines()` möglich.
+Wir wollen aber `ggplot2` benutzen um den Plot visuell ansprechender zu gestalten.
+
+**Aufgabe:** Drücke `check` um den Plot mit `ggplot` zu erstellen
+```{r "63__8",fig.width=10,fig.height=6}
+#< task
+ggplot(allmuni, aes(x=log(MunGDP50km), y=log(rank),colour=MunGDP50km)) +
+  geom_point(size=2) +
+  geom_point(data=allmuni2, aes(x=log(MunGDP50km), y=log(rank)),colour="red",size=3) +
+  geom_text(data=allmuni2, aes(x=log(MunGDP50km),y=log(rank),label=expname),colour="black",size=4,hjust=1, vjust=1.4) +
+  labs(title="lokales BIP deutscher Städte, 2002",x="log lokales BIP",y="log Rang",colour="BIP") +
+  theme_bw()
+#>
+
+#< hint
+
+#>
+
+```
+Wir sehen, dass die 15 Flughäfen nicht notwendigerweise in Städten liegen, die eine große Konzentration an regionaler wirtschaftlicher Aktivität haben. Die 30 Städte mit der größten regionalen wirtschaftlichen Aktivität liegen alle in der Rhein-Ruhr Region, z.B. Köln und Düsseldorf. Frankfurt belegt lediglich Platz 42.
+Wir haben in **Aufgabe 6** gelernt, dass auch die regionale wirtschaftliche Aktivität keine große Rolle dafür spielt, dass Frankfurt Deutschlands Luftverkehrsknotenpunkt ist.
+
+
+## Exercise 7 Zusammenfassung 
+
+Während viele theoretische Modelle besagen, dass ein Industriestandort nicht eindeutig von wirtschaftlichen Rahmenbedingungen festgelegt ist und multiple Steady States existieren, gibt es hierzu kaum empirische Beweise. 
+Wir haben die Teilung und Wiedervereinigung Deutschlands als natürliches Experiment gewählt um zu zeigen, dass es tatsächlich Multiple Steady States für Industriestandorte gibt. In **Aufgabe 1** haben wir die Entwicklung der Fluggastanteile bestimmt und in **Aufgabe 4** haben wir mit statistischen Methoden gezeigt, dass die Teilung Deutschlands signifikante Auswirkungen auf den Standortwechsel des deutschen Luftverkehrsknotenpunkts hatte. Im Gegensatz dazu besteht kein Grund für die Annahme, dass der Luftverkehrsknotenpunkt wieder nach Berlin wechseln könnte. Das war ein erster Hinweis auf Multiple Seady States. Um dies zu untermauern, haben wir in **Aufgabe 3** Deutschland mit anderen europäischen Ländern verglichen und aufgezeigt, dass eine Verlagerung des Luftverkehrsknotenpunkts keineswegs als gewöhnlich betrachtet werden kann. In **Aufgabe 2** haben wir dann herausgefunden, dass ein relativ kleiner Schock nötig war um die Wahl zugunsten Frankfurts zu treffen. In Aufgabe 5 und Aufgabe 6 haben wir die Wirtschaftlichen Rahmenbedingungen näher untersucht. Das Ergebnis von **Aufgabe 5** war, dass die Marktanbindung keine große Rolle bei der Wahl eines Luftverkehrsknotenpunkts spielt und Frankfurt hier keinesfalls Vorteile gegenüber anderen Standorten hat. Selbiges gilt für die regionale wirtschaftliche Aktivität, wie wir in **Aufgabe 6** herausgefunden haben. 
+
+Zusammenfassend lässt sich sagen, dass die Teilung Deutschlands zu einem Schock geführt hat, welcher die Verlagerung des deutschen Luftverkehrsknotenpunkts zur Folge hatte. Es gibt keine empirischen Belege um anzunehmen, dass der Standort wieder zurück nach Berlin wechseln könnte. Deshalb gehen wir von multiple Steady States für den Standort eines Luftverkehrsknotenpunkts in Deutschland aus. Außerdem haben wir gezeigt, dass wirtschaftliche Rahmenbedingungen wie die Marktanbindung und die regionale wirtschaftliche Aktivität keine Rolle bei der Wahl des Standorts gespielt haben.
+
+Danke, dass du dich für dieses Problem Set entschieden hast. Ich hoffe du konntest deine Programmierkenntnisse erweitern und hattest Spaß an den Aufgaben.
+Um zu sehen wie viele Awards du in diesem Problem Set gewonnen hast, drücke zuerst `edit` und dann `check`. Es gab insgesamt neun Awards zu gewinnen.
+
+**Aufgabe**: Drücke `check` um deine "Awards" anzeigen zu lassen
+```{r "9_"}
+#< task
+awards()
+#>
+```
+
+## Exercise 8 Quellen
+
+### Quellen
+
+- Airports Council International (2002): Worldwide Airport Traffic Report. http://www.aci.aero/ (abgerufen am 11. Oktober 2017)
+
+- Arbeitskreis Volkswirtschaftliche Gesamtrechnung der Länder (2005): Bruttoinlandsprodukt, Bruttowertschöpfung in den kreisfreien Städten und Landkreisen Deutschlands 1992 und 1994 bis 2003, https://www.destatis.de/DE/Publikationen/Thematisch/VolkswirtschaftlicheGesamtrechnungen/VGRderLaender/VGR_KreisergebnisseBand1.html (abgerufen am 8. Oktober 2017)
+
+- Auer, Ludwig von (2013): Ökonometrie. Eine Einführung. Wiesbaden (Springer Berlin Heidelberg).
+
+- Bröcker, Johannes / Fritsch, Michael (2012): Ökonomische Geographie. München (Vahlen).
+
+- Bureau van Dijk. https://www.bvdinfo.com/de-de/our-products/company-information/international-products/orbis (abgerufen am 13. Oktober 2017)
+
+- Combes,P-P./ Lafourcade M./ Mayer T. (2005): The Trade-Creating Effects of Business and Social Networks: Evidence from France. Journal of International Economics 66. S.1-29.
+
+- Davis,D./ Weinstein,D. (2002): Bones, Bombs, and Break Points: The Geography of Economic Activity. (American Economic Review 92)
+
+- Fahrmeir, Ludwig / Heumann, Christian / Künstler, Rita / Pigeot, Iris / Tutz, Gerhard (2016): Statistik. Der Weg zur Datenanalyse. Berlin Heidelberg New York (Springer-Verlag).
+
+- Fahrmeir, Ludwig / Kneib, Thomas / Lang, Stefan (2009): Regression. Modelle, Methoden und Anwendungen. Berlin Heidelberg New York (Springer-Verlag).
+
+- Kennedy, Peter (2008): A Guide to Econometrics. (Blackwell Publishing).
+
+- Krugman, Paul R. (1991): Increasing Returns and Economic Geography. (Journal of Political Economy 99).
+
+- Loth, Wilfried (1988): The Division of the World, 1941-1955. New York (Routledge).
+
+- Marshall, Alfred 1842-1924 (1920): PRINCIPLES OF ECONOMICS. London (Macmillan).
+
+- Rauch J. (2001): Business and Social Networks in International Trade. Journal of International Economics 39. S.1177-1203
+
+- Redding, Stephen J./ Sturm, Daniel M./ Wolf, Nikolaus (2011): History and industry location: Evidence from german airports (The Review of Economics and Statistics).
+
+- Revue Aeronautique Internationale, vol.30 (1938). Paris (Albert Roper)
+
+- Statistisches Bundesamt (2003): Luftverkehr auf allen Flugplätzen in 2002, Fachserie 8 (Verkehr), Reihe 6.2, https://www.destatis.de/DE/Startseite.html (abgerufen am 30. September 2017)
+
+- Statistisches Bundesamt (mehrere Jahre): Statistisches Jahrbuch für die Bundesrepublik Deutschland. Stuttgart und Mainz (Kohlhammer)
+
+- Statistisches Bundesamt (mehrere Jahre): Statistisches Jahrbuch des Deutschen Reiches. Berlin (Verlag für Sozialpolitik, Wirtschaft und Statistik)
+
+- Teutonico, Donato (2015): ggplot2 Essentials. Birmingham (Packt Publishing Ltd).
+
+- Weise, A. (1928): Unser Berlin: Ein Jahrbuch von Berliner Art und Arbeit. Berlin (Reimar Hobbing)
+
+- Wickham, Hadley (2009): ggplot2. Elegant Graphics for Data Analysis. Berlin, Heidelberg (Springer).
+
+- Wilken, D./ Berster, P./ Gelhausen, M.(2007): Airport Choice in Germany: New Empirical Evidence of the German Air Traveller Survey 2003. Journal of Airport Management 1. S.165-179.
+
+- Wollschläger, Daniel (2017): Grundlagen der Datenanalyse mit R. Eine anwendungsorientierte Einführung. Berlin Heidelberg New York (Springer-Verlag).
+
+- Wooldridge, Jeffrey M. (2015): Introductory Econometrics: A Modern Approach. Clifton Park, NY (Cengage Learning).
+
+
+### Packages in R
+
+-  Arnold, Jeffrey B.(2017). ggthemes: Extra Themes, Scales and Geoms for
+  'ggplot2'. R package version 3.4.0.
+  https://CRAN.R-project.org/package=ggthemes
+
+-  Auguie , Baptiste (2016). gridExtra: Miscellaneous Functions for "Grid"
+  Graphics. R package version 2.2.1.
+  https://CRAN.R-project.org/package=gridExtra
+
+- Gaure, S.. lfe: Linear group fixed effects. R package version 2.5-1998, 2016
+
+- Gesmann, Markus and de Castillo, Diego. Using the Google Visualisation API with R. The
+  R Journal, 3(2):40-44, December 2011.
+  
+- Hlavac, Marek (2015). stargazer: Well-Formatted Regression and Summary
+  Statistics Tables. R package version 5.2.
+  http://CRAN.R-project.org/package=stargazer
+  
+- Hothorn, Torsten/ Bretz, Frank and  Westfall, Peter (2008). multcomp: Simultaneous Inference in
+  General Parametric Models. Biometrical Journal 50(3), 346--363.
+
+- Kahle, D.and Wickham, H.. ggmap: Spatial Visualization with ggplot2. The R
+  Journal, 5(1), 144-161. URL
+  http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf
+  
+- Kranz, Sebastian  (2016). regtools: Some tools for regressions and presentation
+  of regressions results. R package version 0.2.
+  
+- Kranz, Sebastian (2015). RTutor: R problem sets with automatic test of solution and hints. R package
+  version 2015.12.16.
+  
+- R Core Team (2016). foreign: Read Data Stored by Minitab, S, SAS, SPSS,
+  Stata, Systat, Weka, dBase, .... R package version 0.8-67.
+  https://CRAN.R-project.org/package=foreign  
+
+- Wickham, H. (2009). ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New
+  York.
+  
+- Wickham, Hadley and  Francois, Romain (2016). dplyr: A Grammar of Data
+  Manipulation. R package version 0.5.0.
+  https://CRAN.R-project.org/package=dplyr
+  
+- Wickham, Hadley (2017). tidyr: Easily Tidy Data with 'spread()' and 'gather()'
+  Functions. R package version 0.6.1. https://CRAN.R-project.org/package=tidyr
+
+### Websites
+
+
+- http://www.datasciencecentral.com/profiles/blogs/understanding-linear-regression (abgerufen am 15. Oktober 2017)
+
+- https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/17402 (abgerufen am 05. Juli 2017)
+
+- http://www.geschichtsatlas.de/~gf5/neuheim.html (abgerufen am 25. August 2017)
+
+- http://worldaerodata.com/ (abgerufen am 11. Oktober 2017)
+
+- https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf (abgerufen am 19. September 2017)
+
+- https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf (abgerufen am 19. September 2017)

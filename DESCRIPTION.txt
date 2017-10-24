@@ -1,0 +1,11 @@
+Package: RTutorAirports
+Type: Package
+Title: RTutor problem set Airports
+Version: 0.1
+Date: 2017-24-10
+Author: Patrick Lau
+Maintainer: Patrick Lau <Patrick--lau@web.de>
+Description: RTutor problem set Airports
+License: Problem set content: Creative Commons (CC BY-NC-SA)
+	Package code: GPL >= 2.0
+Depends: RTutor, ggplot2, foreign, ggthemes, lfe, stargazer, tidyr, gridExtra, ggmap, regtools, googleVis, dplyr, multcomp
