@@ -1,3 +1,6 @@
+---
+output: word_document
+---
 
 # Problem Set Airports
 
