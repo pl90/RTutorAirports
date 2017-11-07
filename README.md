@@ -1,6 +1,6 @@
 This package constitutes an interactive R problem set based on the RTutor package (https://github.com/skranz/RTutor). 
 
-In their paper "History and Industry Location: Evidence from German Airports" the authors Stephen J. Redding, Daniel M. Sturm and Nikolaus Wolf developed a body of evidence that the relocation of Germany´s air hub frum Berlin to Frankfurt in response to division is a shift between multiple steady states.
+In their paper "History and Industry Location: Evidence from German Airports" the authors Stephen J. Redding, Daniel M. Sturm and Nikolaus Wolf developed a body of evidence that the relocation of Germany´s air hub from Berlin to Frankfurt is a shift between multiple steady states.
 
 The paper can be found under the following link:
 https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/17402

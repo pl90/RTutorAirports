@@ -18,20 +18,20 @@ check.problem.set('Airports', ps.dir, ps.file, user.name=user.name, reset=FALSE)
 ## Willkommen
 
 Willkommen zu diesem interaktiven RTutor Problem Set, welches Teil meiner Masterarbeit bei Herrn Prof. Kranz an der Universität Ulm war.
-Dieses Problem Set ist mit Hilfe des Papers **"History and Industry Location: Evidence from German Airports"** von Stephen J. Redding, Daniel M. Sturm und Nikolaus Wolf entwickelt, welches im August 2011 im "The Review of Economics and Statistics" veröffentlicht wurde. Sowohl das Paper als auch die Stata Codes können unter folgendem Link gedownloadet werden:
+Dieses Problem Set ist mit Hilfe des Papers **"History and Industry Location: Evidence from German Airports"** von Stephen J. Redding, Daniel M. Sturm und Nikolaus Wolf entwickelt, welches im August 2011 im "The Review of Economics and Statistics" veröffentlicht wurde. Sowohl das Paper als auch die Stata Codes können unter folgendem Link heruntergeladen werden:
 
 <a href="https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/17402" target="_blank">https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/17402</a>.
 
 ## Einführung
 
-Als die Alliierten im Zweiten Weltkrieg japanische Städte bombardierten und damit komplett zerstörten wurde mit Überraschen festgestellt, dass die Bevölkerung recht schnell wieder in ihre Städte zurückkehrte und die wirtschaftliche Aktivität sich dort schnell wieder erholte. Selbst ein großer Schock wie diese Zerstörung, führte also nicht zu einer Standortverlagerung der dort ansässigen Industrien. Das bestätigt verschiedene Theorien, welche besagen, dass es für Branchen- und Industriestandorte einen eindeutigen Steady State, herbeigeführt durch wirtschaftliche Rahmenbedingungen, gibt. Selbst nach einer vorübergehenden Verlagerung der Aktivitäten aufgrund eines Schocks werden sich die Standorte nach einer gewissen Zeit wieder zum Steady State begeben (vgl. Davis und Weinstein (2002)).
+Als die Alliierten im Zweiten Weltkrieg japanische Städte bombardierten und damit komplett zerstörten wurde mit Überraschen festgestellt, dass die Bevölkerung recht schnell wieder in ihre Städte zurückkehrte und die wirtschaftliche Aktivität sich dort schnell wieder erholte. Selbst ein großer Schock wie diese Zerstörung, führte also nicht zu einer Standortverlagerung der dort ansässigen Industrien. Das bestätigt verschiedene Theorien, welche besagen, dass es für Branchen- und Industriestandorte einen eindeutigen Gleichgewichtspunkt (Steady State), herbeigeführt durch wirtschaftliche Rahmenbedingungen, gibt. Selbst nach einer vorübergehenden Verlagerung der Aktivitäten aufgrund eines Schocks werden sich die Standorte nach einer gewissen Zeit wieder zum Steady State begeben (vgl. Davis und Weinstein (2002, S. 1269-1289)).
 
-Im Gegensatz dazu gibt es die These, dass Branchen- und Industriestandorte nicht eindeutig von wirtschaftlichen Rahmenbedingungen bestimmt werden und multiple Steady States für Standorte existieren. Welcher dieser Steady States gewählt wird, hängt von Anfangsbedingungen und vergangenen Schocks ab. Erfahrungen haben gezeigt, dass kleine, zeitlich begrenzte Schocks große, dauerhafte Auswirkungen haben können. Standorte können von einem Steady State zu einem anderen verschoben werden  (vgl. Marshall 1920 und Krugman 1991, S. 483-499). 
+Im Gegensatz dazu gibt es die These, dass Branchen- und Industriestandorte nicht eindeutig von wirtschaftlichen Rahmenbedingungen bestimmt werden und multiple Steady States für Standorte existieren. Welcher dieser Steady States gewählt wird, hängt von Anfangsbedingungen und vergangenen Schocks ab. Erfahrungen haben gezeigt, dass kleine, zeitlich begrenzte Schocks große, dauerhafte Auswirkungen haben können. Standorte können von einem Steady State zu einem anderen verschoben werden  (vgl. Marshall (1920) und Krugman (1991, S. 483-499)). 
 
 In diesem Problem Set wollen wir die These von Marshall (1920) am Beispiel deutscher Flughäfen untermauern. Besonders interessant hierfür sind für uns der Zweite Weltkrieg mit der Teilung Deutschlands und die Wiedervereinigung im Jahre 1990 als exogene Einflussfaktoren. Dieses sogenannte "natürliche Experiment" beinhaltet einige vorteilhafte Eigenschaften für uns. Die Teilung Deutschlands hat einen großen exogenen Schock verursacht, welcher erhebliche Auswirkungen auf die Attraktivität von Standorten hatte. Deutschland war über 40 Jahre geteilt und man musste davon ausgehen, dass dieser Zustand von Dauer ist. Dies hatte großen Einfluss auf die Wahl von Standorten. 
 Die Wiedervereinigung führte zu einem zweiten Schock, der die Wahl von Standorten beeinflussen sollte und teilweise den Auswirkungen der Teilung Deutschlands entgegenwirkte. 
 Mit Hilfe dieser zwei Schocks wollen wir nun untersuchen, ob die Teilung Deutschlands zu einer dauerhaften Verlagerung von Wirtschaftsstandorten zwischen zwei Steady States geführt hat. Wir fokussieren uns dabei auf Luftverkehrsknotenpunkte (air hubs). Als Luftverkehrsknotenpunkt oder Luftfahrt-Drehkreuz werden Flughäfen bezeichnet, die zahlreiche Umsteigemöglichkeiten bieten. 
-Die Wahl von Luftverkehrsknotenpunkten zur Untersuchung unserer Theorie bietet uns einen entscheidenden Vorteil: Es gibt sehr viele historische, aber auch aktuelle Daten und Statistiken zu Flughäfen und Passagieren, die wir für unsere Berechnungen gut gebrauchen können.
+Die Wahl von Luftverkehrsknotenpunkten zur Untersuchung unserer Theorie bietet uns einen entscheidenden Vorteil: Es gibt sehr viele historische, aber auch aktuelle Daten und Statistiken zu Flughäfen und Passagieren, die wir für unsere Berechnungen gut gebrauchen können (vgl. Redding, Sturm und Wolf  (2011, S. 814)).
 
 
 ## Exercise Content
@@ -75,7 +75,7 @@ Das Problem Set ist wie folgt gegliedert:
 
 ## Exercise 1 -- Entwicklung der Fluggastanteile
 
-Hier eine kleines Quiz zum Aufwärmen. In den folgenden Aufgaben werden immer wieder Quiz auftauchen um dein Verständnis zu überprüfen. Solltest du eine Frage falsch beantworten, wird dir `RTutor` das zeigen und du kannst eine andere Antwort auswählen. Die Antworten müssen immer auf Deutsch mit korrekter Groß- und Kleinschreibung gegeben werden.
+Hier eine kleines Quiz zum Aufwärmen. In den folgenden Aufgaben werden immer wieder Quiz auftauchen, um dein Verständnis zu überprüfen. Solltest du eine Frage falsch beantworten, wird dir `RTutor` das zeigen und du kannst eine andere Antwort auswählen. Die Antworten müssen immer auf Deutsch mit korrekter Groß- und Kleinschreibung gegeben werden.
 
 **Aufgabe:** Löse das folgende Quiz
 
@@ -126,14 +126,14 @@ Geben wir `atsf` in das Programmfenster ein, zeigt uns RTutor die ersten 25 Zeil
 
 ```
 
-Die Tabelle besteht aus den sieben Spalten: airport, iata, year, depart, arrival, f_depart und f_arrival. Die Spalte `airport` beschreibt den Standort des jeweiligen Flughafens. `iata` ist ein Kürzel für den jeweiligen Flughafen. In `year` können wir ablesen, in welchem Jahr unsere Daten aufgezeichnet wurden. Die Spalten `arrival` und `depart` geben an wie viele Personen im jeweiligen Jahr vom jeweiligen Flughafen gestartet bzw. gelandet sind.
-Die Spalten `f_depart` und `f_arrival` beschreiben die Fracht in Tonnen, die im jeweiligen Jahr angekommen bzw. abgeflogen wurde. 
+Die Tabelle besteht aus den sieben Spalten: airport, iata, year, depart, arrival, f_depart und f_arrival. Die Spalte `airport` beschreibt den Standort des jeweiligen Flughafens. `iata` ist ein Kürzel für den jeweiligen Flughafen. In `year` können wir ablesen, in welchem Jahr unsere Daten aufgezeichnet wurden. Die Spalten `depart` und `arrival` geben an wie viele Personen im jeweiligen Jahr vom jeweiligen Flughafen gestartet bzw. gelandet sind.
+Die Spalten `f_arrival` und `f_depart` beschreiben die Fracht in Tonnen, die im jeweiligen Jahr angekommen bzw. abgeflogen ist. 
 Unsere Daten reichen vom Jahr 1927 bis ins Jahr 2002. Aufgrund des Zweiten Weltkriegs gibt es keine verfügbaren Daten von 1939-1949. Die Daten aus den Jahren 1927-1938 stammen vom Statistischen Jahrbuch des Deutschen Reiches. Die Daten von 1950-2002 stammen aus dem Statistischen Jahrbuch für die Bundesrepublik Deutschland, veröffentlicht vom Statistischen Bundesamt (verschiedene Jahre).
 
 **Frage:**
 #! addon__quiz__Berlin_1950
 
-Da wir nur den Passagierbetrieb untersuchen sind die Spalten `f_depart` und `f_arrival` für uns irrelevant und wir wollen diese aus unserem Datensatz entfernen. Hierzu eignet sich der Befehl `select` aus dem Package `dplyr`. Mit diesem Befehl können wir bestimmte Spalten einer Tabelle auswählen. Du kannst wieder in der InfoBox genaueres über den Befehl `select` nachlesen.
+Da wir nur den Passagierbetrieb untersuchen, sind die Spalten `f_depart` und `f_arrival` für uns irrelevant und wir wollen diese aus unserem Datensatz entfernen. Hierzu eignet sich der Befehl `select` aus dem Package `dplyr`. Mit diesem Befehl können wir bestimmte Spalten einer Tabelle auswählen. Du kannst wieder in der InfoBox genaueres über den Befehl `select` nachlesen.
 
 info("select()") # Run this line (Strg-Enter) to show info
 
@@ -148,7 +148,7 @@ info("select()") # Run this line (Strg-Enter) to show info
 ```
 Jetzt haben wir die Spalten `f_depart` und `f_arrival` aus der Tabelle `atsf` entfernt.
 
-Da wir im folgenden nur mit den zehn größten deutschen Flughäfen rechnen wollen, müssen wir noch die Flughäfen Dresden, Erfurt, Leipzig, Münster und Saarbrücken aus unserer Tabelle entfernen. Von Diesen sind keine vollständigen Daten vorhanden. Hierfür ist der Befehl `filter()` aus dem Package `dplyr` hilfreich. Schau dir in der InfoBox an wie der Befehl genutzt wird.
+Da wir im Folgenden nur mit den zehn größten deutschen Flughäfen rechnen wollen, müssen wir noch die Flughäfen Dresden, Erfurt, Leipzig, Münster und Saarbrücken aus unserer Tabelle entfernen. Von diesen sind keine vollständigen Daten vorhanden. Hierfür ist der Befehl `filter()` aus dem Package `dplyr` hilfreich. Schau dir in der InfoBox an wie der Befehl genutzt wird.
 
 
 info("filter()") # Run this line (Strg-Enter) to show info
@@ -204,7 +204,7 @@ Füge dem Datensatz `atsf` eine neue Spalte `pshare` hinzu, in der du den prozen
 
 ```
 
-Als letzten Schritt dieser Aufgabe wollen wir die Fluggastanteile für jeden Flughafen für die Jahre 1927 bis 2002 in eine Graphik plotten. Das machen wir zunächst mit Standardbefehlen wie `plot()` und `lines()`. 
+Wir wollen jetzt die Fluggastanteile für jeden Flughafen für die Jahre 1927 bis 2002 in eine Graphik plotten. Das machen wir zunächst mit Standardbefehlen wie `plot()` und `lines()`. 
 
 **Aufgabe:** Drücke `check` um das Ergebnis anzeigen zu lassen 
 ```{r "1__15"}
@@ -238,7 +238,7 @@ Wir wollen noch das Package `ggplot2` kennenlernen, mit welchem wir die Graphik 
 
 ## ggplot2
 
-Zum Abschluss dieser Aufgabe wollen wir noch kurz das Package `ggplot2` kennenlernen. `ggplot2` ist sehr mächtig wenn es darum geht, verschiedene Arten von Graphiken zu plotten. Als Einstieg wollen wir die Graphik von oben mit `ggplot2` plotten. Der Code wirkt auf den ersten Blick sehr kompliziert, ist aber bei näherer Betrachtung sehr strukturiert aufgebaut. Für eine ausführliche Anleitung vgl. Wickham (2009) oder Teutonico (2015)
+Zum Abschluss dieser Aufgabe wollen wir noch kurz das Package `ggplot2` kennenlernen. `ggplot2` ist sehr mächtig wenn es darum geht, verschiedene Arten von Graphiken zu plotten. Als Einstieg wollen wir die Graphik von oben mit `ggplot2` plotten. Der Code wirkt auf den ersten Blick sehr kompliziert, ist aber bei näherer Betrachtung sehr strukturiert aufgebaut. Für eine ausführliche Anleitung vgl. Wickham (2009) oder Teutonico (2015).
 
 info("ggplot2()") # Run this line (Strg-Enter) to show info
 
@@ -251,7 +251,7 @@ ggplot(data=atsf,aes(x=year, y=pshare, colour=airport)) +
   labs(x="Jahr",y="Passagieranteil in %",title="Passagieranteile deutscher Flughäfen",colour="Flughafen")
 ```
 
-Um den Bereich 1938-1950 auszublenden, fügen wir mittels `+annotate()` einen weißen Balken ein. Mit `+theme_bw()` kann das Aussehen einer Graphik geändert werden. So können wir Graphiken zum Beispiel ähnlich denen eines wissenschaftlichen Journals aussehen lassen.
+Um den Bereich 1938 bis 1950 auszublenden, fügen wir mittels `+annotate()` einen weißen Balken ein. Mit `+theme_bw()` kann das Aussehen einer Graphik geändert werden. So können wir Graphiken zum Beispiel ähnlich denen eines wissenschaftlichen Journals aussehen lassen.
 
 **Aufgabe:** Drücke `check` um das Ergebnis anzeigen zu lassen 
 ```{r "1__17"}
@@ -289,10 +289,10 @@ ggplot(data=atsf,aes(x=year, y=pshare, colour=airport)) +
 #! addon__quiz__leader
 
 
-Wie der Graphik zu entnehmen ist, war Berlin vor dem Zweiten Weltkrieg der mit großem Abstand meistgenutzte Flughafen in Deutschland. Tatsächlich war im Jahr 1927 der Passagieranteil von Berlin mehr als doppelt so groß wie der des Frankfurter Flughafens. Vor 1938 waren die Flughäfen Frankfurt, München, Hamburg und Köln auf den Plätzen zwei bis fünf. Alle hatten einen Marktanteil von ungefähr 10%. 
+Wie der Graphik zu entnehmen ist, war Berlin vor dem Zweiten Weltkrieg der mit großem Abstand meistgenutzte Flughafen in Deutschland. Der Passagieranteil von Berlin im Jahr 1927 betrug fast 30% und war damit mehr als doppelt so groß wie der Passagieranteil des Frankfurter Flughafens. Vor 1938 waren die Flughäfen Frankfurt, München, Hamburg und Köln auf den Plätzen zwei bis fünf. Alle hatten einen Marktanteil von ungefähr 10% (vgl. Redding, Sturm und Wolf  (2011, S. 819)). 
 
 
-Die Vorrangstellung von Berlin änderte sich nach der Spaltung von Deutschland. Während Berlin im Jahr 1950 immer noch den größten Flughafen Deutschlands hatte, war Frankfurt bereits mit deutlichem Vorsprung der zweitgrößte Flughafen. Von 1950 an ging der Passagieranteil von Berlin stetig zurück. Im Jahr 1960 wurde Berlin von Frankfurt als größter deutscher Flughafen abgelöst. In den 1980er Jahren hatte Frankfurt einen stabilen Marktanteil von 35-40%, während Berlins Marktanteil unter 10% gefallen war. Der kleine Anstieg von Berlins Fluggastanteil im Jahr 1990 ist der Tatsache geschuldet, dass wir die Daten von Tempelhof und Tegel (Westberlin) und Schönefeld (Ostberlin) ab diesem Jahr zusammengerechnet haben (Wiedervereinigung). Abgesehen von dieser kleinen Erhöhung ist der Marktanteil von Berlin seit der Wiedervereinigung im Jahr 1990 stetig gefallen. Im gleichen Zeitraum hat sich Frankfurt klar als bedeutendster deutscher Flughafen etabliert. 
+Während Berlin im Jahr 1950 immer noch den größten Flughafen Deutschlands hatte, war Frankfurt bereits mit deutlichem Vorsprung der zweitgrößte Flughafen. Von 1950 an ging der Passagieranteil von Berlin stetig zurück und im Jahr 1960 wurde Berlin von Frankfurt als größter deutscher Flughafen abgelöst. In den 1980er Jahren hatte Frankfurt einen  Marktanteil von 35 bis 40%, während Berlins Marktanteil unter 10% gefallen war. Der kleine Anstieg von Berlins Fluggastanteil im Jahr 1990 ist der Tatsache geschuldet, dass wir die Daten von Tempelhof und Tegel (Westberlin) und Schönefeld (Ostberlin) ab diesem Jahr zusammengerechnet haben (Wiedervereinigung). Abgesehen von dieser kleinen Erhöhung ist der Marktanteil von Berlin seit der Wiedervereinigung im Jahr 1990 stetig gefallen. Im gleichen Zeitraum hat sich Frankfurt klar als bedeutendster deutscher Flughafen etabliert (vgl. Redding, Sturm und Wolf  (2011, S. 819 f)).
 
 Auf Grundlage aller Daten, die wir bis hierhin haben, gibt es keine Anzeichen die darauf hindeuten, dass Berlin eines Tages wieder der größte deutsche Flughafen werden könnte. Dies ist ein erstes Anzeichen dafür, dass die Verlagerung von Berlin nach Frankfurt eine dauerhafte Verlagerung des Luftverkehrsknotenpunkts zwischen Multiple Steady States ist. Dies würde der These von Davis und Weinstein (2002) wiedersprechen, die besagt, dass ein eindeutiger Steady State existiert.
 
@@ -301,7 +301,7 @@ Auf Grundlage aller Daten, die wir bis hierhin haben, gibt es keine Anzeichen di
 
 Während die Ergebnisse aus ***Aufgabe 1*** andeuten, dass Deutschlands Luftverkehrsknotenpunkt zwischen zwei Steady States gewechselt hat, wäre eine alternative Erklärung, dass der Standortwechsel von Deutschlands größtem Flughafen auf einen Wechsel von wirtschaftliche Rahmenbedingungen zurückzuführen ist. In diesem und den folgenden Aufgaben werden wir aber zeigen, dass es sich tatsächlich um einen Wechsel zwischen zwei Steady States handelt.
 
-In ***Aufgabe 1*** haben wir gelernt, dass Deutschlands Luftverkehrsknotenpunkt nach der Teilung Deutschlands von Berlin nach Frankfurt gezogen ist. Doch warum gerade Frankfurt? Warum nicht ein anderer Flughafen? Vor der Teilung Deutschlands gab es dafür keine Anzeichen. Die Flughäfen Frankfurt, Köln, München und Hamburg hatten alle in etwa das gleiche Passagieraufkommen, wie wir unserer Graphik entnehmen können. 
+In ***Aufgabe 1*** haben wir gelernt, dass Deutschlands Luftverkehrsknotenpunkt nach der Teilung Deutschlands von Berlin nach Frankfurt gezogen ist. Doch warum gerade Frankfurt? Warum nicht ein anderer Flughafen? Vor der Teilung Deutschlands gab es dafür keine Anzeichen. Die Flughäfen Frankfurt, Köln, München und Hamburg hatten alle in etwa das gleiche Passagieraufkommen, wie wir unserer Graphik aus Aufgabe 1 entnehmen können. 
 
 Um diese Frage zu beantworten lohnt sich ein Blick auf die deutsche Geschichte.
 
@@ -320,9 +320,9 @@ Berlin lag ungefähr 200 Kilometer östlich der Grenze zwischen West- und Ostdeu
 
 Im August 1961 wurde Berlin durch die Berliner Mauer in zwei Teile geteilt. Westberlin beinhaltete die Sektoren von Frankreich, Großbritannien und den USA. Ostberlin gehörte zum Sowjetischen Sektor. 
 
-Westberlin lag also mitten in der Sowjetischen Zone, was sich als großes Problem herausstellen sollte. Es gab Anfangs zwar eine Vereinbarung zwischen den Alliierten und den Sowjets über Zugangsrouten von Westdeutschland nach Westberlin, diese wurden ab 1948 aber von den Sowjets blockiert. Während dieser Blockade wurde Westberlin für über ein Jahr per Luftbrücke mit Hilfsgütern und Nahrungsmitteln beliefert bis man sich wieder auf Verkehrsrouten am Boden einigen konnte.
+Westberlin lag also mitten in der Sowjetischen Zone, was sich als großes Problem herausstellen sollte. Es gab Anfangs zwar eine Vereinbarung zwischen den Alliierten und der Sowjetunion über Zugangsrouten von Westdeutschland nach Westberlin, diese wurden ab 1948 aber von der Sowjetunion blockiert. Während dieser Blockade wurde Westberlin für über ein Jahr per Luftbrücke mit Hilfsgütern und Nahrungsmitteln beliefert, bis man sich wieder auf Verkehrsrouten am Boden einigen konnte.
 
-1985 startete der Prozess zur Wiedervereinigung von Deutschland. 1989 fiel die Mauer in Folge von starken Demonstrationen in Ostdeutschland und bereits im Oktober 1990 war Deutschland offiziell wiedervereinigt (vgl. Loth (1988)). 
+1985 startete der Prozess zur Wiedervereinigung von Deutschland. 1989 fiel die Mauer in Folge von starken Demonstrationen in Ostdeutschland und bereits im Oktober 1990 war Deutschland offiziell wiedervereinigt (vgl. Loth (1988) und Redding, Sturm und Wolf  (2011, S. 816)). 
 
 **Frage:**
 #! addon__quiz__Besatzungszonen
@@ -344,7 +344,7 @@ print(Karte, tag="chart")
 #! addon__quiz__Frankfurt_Zone
 
 
-Die Antwort auf die oben stehende Frage ist laut den Autoren des Papers der Grund dafür, dass Frankfurt und nicht Köln oder Hamburg heute den Hauptflughafen von Deutschland stellt (vgl. Redding, Sturm und Wolf (2011), S.823). Die USA haben Frankfurt 1948 zu ihrem Europäischen Hauptflughafen gemacht, fast der komplette militärische Transport flog über Frankfurt. Deshalb war Frankfurt auch der Hauptflughafen von dem aus die Berliner Luftbrücke gestartet wurde. Dies war auch der Grund warum der Frankfurter Flughafen zu dieser Zeit nochmals ausgebaut und vergrößert wurde. Während Frankfurt bereits 1950 schon sehr viel größer war als z.B. München, Köln oder Hamburg, dauerte es noch eine ganze Zeit bis Frankfurt endlich Berlin eingeholt hatte. Wir stellen fest: Während es einen großen Schock wie die Teilung Deutschlands benötigte um die wirtschaftliche Aktivität von einem bestehenden Steady State zu entfernen, genügte ein verhältnismäßig kleiner Schock, wie die Wahl Frankfurts zum Hauptflughafen der US-Streitkräfte in Europa, um einen neuen möglichen Steady State zu wählen. 
+Die Antwort auf die oben stehende Frage ist laut Redding, Sturm und Wolf (2011, S. 822 f) des Papers der Grund dafür, dass Frankfurt und nicht Köln oder Hamburg heute den Hauptflughafen von Deutschland stellt. Die USA haben Frankfurt 1948 zu ihrem Europäischen Hauptflughafen gemacht, fast der komplette militärische Transport flog über Frankfurt. Deshalb war Frankfurt auch der Hauptflughafen von dem aus die Berliner Luftbrücke gestartet wurde. Dies war auch der Grund warum der Frankfurter Flughafen zu dieser Zeit nochmals ausgebaut und vergrößert wurde. Obwohl Frankfurt bereits 1950 der zweitgrößte deutsche Flughafen war, dauerte es noch eine ganze Zeit bis Frankfurt endlich Berlin eingeholt hatte. Wir stellen fest: Während es einen großen Schock wie die Teilung Deutschlands benötigte um die wirtschaftliche Aktivität von einem bestehenden Steady State zu entfernen, genügte ein verhältnismäßig kleiner Schock, wie die Wahl Frankfurts zum Hauptflughafen der US-Streitkräfte in Europa, um einen neuen möglichen Steady State zu wählen (vgl. Redding, Sturm und Wolf (2011, S. 822 f)). 
 
 Wir haben in dieser Aufgabe gelernt, warum gerade Frankfurt zum größten deutschen Flughafen nach der Teilung Deutschlands aufgestiegen ist.
 
@@ -413,7 +413,7 @@ In dieser **Aufgabe** wollen wir einen weiteren Beleg dafür erbringen, dass es 
 ```
 
 
-Die Tabelle beinhaltet die 15 EU Länder (ausgenommen Luxemburg, kein Flughafen vor dem Zweiten Weltkrieg ) mit der Schweiz und Norwegen und ihre jeweils größten Flughäfen in den Jahren 1937 bzw. 2002. 
+Die Tabelle beinhaltet die 15 EU Länder (ausgenommen Luxemburg, da kein Flughafen vor dem Zweiten Weltkrieg) mit der Schweiz und Norwegen und ihre jeweils größten Flughäfen in den Jahren 1937 bzw. 2002. 
 In der Spalte `first_air_37` finden wir den Flughafen mit dem größten Marktanteil des Landes `country` im Jahr 1937. Das Selbe gilt für `first_air_02` für das Jahr 2002. Die Daten für das Jahr 1937 stammen vom Revue Aeronautique Internationale (1938), die Daten für das Jahr 2002 entstammen dem "Worldwide Airport Traffic Report 2002" (vgl. Airports Council International (2002)).
 
 **Frage:**
@@ -423,10 +423,9 @@ In der Spalte `first_air_37` finden wir den Flughafen mit dem größten Marktant
 **Frage:**
 #! addon__quiz__Deutschland
 
-Deutschland ist also das einzige Land, indem der größte Flughafen des Jahres 2002 nicht der Selbe ist wie im Jahr 1937.
-Tatsächlich ist Berlin im Jahr 2002 nur noch auf Platz vier der größten Flughäfen Deutschlands (***siehe Aufgabe 1***). In allen anderen Ländern ist der größte Flughafen im Jahr 2002 noch der Selbe wie im Jahr 1937.
+Damit ist Deutschland das einzige Land in dem die größten Flughäfen der Jahre 1937 und 2002 voneinander abweichen. Tatsächlich ist Berlin im Jahr 2002 nur noch auf Platz vier der größten Flughäfen Deutschlands (***siehe Aufgabe 1***). In allen anderen Ländern ist der größte Flughafen im Jahr 2002 noch der selbe wie im Jahr 1937 (vgl. Redding, Sturm und Wolf  (2011, S. 822)).
 
-Wir wollen an dieser Stelle eine neue Schreibweise für Befehle aus dem Package `dplyr`  kennenlernen. Hier werden Befehle mit sogenannten "Pipes" (`%>%`) voneinander getrennt. Dies ist vor allem dann nützlich, wenn wir mehrere Befehle verschachteln müssen. Wollen wir z.B. den Marktanteil von `Paris` aus dem Jahr 2002 herausfinden, würden wir folgenden Befehl wählen um uns das Ergebnis anzeigen zu lassen: `filter(select(int,first_air_02,mshare_02),first_air_02=="Paris")`. Mit der "Pipe"-Schreibweise sieht der Selbe Befehl wie folgt aus:
+Wir wollen an dieser Stelle eine neue Schreibweise für Befehle aus dem Package `dplyr`  kennenlernen. Hier werden Befehle mit sogenannten "Pipes" (`%>%`) voneinander getrennt. Dies ist vor allem dann nützlich, wenn wir mehrere Befehle verschachteln müssen. Wollen wir z.B. den Marktanteil von `Paris` aus dem Jahr 2002 herausfinden, würden wir folgenden Befehl wählen um uns das Ergebnis anzeigen zu lassen: `filter(select(int,first_air_02,mshare_02),first_air_02=="Paris")`. Mit der "Pipe"-Schreibweise sieht der selbe Befehl wie folgt aus:
 `int %>% filter(first_air_02=="Paris") %>% select(first_air_02,mshare_02)`. Wir müssen also die Befehle nicht verschachteln sondern können beliebig viele mittels `%>%` aneinanderreihen. 
 
 **Aufgabe:**  Berechne mit der Pipe-Schreibweise den Marktanteil von Oslo im Jahr 2002. Ersetze dazu die ??? und entferne `#` 
@@ -436,7 +435,7 @@ Wir wollen an dieser Stelle eine neue Schreibweise für Befehle aus dem Package 
 ```
 
 
-Der Datensatz `int` gibt uns also den größten Flughafen des jeweiligen Landes im Jahr 1937 sowie seine Marktanteile im Jahr 1937 bzw. 2002. Was wir jetzt zeigen wollen ist, dass die Marktanteile von 1937 qualitativ gute Schätzer für die Marktanteile im Jahr 2002 sind. 
+Der Datensatz `int` gibt uns also den größten Flughafen des jeweiligen Landes im Jahr 1937 sowie seine Marktanteile im Jahr 1937 bzw. 2002 an. Was wir jetzt zeigen wollen ist, dass die Marktanteile von 1937 qualitativ gute Schätzer für die Marktanteile im Jahr 2002 sind. 
 
 **Aufgabe:** Erstelle zunächst einen Plot indem du die Werte von `mshare_37` auf der x-Achse und die Werte von `mshare_02` auf der y-Achse plottest. Mit dem `$` Zeichen kannst du dir bestimmte Spalten eines Datensatzes ausgeben lassen
 ```{r "3__3"}
@@ -450,7 +449,7 @@ Uns interessiert, ob eine linearer Zusammenhang zwischen `mshair_02` und `mshare
 \[  \textrm{mshair_02}= \beta*\textrm{mshair_37}
 \]
 
-Nun wollen wir einen Koeffizienten $\hat \beta$ schätzen. Dieser gibt die Steigung der Geraden an. Sind die Marktanteile perfekt korreliert, sollte die Steigung $\hat \beta =1$ betragen. Eine lineare Regression können wir in R mit `lm()` durchführen. Da wir keinen `intercept` (Achsenabschnitt) haben wollen, dies würde die Steigung der Geraden beeinflussen, fügen wir `-1` ans Ende der Gleichung. Führe nun eine lineare Regression mit `lm()` durch und schaue dir das Ergebnis anschließend mit `summary()` an indem du folgenden Code laufen lässt. 
+Nun wollen wir einen Koeffizienten $\hat \beta$ schätzen. Dieser gibt die Steigung der Geraden an. Sind die Marktanteile perfekt korreliert, sollte die Steigung $\hat \beta =1$ betragen. Eine lineare Regression können wir in R mit `lm()` durchführen. Da wir keinen `intercept` (Achsenabschnitt) haben wollen, dies würde die Steigung der Geraden beeinflussen, fügen wir `-1` ans Ende der Gleichung. Führe nun eine lineare Regression mit `lm()` durch und schaue dir das Ergebnis anschließend mit `summary()` an, indem du folgenden Code laufen lässt. 
 
 **Aufgabe:** Drücke `check` um das Ergebnis anzeigen zu lassen
 ```{r "3__4"}
@@ -458,7 +457,7 @@ lm=lm(mshare_02~mshare_37-1,data=int)
 summary(lm)
 ```
 
-Unter `Estimate` kannst du den Schätzer $\hat \beta$ finden. Der Wert $Pr(>|t|)$ gibt den zugehörigen p-Wert an. Der p-Wert ist als Wahrscheinlichkeit definiert. Ist der p-Wert kleiner oder gleich dem vorgegebenen Signifikanzniveau $\alpha$, so wird die vorher definierte Nullhypothese $H_0$ verworfen (vgl. Fahrmeir/ Heumann/ Künstler/ Pigeot/ Tutz (2016), S. 420). Die Sterne geben das Signifikanzniveau an. 
+Unter `Estimate` kannst du den Schätzer $\hat \beta$ finden. Der Wert $Pr(>|t|)$ gibt den zugehörigen p-Wert an. Der p-Wert ist als Wahrscheinlichkeit definiert. Ist der p-Wert kleiner oder gleich dem vorgegebenen Signifikanzniveau $\alpha$, so wird die vorher definierte Nullhypothese $H_0$ verworfen (vgl. Fahrmeir, Heumann, Künstler, Pigeot und Tutz (2016, S. 420)). Die Sterne geben das Signifikanzniveau an. 
 Bei einem p-Wert von $\leq 10 \%$ spricht man von einem signifikanten (ein Stern), bei einem Wert von $\leq 5 \%$  spricht man von einem sehr signifikanten (zwei Sterne) und bei einem Wert von $\leq 1 \%$ spricht man von einem hoch signifikanten (drei Sterne) Ergebnis.
 
 ***Frage:***
@@ -491,7 +490,7 @@ Die Autoren des Papers gehen hier von heteroskedasten Störgrößen aus. Das bed
 
 info("Heteroskedastizität") # Run this line (Strg-Enter) to show info
 
-Da bei unserer Graphik nicht eindeutig auf Heteroskedastizität geschlossen werden kann, wollen wir noch die Residuen gegen die vorhergesagten Werte (fitted values) plotten, dies ist ein übliches Vorgehen um Störgrößen auf Heteroskedastizität zu untersuchen. Als vorhergesagte Werte werden die y-Werte bezeichnet, die wir aufgrund unserer Regressionsanalyse für unsere Datenpunkte bestimmt haben. Residuen werden die Abstände der y-Werte von den empirischen Daten zu den vorhergesagten Werten genannt (vgl. Wollschläger (2017), S. 199-200). Du kannst dir also einfach eine senkrechte Linie von jedem Datenpunkt zur Regressionsgerade vorstellen. Die länge dieser Linien entspricht den Residuen.
+Da bei unserer Graphik nicht eindeutig auf Heteroskedastizität geschlossen werden kann, wollen wir noch die Residuen gegen die vorhergesagten Werte (fitted values) plotten, dies ist ein übliches Vorgehen um Störgrößen auf Heteroskedastizität zu untersuchen. Als vorhergesagte Werte werden die y-Werte bezeichnet, die wir aufgrund unserer Regressionsanalyse für unsere Datenpunkte bestimmt haben. Residuen werden die Abstände der y-Werte von den empirischen Daten zu den vorhergesagten Werten genannt (vgl. Wollschläger (2017, S. 199 f)). Du kannst dir also einfach eine senkrechte Linie von jedem Datenpunkt zur Regressionsgerade vorstellen. Die länge dieser Linien entspricht den Residuen.
 
 **Aufgabe:** Drücke `check` um den Code laufen zu lassen  
 ```{r "3__7"}
@@ -526,7 +525,7 @@ Wie oben bereits erwähnt müsste die Steigung bei perfekter Korrelation zwische
 Der Waldtest ist ein statistischer Hypothesentest mit dem die Hypothesen
 
 \[ H_0: \theta=\theta_0 \textrm{   gegen  } H_1: \theta \not= \theta_0 \]
-getestet werden (vgl. Kennedy (2008), S.56f).
+getestet werden (vgl. Kennedy (2008, S.56 f)).
 
 Wir benutzen nun den Befehl `waldtest()` aus dem Package `lfe`.
 
@@ -540,7 +539,7 @@ In unserem Fall wollen wir testen, ob der Schätzer $\hat \beta=1$ ist. Der `wal
 
 ```
 
-Für die F-Statistik erhalten wir einen p-Wert von 0,162. Dieser Wert ist größer als das von uns gewählte Signifikanzniveau von 10%. Daraus schließen wir, dass es eine statistisch signifikante Korrelation zwischen den vergangenen und den aktuellen Marktanteilen gibt. Somit verwerfen wir die Nullhypothese, dass der Koeffizient für den Marktanteil von 1937 eins ist, nicht. 
+Für die F-Statistik erhalten wir einen p-Wert von 0,162. Dieser Wert ist größer als das von uns gewählte Signifikanzniveau von 10%. Daraus schließen wir, dass es eine statistisch signifikante Korrelation zwischen den vergangenen und den aktuellen Marktanteilen gibt. Somit verwerfen wir die Nullhypothese, dass der Koeffizient für den Marktanteil von 1937 eins ist, nicht (vgl. Redding, Sturm und Wolf  (2011, S. 822)). 
 
 Da wir weiter oben festgestellt haben, dass wir keine genaue Aussage über die Art der Störgrößen machen können, wollen wir den Waldtest zusätzlich noch für homoskedaske Störgrößen berechnen.
 
@@ -551,7 +550,7 @@ waldtest(felm,r=1,R=1)
 
 Auch hier liegt der p-Wert über dem Signifikanzniveau von 10% und wir verwerfen die Nullhypothese nicht. Die Wahl der Störgrößen hat in diesem Fall also keine große Auswirkung auf unser Ergebnis.
 
-Die Marktanteile von 1937 sind also statistisch gute Schätzer für die Marktanteile von 2002. Die außergewöhnliche Beständigkeit für den Standort des größten Flughafens eines Landes zeigt uns, dass der Wechsel des Luftverkehrsknotenpunkts von Berlin nach Frankfurt ein Einzelfall ist.
+Die Marktanteile von 1937 sind also statistisch gute Schätzer für die Marktanteile von 2002. Die außergewöhnliche Beständigkeit für den Standort des größten Flughafens eines Landes zeigt uns laut Redding, Sturm und Wolf (2011, S. 822), dass der Wechsel des Luftverkehrsknotenpunkts von Berlin nach Frankfurt ein Einzelfall ist.
 
 
 ## Exercise 3.1 -- Internationaler Vergleich - Flugverbindungen
@@ -576,8 +575,8 @@ Eine `1` im Feld $A_{ij}$ steht für eine direkte Verbindung von Flughafen $j$ n
 **Frage:**
 #! addon__quiz__barcelona
 
-Uns interessiert wie viel Prozent aller europäischen Flughäfen 1935 und 2002 von den Flughäfen Frankfurt und Berlin angeflogen wurden.
-Generiere nun einen neuen Datensatz `temp` indem nur die Spalten `destination`, `berlin` und `frankfurt` enthalten sind. Lasse dir `temp` anschließend andzeigen.
+Uns interessiert, wie viel Prozent aller europäischen Flughäfen 1935 und 2002 von den Flughäfen Frankfurt und Berlin angeflogen wurden.
+Generiere nun einen neuen Datensatz `temp`, indem nur die Spalten `destination`, `berlin` und `frankfurt` enthalten sind. Lasse dir `temp` anschließend anzeigen.
 
 **Aufgabe:** Ersetzte die ??? und entferne das `#`-Zeichen
 ```{r "3_1__3"}
@@ -610,7 +609,7 @@ Um zu berechnen, wie viel Prozent der europäischen Flughäfen im Jahr 2002 von 
 
 ```
 
-Der Datensatz `Gravity` ist sehr umfänglich. Die Daten stammen alle aus dem Jahr 2002. Wir können unter anderem ablesen wie viel Passagiere jeweils von einem deutschem Flughäfen zu jedem anderen Flughafen der Welt geflogen sind (Spalte `deppass`). Diese Daten entstammen dem Statistischen Bundesamt (2003). Der Datensatz gibt uns aber noch sehr viel mehr Informationen, wie z.B. die exakte Lage des Zielflughafens mit Längen- und Breitengraden, die Anzahl der lokalen Fluggäste und die Anzahl der Durchreisefluggäste. Auch die Einwohnerzahl und das Bruttoinlandsprodukt der Stadt des Herkunftsflughafens können abgelesen werden. Wir werden für unsere Berechnungen nicht alle Spalten benötigen. Was die einzelnen Spalten genau beschreiben werde ich genauer erläutern sobald wir diese benötigen.
+Der Datensatz `Gravity` ist sehr umfänglich. Die Daten stammen alle aus dem Jahr 2002. Wir können unter anderem ablesen wie viel Passagiere jeweils von einem deutschen Flughafen zu einem beliebigen internationalen Flughafen geflogen sind (Spalte `deppass`). Diese Daten entstammen dem Statistischen Bundesamt (2003). Der Datensatz gibt uns aber noch sehr viel mehr Informationen, wie z.B. die exakte Lage des Zielflughafens mit Längen- und Breitengraden, die Anzahl der lokalen Fluggäste und die Anzahl der Durchreisefluggäste. Auch die Einwohnerzahl und das Bruttoinlandsprodukt der Stadt des Herkunftsflughafens können abgelesen werden. Wir werden für unsere Berechnungen nicht alle Spalten benötigen. Was die einzelnen Spalten genau beschreiben werde ich genauer erläutern, sobald wir diese benötigen.
 
 **Aufgabe:** Benutze die `filter` Funktion um herauszufinden wie viel Fluggäste 2002 von Hannover nach Rhodos geflogen sind
 ```{r "3_1__7"}
@@ -621,7 +620,7 @@ Der Datensatz `Gravity` ist sehr umfänglich. Die Daten stammen alle aus dem Jah
 **Frage:**
 #! addon__quiz__rhodos
 
-Wir erinnern uns an unser eigentliches Ziel: Wir wollen wissen, wie viel Prozent der europäischen Flughäfen 2002 von den Flughäfen Frankfurt und Berlin angeflogen wurden. Da wir hier einen anderen Datensatz als für das Jahr 1935 vorliegen haben müssen wir uns jetzt überlegen wie wir dies berechnen können.
+Wir erinnern uns an unser eigentliches Ziel: Wir wollen wissen, wie viel Prozent der europäischen Flughäfen 2002 von den Flughäfen Frankfurt und Berlin angeflogen wurden. Da wir hier einen anderen Datensatz als für das Jahr 1935 vorliegen haben, müssen wir uns jetzt überlegen wie wir dies berechnen können.
 Hilfreich ist an dieser Stelle die Funktion `summarise()`. 
 
 Wir fassen den Datensatz `Gravity` zusammen und gruppieren ihn nach den Exportflughäfen (`expname`). Gleichzeitig fügen wir eine neue Spalte mit dem Namen `Anteil_2002` hinzu, in der wir die Summe aller Flughafen berechnen, in die mindestens ein Passagier geflogen ist (`deppass>0`). Diese Summe teilen wir durch 376 (Gesamtanzahl aller Flughäfen) und multiplizieren sie mit 100 um die Prozentangabe zu bekommen.
@@ -647,13 +646,11 @@ ggplot(s, aes(x=expname, y=Anteil_2002)) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
 ```
 
-Zusammenfassend lässt sich sagen, dass Berlin 1935 72% aller Flughäfen angeflogen hat, die aus Deutschland angeflogen werden konnten und damit doppelt so viele wie Frankfurt (31%). Im Jahr 2002 hingegen hat Frankfurt 95% aller Flughäfen, die aus Deutschland angeflogen werden konnten, angeflogen, Berlin hingegen nur etwa 55%. 
-Dies ist ein weiteres Indiz dafür, dass Frankfurts Dominanz im Jahr 2002 mit der Dominanz von Berlin vor dem Zweiten Weltkrieg verglichen werden kann. Berlin galt zu dieser Zeit als das Luftkreuz Europas (vgl. Weise (1928)).
-Desweiteren ist Deutschland aktuell das einzige Land in Europa, in dem sich der größte Flughafen nicht in der größten Stadt des Landes befindet. In allen anderen europäischen Ländern herrscht eine perfekte Korrelation zwischen größter Stadt und größtem Flughafen.
+Zusammenfassend lässt sich sagen, dass Berlin 1935 72% aller Flughäfen angeflogen hat, die aus Deutschland angeflogen werden konnten und damit doppelt so viele wie Frankfurt (31%). Im Jahr 2002 hingegen hat Frankfurt 95% aller Flughäfen, die aus Deutschland angeflogen werden konnten, angeflogen, Berlin hingegen nur etwa 55%. Dies ist ein weiteres Indiz dafür, dass Frankfurts Dominanz im Jahr 2002 mit der Dominanz von Berlin vor dem Zweiten Weltkrieg verglichen werden kann (vgl. Redding, Sturm und Wolf  (2011, S. 822)). Berlin galt zu dieser Zeit als das Luftkreuz Europas (vgl. Weise (1928)). Desweiteren ist Deutschland aktuell das einzige Land in Europa, in dem sich der größte Flughafen nicht in der größten Stadt des Landes befindet. In allen anderen europäischen Ländern herrscht eine perfekte Korrelation zwischen größter Stadt und größtem Flughafen.
 
-Fassen wir die Ergebnisse aus ***Aufgabe 3*** und ***Aufgabe 3.1*** zusammen, bestätigt sich die Vermutung, dass Deutschlands größter Flughafen heute in Berlin wäre, hätte es den Zweiten Weltkrieg nicht gegeben. Und es ist zumindest nicht offensichtlich, dass Berlin, die mit großem Abstand größte deutsche Stadt, auch heute noch ein möglicher Steady State für deutschlands Luftverkehrsknotenpunkt wäre.
+Fassen wir die Ergebnisse aus ***Aufgabe 3*** und ***Aufgabe 3.1*** zusammen, bestätigt sich die Vermutung, dass Deutschlands größter Flughafen heute in Berlin wäre, hätte es den Zweiten Weltkrieg nicht gegeben. Es kann laut Redding, Sturm und Wolf  (2011, S. 822) auch nicht ausgeschlossen werden, dass Berlin, auch heute noch ein möglicher Steady State für deutschlands Luftverkehrsknotenpunkt wäre.
 
-Zum Abschluss noch eine Interaktive Karte die ich mit `googleVis` erstellt habe. Hier kannst du dir anschauen welche Flughäfen weltweit im Jahr 2002 von Frankfurt aus erreichen werden konnten. Die Daten für die Längen- und Breitengrade der Flughafen entstammen folgender Homepage: <a href="http://worldaerodata.com/" target = "_blank"> http://worldaerodata.com/</a>. Mit einem Klick auf einen der roten Kegel wird dir der Standort des Flughafens angezeigt.
+Zum Abschluss noch eine Interaktive Karte die ich mit `googleVis` erstellt habe. Hier kannst du dir anschauen welche Flughäfen weltweit im Jahr 2002 von Frankfurt aus erreicht werden konnten. Die Daten für die Längen- und Breitengrade der Flughäfen entstammen folgender Homepage: <a href="http://worldaerodata.com/" target = "_blank"> http://worldaerodata.com/</a>. Mit einem Klick auf einen der roten Kegel wird dir der Standort des Flughafens angezeigt.
 
 **Aufgabe:** Drücke `check` um den Code laufen zu lassen
 ```{r "3_1__10",results='asis'}
@@ -692,20 +689,20 @@ Für unsere Berechnung benötigen wir zwei vergleichbare Gruppen, eine Versuchsg
 \delta=(\bar y_{NE,A}- \bar y_{NE,B})-(\bar y_{VE,A}- \bar y_{VE,B})
 \]
 
-$\bar y_{NE,A}$ steht für den Durchschnittswert von Gruppe A nach dem Ereignis, $\bar y_{VE,B}$ für den Durchschnittswert von Gruppe B vor dem Ereignis (vgl. Wooldridge (2015), S.408ff).
+$\bar y_{NE,A}$ steht für den Durchschnittswert von Gruppe A nach dem Ereignis, $\bar y_{VE,B}$ für den Durchschnittswert von Gruppe B vor dem Ereignis (vgl. Wooldridge (2015, S.408 ff)).
 
 Diese Methode wollen wir in **Aufgabe 4.1** anwenden, um zu zeigen, dass die Teilung Deutschlands einen statistisch signifikanten Einfluss auf den Luftverkehrsknotenpunkt hatte. In **Aufgabe 4.2** wollen wir dann zeigen, dass die Wiedervereinigung keinen nennenswerten Einfluss auf die Passagieranteile deutscher Flughäfen hatte.
 
 ## Exercise 4.1 -- Schätzer für die Teilung Deutschlands 
 
-Wir haben in **Aufgabe 4.1** den Difference in Difference Schätzer kennengelernt und wollen ihn nun in dieser Aufgabe auf die Teilung Deutschlands anwenden.
-In unserem speziellen Fall wollen wir untersuchen, wie sich die Passagieranteile von Frankfurt und Berlin vor und nach der Teilung Deutschlands entwickelt haben. Dafür machen wir zunächst eine Regressionsanalyse um das jährliche Wachstum der Passagieranteile von Frankfurt und Berlin vor bzw. nach der Teilung Deutschlands zu berechnen. Hierzu benutzen wir das folgende Regressionsmodell:
+Wir haben in **Aufgabe 4** den Difference in Difference Schätzer kennengelernt und wollen ihn nun in dieser Aufgabe auf die Teilung Deutschlands anwenden.
+In unserem speziellen Fall wollen wir untersuchen, wie sich die Passagieranteile von Frankfurt und Berlin vor und nach der Teilung Deutschlands entwickelt haben. Dafür machen wir zunächst eine Regressionsanalyse, um das jährliche Wachstum der Passagieranteile von Frankfurt und Berlin vor bzw. nach der Teilung Deutschlands zu berechnen. Hierzu benutzen wir das folgende Regressionsmodell:
 
 \[
 share_{at}=\sum_{a=1}^{A} \eta_{ap} + \sum_{a=1}^{A} \beta_{ap}time_{t} + u_{at}
 \]
 
-Die abhängige Variable $share_{at}$ beschreibt den Passagieranteil von Flughafen $a$ zum Zeitpunkt $t$. $p$ beschreibt eine Periode. Wir unterteilen in drei Perioden: Vor der Teilung, nach der Teilung und nach der Wiedervereinigung. $\eta_{ap}$ beschreibt die Fixeffekte der Flughäfen in der Periode $p$. Der Koeffizient $\beta_{ap}$ ermöglicht es Trends für Passagieranteile von Flughafen $a$ in Periode $p$ zu bestimmen. $u_{at}$ ist der stochastische Fehlerterm.
+Die abhängige Variable $share_{at}$ beschreibt den Passagieranteil von Flughafen $a$ zum Zeitpunkt $t$. $p$ beschreibt eine Periode. Wir unterteilen in drei Perioden: Vor der Teilung, nach der Teilung und nach der Wiedervereinigung. $\eta_{ap}$ beschreibt die Fixeffekte der Flughäfen in der Periode $p$. Der Koeffizient $\beta_{ap}$ ermöglicht es Trends für Passagieranteile von Flughafen $a$ in Periode $p$ zu bestimmen. $u_{at}$ ist der stochastische Fehlerterm  (vgl. Redding, Sturm und Wolf  (2011, S. 818)).
 
 Wir berechnen also zunächst das durchschnittliche jährliche Wachstum der Passagieranteile von Frankfurt und Berlin. Vergleiche hierzu die Regressionsgeraden in Abb. 5, die durch die roten Punkte bzw. die grünen Dreiecke verlaufen. Die Steigung der jeweiligen Geraden entspricht gerade dem durchschnittlichen jährlichen Wachstum der Passagieranteile. Wir vergleichen dann mittels der Difference in Difference Methode das durchschnittliche Wachstum vor bzw. nach der Teilung Deutschlands um zu entscheiden ob diese Auswirkungen auf die Passagieranteile hatten.
 
@@ -735,7 +732,7 @@ atsf=data %>% filter(!airport %in% c("Dresden","Erfurt","Münster","Saarbrücken
 
 **1) Difference in Difference für die Teilung Deutschlands** 
 
-In dem Datensatz `atsf` befinden sich nun Daten zu Abfluganteilen für die jeweiligen Flughäfen von 1927-2002. Diese wollen wir wie folgt in drei Perioden aufteilen:
+In dem Datensatz `atsf` befinden sich nun Daten zu Abfluganteilen für die jeweiligen Flughäfen von 1927 bis 2002. Diese wollen wir wie folgt in drei Perioden aufteilen:
 
 Periode 1: 1927-1938 (vor der Teilung)
 
@@ -793,7 +790,7 @@ Zunächst betrachten wir nur den Flughafen `Berlin`, also $a=Berlin$ was unsere 
 share_{t}= \eta_{p} + \beta_{p}time_{t} + u_{t}
 \]
 
-Aber was ist $time_{t}$? $time_{t}$ gibt einen Zeitpunkt an. Also $time_{1927}=1$, $time_{1928}=2$ usw.. Da wir unseren Datensatz aber in drei Perioden aufgeteilt haben, brauchen wir drei $time$ Variablen. Es gelte also folgendes: In Periode 1 haben wir die Variable $time27$ die im Jahr 1927 mit eins beginnt und im Jahr 1938 den Wert zwölf annimmt. In Periode 2 und 3 nimmt die Variable den Wert null an. In Periode 2 haben wir die Variable $time50$, diese beginnt im Jahr 1950 mit dem Wert eins und nimmt im Jahr 1989 den Wert 40 an, sonst hat sie den Wert null. $time90$ beginnt im Jahr 1990 mit dem Wert eins und nimmt im Jahr 2002 den Wert 13 an, sonst beträgt sie null.
+Aber was ist $time_{t}$? $time_{t}$ gibt einen Zeitpunkt an. Also $time_{1927}=1$, $time_{1928}=2$ usw. Da wir unseren Datensatz aber in drei Perioden aufgeteilt haben, brauchen wir drei $time$ Variablen. Es gelte also folgendes: In Periode 1 haben wir die Variable $time27$ die im Jahr 1927 mit eins beginnt und im Jahr 1938 den Wert zwölf annimmt. In Periode 2 und 3 nimmt die Variable den Wert null an. In Periode 2 haben wir die Variable $time50$, diese beginnt im Jahr 1950 mit dem Wert eins und nimmt im Jahr 1989 den Wert 40 an, sonst hat sie den Wert null. $time90$ beginnt im Jahr 1990 mit dem Wert eins und nimmt im Jahr 2002 den Wert 13 an, sonst beträgt sie null.
 
 Und damit sieht unsere Regression wie folgt aus:
 \[
@@ -895,7 +892,7 @@ Versuche mit diesem Wissen nun den Difference in Difference Schätzer selbst zu 
 
 Die Differenz der Differenzen steigt jährlich im Schnitt um 3,072 Prozentpunkte. Leider lässt sich so noch nichts über die Signifikanz dieses Wertes aussagen. Um zu zeigen, dass die 3,072 Prozentpunkte statistisch signifikant sind, benötigen wir alle vier Werte in einer Regression.
 
-Hierfür benötigen wir die Variablen `time27`, `time50` und `time90` sowohl für Berlin als auch für Frankfurt, weshalb wir `time27B`, `time27F`, ... usw. erzeugen. Auch der Faktor `period` muss für Frankfurt und Berlin getrennt betrachtet werden. Wir erzeugen deshalb die Variable `nairera`. Die Regression sieht nun wie folgt aus:
+Hierfür benötigen wir die Variablen `time27`, `time50` und `time90` sowohl für Berlin als auch für Frankfurt, weshalb wir `time27B`, `time27F`, ... erzeugen. Auch der Faktor `period` muss für Frankfurt und Berlin getrennt betrachtet werden. Wir erzeugen deshalb die Variable `nairera`. Die Regression sieht nun wie folgt aus:
 \[
 share_{at}= \eta_{ap} + \beta_{a1}time_{27B} + \beta_{a2}time_{50B} + \beta_{a3}time_{90B} + \beta_{a1}time_{27F} + \beta_{a2}time_{50F} + \beta_{a3}time_{90F} + u_{at}
 \]
@@ -916,7 +913,7 @@ stargazer(felm,type="html")
 ```
 
 <br>
-Wir erhalten die selben Ergebnisse, die wir auch oben für die seperaten Regressionen erhalten haben. Nun wollen wir den Difference in Difference Schätzer auf seine Signifikanz untersuchen. Wir wollen also die folgende Hypothese für den testen:
+Wir erhalten die selben Ergebnisse, die wir auch oben für die seperaten Regressionen erhalten haben. Nun wollen wir den Difference in Difference Schätzer auf seine Signifikanz untersuchen. Wir wollen also die folgende Hypothese für den Schätzer testen:
 `time50F-time50B-time27F+time27B = 0`. Eine Möglichkeit diese Hypothese zu testen, ist der Befehl `glht()` aus dem Package `multcomp`. Glht steht für "general linear hypothesis test". Eine weitere Möglichkeit diese Hypothese zu testen ist der `waldtest()` aus dem Package `lfe`. Allerdings ist der Output bei `glht` etwas schöner und ausführlicher.  
 
 **Aufgabe:** Drücke `check` um das Ergebnis anzeigen zu lassen
@@ -930,7 +927,7 @@ Unter Estimate bekommen wir wieder den Schätzer von 3,072 Prozentpunkten heraus
 **Frage:**
 #! addon__quiz__Signifikanz2
 
-Wir beobachten also einen statistisch hoch signifikanten Einfluss der Teilung Deutschlands auf die Passagierzahlen der größten deutschen Flughafen.
+Wir beobachten also einen statistisch hoch signifikanten Einfluss der Teilung Deutschlands auf die Passagierzahlen der größten deutschen Flughafen (vgl. Redding, Sturm und Wolf  (2011, S. 821)). 
 Nun wollen wir noch untersuchen ob die Wiedervereinigung auch einen signifikanten Einfluss hatte.
 
 ## Exercise 4.2 -- Schätzer für die Wiedervereinigung 
@@ -938,7 +935,7 @@ Nun wollen wir noch untersuchen ob die Wiedervereinigung auch einen signifikante
 Wir haben in **Aufgabe 4.1** gezeigt, dass die Teilung Deutschlands große Auswirkungen auf die Passagierzahlen der Flughäfen von Berlin und Frankfurt hatte. Wir untersuchen nun in dieser Aufgabe ob sich auch für die Wiedervereinigung statistisch relevante Auswirkungen ergeben.
 
 
-In Abb. 3 (Aufgabe 4) sehen wir, dass die Entwicklung der Passagierzahlen im Großteil der Periode 1950-1989 von der Teilung Deutschlands beeinflusst worden ist. Ab ca. 1980 haben sich die Passagieranteile auf den Einfluss der Teilung angepasst. Deshalb betrachten wir nun ein etwas erweitertes Modell indem wir den Zeitraum von 1950-1989 in Dekaden aufteilen. Unsere Regressionsgleichung sieht dann wie folgt aus:
+In Abb. 3 (Aufgabe 4) sehen wir laut Redding, Sturm und Wolf  (2011, S. 821)), dass die Entwicklung der Passagierzahlen im Großteil der Periode 1950-1989 von der Teilung Deutschlands beeinflusst worden ist. Ab ca. 1980 haben sich die Passagieranteile dem Einfluss der Teilung angepasst. Deshalb betrachten wir nun ein etwas erweitertes Modell indem wir den Zeitraum von 1950-1989 in Dekaden aufteilen. Unsere Regressionsgleichung sieht dann wie folgt aus:
 \[
 share_{t}= \eta_{p} + \beta_{1}time_{27} + \beta_{2}dec_{50} + \beta_{3}dec_{60} + \beta_{4}dec_{70} + \beta_{5}dec_{80} + \beta_{6}time_{90} + u_{t}
 \]
@@ -1032,7 +1029,7 @@ Berechne nun den Difference in Difference Schätzer von Frankfurt und Berlin fü
 
 ```
 
-Da der Wert für den Schätzer sehr gering ist, scheint die Wiedervereinigung Deutschlands keinen Einfluss auf die Steigung der Geraden zu haben. Über die Signifikanz können wir aber erst etwas aussagen, wenn wir alle Ergebnisse in einer Regression vereint haben und die Hypothese `time90F-time90B-dec80F+dec80B = 0` getestet haben. Wir legen also zunächst wieder die Variablen `dec50B`, `dec50F`, ... usw. an.
+Da der Wert für den Schätzer sehr gering ist, scheint die Wiedervereinigung Deutschlands keinen Einfluss auf die Steigung der Geraden zu haben. Über die Signifikanz können wir aber erst etwas aussagen, wenn wir alle Ergebnisse in einer Regression vereint haben und die Hypothese `time90F-time90B-dec80F+dec80B = 0` getestet haben. Wir legen also zunächst wieder die Variablen `dec50B`, `dec50F`, ... an.
 
 **Aufgabe:** Drücke `check` 
 ```{r "4_2__7"}
@@ -1060,7 +1057,7 @@ stargazer(felm,type="html")
 ```
 
 <br>
-Wir überprüfuen unsere Nullhypothese `time90F-time90B-dec80F+dec80B = 0` mit `glht()`.
+Wir überprüfen unsere Nullhypothese `time90F-time90B-dec80F+dec80B = 0` mit `glht()`.
 
 **Aufgabe:** Drücke `check` um das Ergebnis anzeigen zu lassen
 ```{r "4_2__9"}
@@ -1069,7 +1066,7 @@ summary(glht(felm, linfct = c("time90F-time90B-dec80F+dec80B = 0")))
 
 
 
-Der Difference in Difference Schätzer, der die jährliche Wachstumsrate der Passagieranteile von Frankfurt und Berlin zwischen den zwei Dekaden vergleicht, ergibt -0,012 Prozentpunkte. Das ist ein vernachlässigbarer und statistisch nicht signifikanter Wert. Die Nullhypothese wird nicht verworfen. Daraus schließen wir, dass die Wiedervereinigung Deutschlands im Jahr 1990 keine statistisch signifikante Auswirkung auf die Passagieranzahlen von Frankfurt und Berlin hatte.
+Der Difference in Difference Schätzer, der die jährliche Wachstumsrate der Passagieranteile von Frankfurt und Berlin zwischen den zwei Dekaden vergleicht, ergibt -0,012 Prozentpunkte. Das ist ein vernachlässigbarer und statistisch nicht signifikanter Wert. Die Nullhypothese wird nicht verworfen. Daraus schließen wir, dass die Wiedervereinigung Deutschlands im Jahr 1990 keine statistisch signifikante Auswirkung auf die Passagieranzahlen von Frankfurt und Berlin hatte (vgl. Redding, Sturm und Wolf  (2011, S. 821)).
 
 Es gibt also auch weiterhin keine Anzeichen dafür, dass sich Berlin wieder zum deutschen Luftverkehrsknotenpunkt entwickeln könnte. 
 
@@ -1079,17 +1076,17 @@ Es gibt also auch weiterhin keine Anzeichen dafür, dass sich Berlin wieder zum 
 In bisherigen Übungen haben wir mit historischen Daten gearbeitet um zu zeigen, dass der Standortwechsel des deutschen Luftverkehrsknotenpunkts für Europa höchst ungewöhnlich ist. Außerdem haben wir gezeigt, dass es basierend auf historischen Daten schwer vorherzusehen war, dass gerade Frankfurt zum neuen Luftverkehrsknotenpunkt Deutschlands wird.
 
 In den verbleibenden Aufgaben nutzen wir zeitgemäße Daten um die aktuelle Dominanz von Frankfurt in Deutschlands Personenflugverkehr zu erklären.
-Unser Modell beinhaltet zwei wirtschaftliche Rahmenbedingungen um die Attraktivität der Lage eines Flughafens zu bestimmen:
+Unser Modell beinhaltet zwei wirtschaftliche Rahmenbedingungen um die Attraktivität der Lage eines Flughafens zu bestimmen (vgl. Redding, Sturm und Wolf  (2011, S. 823)):
 
 **1)**: Nähe zu anderen Flughäfen (Marktanbindung)
 
 **2)**: Regionale wirtschaftliche Aktivität
 
-Die regionale wirtschaftliche Aktivität behandeln wir in **Aufgabe 7**.
-In **Aufgabe 5** und **Aufgabe 5.1** wollen wir zeigen, dass sich Frankfurts Dominanz nicht durch die Marktanbindung erklären lässt. Wir bestimmen die Marktanbindung indem wir eine Gravitationsgleichung schätzen. Bekannt ist die Gravitationsgleichung aus der Physik, doch auch in der Ökonomie findet sie häufig Anwendung um bilaterale Handelsströme zu erklären (vgl. Bröcker/ Fritsch (2012), S.8ff).
+Die regionale wirtschaftliche Aktivität behandeln wir in **Aufgabe 6**.
+In **Aufgabe 5** und **Aufgabe 5.1** wollen wir zeigen, dass sich Frankfurts Dominanz nicht durch die Marktanbindung erklären lässt. Wir bestimmen die Marktanbindung indem wir eine Gravitationsgleichung schätzen. Bekannt ist die Gravitationsgleichung aus der Physik, doch auch in der Ökonomie findet sie häufig Anwendung um bilaterale Handelsströme zu erklären (vgl. Bröcker und Fritsch (2012, S.8 ff)).
 
 
-Wir nutzen dafür einen Datensatz der bilaterale Passagierflüge beinhaltet. Unsere Gravitationsgleichung sieht wie folgt aus:
+Wir nutzen dafür einen Datensatz, der bilaterale Passagierflüge beinhaltet. Unsere Gravitationsgleichung sieht wie folgt aus:
 \[ ln(A_{ij})=m_i+s_j+\varphi ln(T_{ij}) + u_{ij} \]
 
 $A_{ij}$ beschreibt die Anzahl der Abflüge von Stadt i nach Stadt j. $m_i$ sind Fixeffekte am Zielflughafen, $s_j$ beschreibt die Fixeffekte am Herkunftsflughafen, $T_{ij}$ beschreibt die Reisekosten und $u_{ij}$ den stochastischen Fehlerterm.
@@ -1126,7 +1123,7 @@ Mit dem Befehl `arrange()` aus dem Package `dplyr` können wir Datensätze nach 
 
 ```
 
-Betrachten wir die aktuellen Forschungsergebnisse über internationalen Handel, müssen wir für unsere Regression auch Soziale Netzwerke und internationale Unternehmensnetzwerke berücksichtigen (vgl. hierzu insbesondere Rauch (2001) und Combes, Lafourcade und Mayer (2005)). Als Maß für das Soziale Netzwerk dienen Daten zur Einwanderung und Auswanderung zwischen deutschen Bundesländern und anderen Ländern (siehe Variable `formig`). Diese Daten entstammen dem Statistischen Jahrbuch der Bundesrepublik Deutschland. Als Maß für die Aktivität von Unternehmensnetzwerken dient uns die Variable `subsy`. `subsy` beschreibt die Anzahl der Niederlassungen von deutschen Firmen, mit Hauptsitz in der Stadt des Herkunftsflughafens (`expname`), in einem fremden Land (`country_i`). Die Kennzahlen entstammen der Homepage von Bureau Van Dijk. Dort findet sich mit Orbis eine Datenbank mit weltweiten Unternehmensinformationen. Mit folgendem Link gelangst du auf die Homepage: <a href="https://www.bvdinfo.com/de-de/our-products/company-information/international-products/orbis" target = "_blank">https://www.bvdinfo.com/de-de/our-products/company-information/international-products/orbis</a>.
+Betrachten wir die aktuellen Forschungsergebnisse über internationalen Handel, müssen wir laut Redding, Sturm und Wolf (2011, S. 823) für unsere Regression auch Soziale Netzwerke und internationale Unternehmensnetzwerke berücksichtigen (vgl. hierzu insbesondere Rauch (2001, S. 1177-1203) und Combes, Lafourcade und Mayer (2005, S. 1-29)). Als Maß für das Soziale Netzwerk dienen Daten zur Einwanderung und Auswanderung zwischen deutschen Bundesländern und anderen Ländern (siehe Variable `formig`). Diese Daten entstammen dem Statistischen Jahrbuch der Bundesrepublik Deutschland. Als Maß für die Aktivität von Unternehmensnetzwerken dient uns die Variable `subsy`. `subsy` beschreibt die Anzahl der Niederlassungen von deutschen Firmen, mit Hauptsitz in der Stadt des Herkunftsflughafens (`expname`), in einem fremden Land (`country_i`). Die Kennzahlen entstammen der Homepage von Bureau Van Dijk. Dort findet sich mit Orbis eine Datenbank mit weltweiten Unternehmensinformationen. Mit folgendem Link gelangst du auf die Homepage: <a href="https://www.bvdinfo.com/de-de/our-products/company-information/international-products/orbis" target = "_blank">https://www.bvdinfo.com/de-de/our-products/company-information/international-products/orbis</a>.
 Für die Variablen `formig`, `subsy` und `deppass` addieren wir jeweils den Wert eins bevor wir den Logarithmus anwenden.
 
 
@@ -1136,7 +1133,7 @@ Für die Variablen `formig`, `subsy` und `deppass` addieren wir jeweils den Wert
 
 ```
 
-Wir führen jetzt die Regression durch. Im ersten Schritt betrachten wir nur die Distanz als unabhängige Variable und die Fixeffekte am Zielflughafen `impname` als Faktorvariable, da uns die Ergebnisse für die Fixeffekte der Zielflughäfen nicht interessieren. Wir nehmen außerdem Cluster robuste Standardfehler für `country_i` an, da wir davon ausgehen, dass die Standardfehler innerhalb dieser Gruppe korreliert sind aber zwischen den Gruppen nicht. Schau dir dazu nochmals die InfoBox an.
+Wir führen jetzt die Regression durch. Im ersten Schritt betrachten wir nur die Distanz als unabhängige Variable und die Fixeffekte am Zielflughafen `impname` als Faktorvariable, da uns die Ergebnisse für die Fixeffekte der Zielflughäfen nicht interessieren. Wir nehmen außerdem cluster-robuste Standardfehler für `country_i` an, da wir davon ausgehen, dass die Standardfehler innerhalb dieser Gruppe korreliert sind aber zwischen den Gruppen nicht. Schau dir dazu nochmals die InfoBox an.
 
 info("Fortgeschritten: felm()") # Run this line (Strg-Enter) to show info
 
@@ -1147,7 +1144,7 @@ Bevor wir die Regression durchführen, kannst du das Ergebnis schätzen.
 
 Wir berechnen die Regression mit dem Befehl `felm` und betrachten die Ergebnisse mit `stargazer()`
 
-**Aufgabe:** Entferne `#` und schaue dir das Ergebnis an
+**Aufgabe:** Drücke `check` und schaue dir das Ergebnis an
 ```{r "5__8",results='asis'}
 fe1=felm(ldeppass~ldist+exporter|impname|0|country_i,data=Gravity)
 stargazer(fe1,type="html")
@@ -1183,7 +1180,7 @@ Als nächsten Schritt schätzen wir `ldeppass` mit den Variablen `ldist` und `ls
 
 Als letzten Schritt schätzen wir `ldeppass` mit den Variablen `ldist`, `lformig` und `lsubsy`.
 
-**Aufgabe:** Führe die Regression durch und speichere sie unter `f4`
+**Aufgabe:** Führe die Regression durch und speichere sie unter `fe4`
 ```{r "5__11"}
 
 
@@ -1198,7 +1195,7 @@ stargazer(fe1,fe2,fe3,fe4,title="Determinants of Bilateral Passenger Departures"
 
 <br>
 
-Unsere vier Regressionen sind nun von links nach rechts in den verschiedenen Spalten aufgelistet. Der Koeffizient für die geographische Distanz bleibt in allen Fällen negativ und statistisch hoch signifikant. Für Regressionen (3) - (4) besitzen die Maße für Soziale Netzwerke und Unternehmensnetzwerke eine positive Beziehung zu den Abflugzahlen. 
+Unsere vier Regressionen sind nun von links nach rechts in den verschiedenen Spalten aufgelistet. Der Koeffizient für die geographische Distanz bleibt in allen Fällen negativ und statistisch hoch signifikant. Für Regressionen (3) - (4) besitzen die Maße für Soziale Netzwerke und Unternehmensnetzwerke eine positive Beziehung zu den Abflugzahlen (vgl. Redding, Sturm und Wolf  (2011, S. 824)). 
 
 **Frage:**
 #! addon__quiz__lformig
@@ -1208,7 +1205,7 @@ Die Ergebnisse von Spalte 4 benötigen wir für **Aufgabe 5.1**.
 
 ## Exercise 5.1 -- Aufteilung der Abflugzahlen
 
-In dieser Aufgabe wollen wir die Gesamtzahl der Flüge in die Beiträge Marktanbindung und Fixeffekte der Herkunftsflughäfen unterteilen, um deutlich zu machen, dass sich die Dominanz von Frankfurt nicht durch die Marktanbindung erklären lässt.
+In dieser Aufgabe wollen wir Abweichungen der Abflugzahlen in die Beiträge Marktanbindung und Fixeffekte der Herkunftsflughäfen unterteilen, um deutlich zu machen, dass sich die Dominanz von Frankfurt nicht durch die Marktanbindung erklären lässt (vgl. Redding, Sturm und Wolf  (2011, S. 823)).
 
 Zunächst erinnern wir uns an die Gravitationsgleichung aus **Aufgabe 5**:
 
@@ -1299,7 +1296,7 @@ ln \left(  \frac{ \widehat{MA_j} }{ \widehat{MA_b}}\right)
 \end{equation}
 
 Unser Vorgehen wird dabei wie folgt sein: 
-$ln(\widehat{A_{ij}})$ entspricht den vorhergesagten Werten aus der Regression `fe4` und ist deshalb gegeben. Wenn wir die Exponentialfunktion darauf anwenden, erhalten wir $\widehat{A_{ij}}$. Wir summieren über die Flughafen $i$ um $\widehat{A_j} = \sum_{i} \widehat{A_{ij}}$ zu erhalten. Da 
+$ln(\widehat{A_{ij}})$ entspricht den vorhergesagten Werten aus der Regression `fe4` und ist deshalb gegeben. Wenn wir die Exponentialfunktion darauf anwenden, erhalten wir $\widehat{A_{ij}}$. Wir summieren über die Flughäfen $i$ um $\widehat{A_j} = \sum_{i} \widehat{A_{ij}}$ zu erhalten. Da 
 \[
 \widehat{A_j} = \sum_{i} \widehat{A_{ij}} =  \widehat{MA_j} \widehat{S_j} 
 \]
@@ -1330,7 +1327,7 @@ Zu Beginn müssen wir die vorhergesagten Werte $\widehat{A_{ij}}$ bestimmen. Hie
 
 
 ```
-Als nächsten Schritt summieren wir über die Flughafen $i$ um $\widehat{A_j} = \sum_{i} \widehat{A_{ij}}$ zu erhalten.
+Als nächsten Schritt summieren wir über die Flughäfen $i$ um $\widehat{A_j} = \sum_{i} \widehat{A_{ij}}$ zu erhalten.
 
 
 **Aufgabe:** Gruppiere die Tabelle `A` nach `expname` und berechne `A_j=sum(A_ij)`
@@ -1400,7 +1397,7 @@ ggplot(data, aes(x=expname, y=value, fill=type)) +
   labs(title = "Die Rolle der Marktanbindung", x="",y="Logarithmische Abweichung vom Wert für Berlin")
 ```
 
-Wir haben die logarithmischen Abweichungen der Marktanbindung und den Fixeffekten der Herkunftsflughäfen zu den entsprechenden Werten von Berlin berechnet. Deutlich zu beobachten ist, dass die Marktanbindung zwischen den Flughäfen zwar variiert, ihr Beitrag zu den Gesamtabflugzahlen aber im Vergleich zu den Fixeffekten sehr klein ist. Das ist ein Indiz dafür, dass in verhältnismäßig kleinen Ländern wie Deutschland (Vergleich zu den USA, Russland, China oder Australien), die Flughäfen ausreichend nahe zusammenliegen, sodass die Marktanbindung keinen großen Einfluss auf die Abflugzahlen hat. Beispielsweise beträgt die Flugstrecke von Frankfurt nach San Francisco 9142 km, die Flugstrecke von Berlin nach San Francisco 9105 km. Die Differenz ist zu gering um Auswirkungen auf die Flugzahlen zu haben. Die durchschnittliche Flugstrecke von Frankfurt zu allen Flugzielen aus unserer Regression beträgt 3818 km, die entsprechende Flugstrecke von Berlin 3838 km. Deshalb lässt sich die Dominanz des frankfurter Flughafens nicht durch die Marktanbindung erklären. 
+Wir haben die logarithmischen Abweichungen der Marktanbindung und den Fixeffekten der Herkunftsflughäfen zu den entsprechenden Werten von Berlin berechnet. Deutlich zu beobachten ist, dass die Marktanbindung zwischen den Flughäfen zwar variiert, ihr Beitrag zu den Gesamtabflugzahlen aber im Vergleich zu den Fixeffekten sehr klein ist. Das ist laut Redding, Sturm und Wolf  (2011, S. 824) ein Indiz dafür, dass in verhältnismäßig kleinen Ländern wie Deutschland (Vergleich zu den USA, Russland, China oder Australien), die Flughäfen ausreichend nahe zusammenliegen, sodass die Marktanbindung keinen großen Einfluss auf die Abflugzahlen hat. Beispielsweise beträgt die Flugstrecke von Frankfurt nach San Francisco 9142 km, die Flugstrecke von Berlin nach San Francisco 9105 km. Die Differenz ist zu gering um Auswirkungen auf die Flugzahlen zu haben. Die durchschnittliche Flugstrecke von Frankfurt zu allen Flugzielen aus unserer Regression beträgt 3818 km, die entsprechende Flugstrecke von Berlin 3838 km. Deshalb lässt sich die Dominanz des frankfurter Flughafens nicht durch die Marktanbindung erklären. 
 
 Wir verdeutlichen diesen Sachverhalt durch ein sogenanntes Scatter-Boxplot.
 
@@ -1409,7 +1406,7 @@ Wir verdeutlichen diesen Sachverhalt durch ein sogenanntes Scatter-Boxplot.
 qplot(data=filter(Gravity,expname=="Frankfurt"|expname=="Berlin"),x=expname,y=dist,geom=c("boxplot","jitter"),fill=expname) +
   stat_summary(fun.y=mean,geom="point",shape=20,size=5,color="red") +
   theme_bw() +
-  labs(x="",y="Distanz",fill="Flughafen",title="Distanz zu den Flughäfen weltweit")
+  labs(x="",y="Distanz in km",fill="Flughafen",title="Distanz zu den Flughäfen weltweit")
 ```
 
 Dieses Scatter-Boxplot stellt die Distanz der Flughäfen Berlin und Frankfurt zu allen Flughäfen, die aus Deutschland angeflogen werden, dar. Wir sehen deutlich, dass sich der Mittelwert (roter Punkt) und der Median (waagrechte schwarze Linie) praktisch gar nicht voneinander unterscheiden. 
@@ -1421,7 +1418,7 @@ Wir erzeugen zum Abschluss noch einen sogenannten Violinplot.
 ggplot(Gravity,aes(expname,dist)) +
   geom_violin(aes(fill=expname)) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
-  labs(x="",y="Distanz",fill="Flughafen",title="Distanz zu den Flughafen weltweit")
+  labs(x="",y="Distanz in km",fill="Flughafen",title="Distanz zu den Flughäfen weltweit")
 ```
 
 Hier wird die Verteilung der Distanzen dargestellt. Das heißt, je mehr Flughäfen die gleiche Entfernung von unserem Exportflughafen haben, desto breiter wird der Balken. Auch hier ist kein nennenswerter Unterschied zwischen den Flughäfen in Deutschland zu erkennen.
@@ -1552,8 +1549,7 @@ Mit dem Befehl `grid.arrange()` aus dem Package `gridExtra` können wir mehrere 
 ```
 
 Wenn wir also die internationalen Transitflüge von den Gesamtabflugzahlen subtrahieren, reduziert sich die Passagieranzahl von Frankfurt auf 16,4 Millionen.
-Vergleicht man `g1` mit `g2`, kann man sehen, dass sich nur die Passagieranzahl von Frankfurt deutlich verändert hat. Das bedeutet, dass der Großteil der internationalen Transitpassagiere, also Personen, die vom Ausland ins Ausland unterwegs sind und nur am Flughafen umsteigen, über Frankfurt fliegt (etwa 82%). Der Anteil der internationalen Transitpassagiere in Frankfurt, gemessen an der Gesamtzahl der Passagiere, liegt bei 32%. Das zeigt uns, dass der Status als Luftverkehrsknotenpunkt von Frankfurt eine wesentliche Rolle spielt, um einen gewissen Anteil von Frankfurts Vorrangstellung im Passagierluftverkehr zu erklären.
-Um diese Schlussfolgerung noch zu festigen, wollen wir noch zusätzlich die inländischen Transitpassagiere subtrahieren.
+Vergleicht man `g1` mit `g2`, kann man sehen, dass sich nur die Passagieranzahl von Frankfurt deutlich verändert hat. Das bedeutet, dass der Großteil der internationalen Transitpassagiere, also Personen, die vom Ausland ins Ausland unterwegs sind und nur am Flughafen umsteigen, über Frankfurt fliegt (etwa 82%). Der Anteil der internationalen Transitpassagiere in Frankfurt, gemessen an der Gesamtzahl der Passagiere, liegt bei 32%. Laut Redding, Sturm und Wolf  (2011, S. 825 f)) schließen wir daraus, dass der Status als Luftverkehrsknotenpunkt von Frankfurt eine wesentliche Rolle spielt, um einen gewissen Anteil von Frankfurts Vorrangstellung im Passagierluftverkehr zu erklären. Um diese Schlussfolgerung noch zu festigen, wollen wir noch zusätzlich die inländischen Transitpassagiere subtrahieren.
 
 **Aufgabe:** Ersetze die Fragezeichen indem du `int_transit` und `dom_transit` von `total_depart` subtrahierst
 ```{r "6_1__9",fig.width=9, fig.height=9}
@@ -1580,7 +1576,7 @@ Nun ist die Dominanz von Frankfurt vollständig eliminiert.
 
 **Frage:**
 #! addon__quiz__local_depart Dominanz
-Diese Zerlegung weist darauf hin, dass Frankfurts sehr viel größeres Gesamtaufkommen an Flugpassagieren nicht durch lokale Passagiere zu erklären ist, sondern vielmehr durch die deutlich größere Anzahl an Transitpassagieren.
+Diese Zerlegung weist laut Redding, Sturm und Wolf (2011, S. 826) darauf hin, dass Frankfurts sehr viel größeres Gesamtaufkommen an Flugpassagieren nicht durch lokale Passagiere zu erklären ist, sondern vielmehr durch die deutlich größere Anzahl an Transitpassagieren.
 
 
 Übersichtlich wird unser Ergebnis mit einem sogenannten "gestapelten Balkendiagramm". Auch dies lässt sich sehr schön mit `ggplot` erzeugen.
@@ -1594,7 +1590,7 @@ ggplot(Gravity2, aes(fill=type, y=value, x=expname)) +
   labs(title="Aufteilung der Passagiere", x="",y="Passagiere")
 ```
 
-Wir sehen hier deutlich, wie sich die Passagierzahlen der verschiedenen Flughäfen zusammensetzen. Internationale Transitflüge machen fast ein Drittel aller Abflüge von Frankfurt aus. Außer Frankfurt hat hier nur noch München einen wesentlichen Anteil. Selbiges trifft auf die inländischen Transitflüge zu. Auch bei den angereisten Transitflügen, weist Frankfurt eine sehr viel höhere Anzahl an Passagieren auf als die restlichen Flughäfen. Betrachten wir nur die lokalen Passagiere sticht Frankfurt keineswegs als größter Flughafen Deutschlands heraus. Demnach lässt sich frankfurts Vormachtstellung im deutschen Flugverkehr nicht durch regionale Fluggäste erklären. In **Aufgabe 6.2** wollen wir nun zeigen, dass aber durchaus ein enger Zusammenhang zwischen lokalen Flügen und der regionalen wirtschaftlichen Aktivität herrscht.
+Wir sehen hier deutlich, wie sich die Passagierzahlen der verschiedenen Flughäfen zusammensetzen. Internationale Transitflüge machen fast ein Drittel aller Abflüge von Frankfurt aus. Außer Frankfurt hat hier nur noch München einen wesentlichen Anteil. Selbiges trifft auf die inländischen Transitflüge zu. Auch bei den angereisten Transitflügen, weist Frankfurt eine sehr viel höhere Anzahl an Passagieren auf als die restlichen Flughäfen. Betrachten wir nur die lokalen Passagiere sticht Frankfurt keineswegs als größter Flughafen Deutschlands heraus. Demnach lässt sich frankfurts Vormachtstellung im deutschen Flugverkehr nicht durch regionale Fluggäste erklären (vgl. Redding, Sturm und Wolf  (2011, S. 826)).  In **Aufgabe 6.2** wollen wir nun zeigen, dass aber durchaus ein enger Zusammenhang zwischen lokalen Flügen und der regionalen wirtschaftlichen Aktivität herrscht.
 
 
 
@@ -1665,7 +1661,7 @@ ggplot(Gravity, aes(x=log(bip_vbg50), y=log(local_depart))) +
   theme_stata()
 ```
 
-Da wir keine großen Ausreißer haben und die Regressionsgerade eine Steigung nahe eins hat, schließen wir daraus, dass die regionale wirtschaftliche Aktivität und die Anzahl der lokalen Passagiere eine enge Beziehung zueinander haben. Bestätigt wird das ganze noch durch das Ergebnis unserer Regressionsgeraden. Über 80% der Streuung von local_depart wird durch die Regression erklärt (siehe $R^2$) und der Koeffizient für log(bip_vbg50) ist hoch signifikant.
+Da wir keine großen Ausreißer haben und die Regressionsgerade eine Steigung nahe eins hat, schließen wir daraus, dass die regionale wirtschaftliche Aktivität und die Anzahl der lokalen Passagiere eine enge Beziehung zueinander haben. Bestätigt wird dies durch den hoch signifikanten Koeffizient für log(bip_vbg50) und das Bestimmtheitsmaß, welches bezeugt, dass über 80% der Streuung (siehe R^2) von local_depart durch die Regressionsgerade erklärt wird (vgl. Redding, Sturm und Wolf  (2011, S. 826)).
 
 
 ## Exercise 6.3 -- Regionale wirtschaftliche Aktivität
@@ -1734,16 +1730,16 @@ ggplot(allmuni, aes(x=log(MunGDP50km), y=log(rank),colour=MunGDP50km)) +
   labs(title="lokales BIP deutscher Städte, 2002",x="log lokales BIP",y="log Rang",colour="BIP") +
   theme_bw()
 ```
-Wir sehen, dass die 15 Flughäfen nicht notwendigerweise in Städten liegen, die eine große Konzentration an regionaler wirtschaftlicher Aktivität haben. Die 30 Städte mit der größten regionalen wirtschaftlichen Aktivität liegen alle in der Rhein-Ruhr Region, z.B. Köln und Düsseldorf. Frankfurt belegt lediglich Platz 42.
+Wir sehen, dass sich die 15 Flughäfen nicht unbedingt in Städten mit einem hohen lokalen Bruttoinlandsprodukt befinden. Die 30 Städte mit der größten regionalen wirtschaftlichen Aktivität liegen laut Redding, Sturm und Wolf  (2011, S. 827) alle in der Rhein-Ruhr Region, z.B. Köln und Düsseldorf. Frankfurt belegt lediglich Platz 42. 
 Wir haben in **Aufgabe 6** gelernt, dass auch die regionale wirtschaftliche Aktivität keine große Rolle dafür spielt, dass Frankfurt Deutschlands Luftverkehrsknotenpunkt ist.
 
 
 ## Exercise 7 Zusammenfassung 
 
-Während viele theoretische Modelle besagen, dass ein Industriestandort nicht eindeutig von wirtschaftlichen Rahmenbedingungen festgelegt ist und multiple Steady States existieren, gibt es hierzu kaum empirische Beweise. 
-Wir haben die Teilung und Wiedervereinigung Deutschlands als natürliches Experiment gewählt um zu zeigen, dass es tatsächlich Multiple Steady States für Industriestandorte gibt. In **Aufgabe 1** haben wir die Entwicklung der Fluggastanteile bestimmt und in **Aufgabe 4** haben wir mit statistischen Methoden gezeigt, dass die Teilung Deutschlands signifikante Auswirkungen auf den Standortwechsel des deutschen Luftverkehrsknotenpunkts hatte. Im Gegensatz dazu besteht kein Grund für die Annahme, dass der Luftverkehrsknotenpunkt wieder nach Berlin wechseln könnte. Das war ein erster Hinweis auf Multiple Seady States. Um dies zu untermauern, haben wir in **Aufgabe 3** Deutschland mit anderen europäischen Ländern verglichen und aufgezeigt, dass eine Verlagerung des Luftverkehrsknotenpunkts keineswegs als gewöhnlich betrachtet werden kann. In **Aufgabe 2** haben wir dann herausgefunden, dass ein relativ kleiner Schock nötig war um die Wahl zugunsten Frankfurts zu treffen. In Aufgabe 5 und Aufgabe 6 haben wir die Wirtschaftlichen Rahmenbedingungen näher untersucht. Das Ergebnis von **Aufgabe 5** war, dass die Marktanbindung keine große Rolle bei der Wahl eines Luftverkehrsknotenpunkts spielt und Frankfurt hier keinesfalls Vorteile gegenüber anderen Standorten hat. Selbiges gilt für die regionale wirtschaftliche Aktivität, wie wir in **Aufgabe 6** herausgefunden haben. 
+Laut Redding, Sturm und Wolf  (2011, S. 829) gibt es kaum empirische Beweise dafür, dass ein Industriestandort nicht eindeutig von wirtschaftlichen Rahmenbedingungen festgelegt ist und multiple Steady States existieren.  
+Wir haben die Teilung und Wiedervereinigung Deutschlands als natürliches Experiment gewählt um zu zeigen, dass es tatsächlich Multiple Steady States für Industriestandorte gibt. In **Aufgabe 1** haben wir die Entwicklung der Fluggastanteile bestimmt und in **Aufgabe 4** haben wir mit statistischen Methoden gezeigt, dass die Teilung Deutschlands signifikante Auswirkungen auf den Standortwechsel des deutschen Luftverkehrsknotenpunkts hatte. Im Gegensatz dazu besteht kein Grund für die Annahme, dass der Luftverkehrsknotenpunkt wieder nach Berlin wechseln könnte. Das war ein erster Hinweis auf Multiple Steady States. Um dies zu untermauern, haben wir in **Aufgabe 3** Deutschland mit anderen europäischen Ländern verglichen und aufgezeigt, dass eine Verlagerung des Luftverkehrsknotenpunkts keineswegs als gewöhnlich betrachtet werden kann. In **Aufgabe 2** haben wir dann herausgefunden, dass ein relativ kleiner Schock nötig war, um die Wahl zugunsten Frankfurts zu treffen. In Aufgabe 5 und Aufgabe 6 haben wir die wirtschaftlichen Rahmenbedingungen näher untersucht. Das Ergebnis von **Aufgabe 5** war, dass die Marktanbindung keine große Rolle bei der Wahl eines Luftverkehrsknotenpunkts spielt und Frankfurt hier keinesfalls Vorteile gegenüber anderen Standorten hat. Selbiges gilt für die regionale wirtschaftliche Aktivität, wie wir in **Aufgabe 6** herausgefunden haben. 
 
-Zusammenfassend lässt sich sagen, dass die Teilung Deutschlands zu einem Schock geführt hat, welcher die Verlagerung des deutschen Luftverkehrsknotenpunkts zur Folge hatte. Es gibt keine empirischen Belege um anzunehmen, dass der Standort wieder zurück nach Berlin wechseln könnte. Deshalb gehen wir von multiple Steady States für den Standort eines Luftverkehrsknotenpunkts in Deutschland aus. Außerdem haben wir gezeigt, dass wirtschaftliche Rahmenbedingungen wie die Marktanbindung und die regionale wirtschaftliche Aktivität keine Rolle bei der Wahl des Standorts gespielt haben.
+Zusammenfassend lässt sich sagen, dass die Teilung Deutschlands zu einem Schock geführt hat, welcher die Verlagerung des deutschen Luftverkehrsknotenpunkts zur Folge hatte. Es gibt keine empirischen Belege um anzunehmen, dass der Standort wieder zurück nach Berlin wechseln könnte. Deshalb gehen wir von multiple Steady States für den Standort eines Luftverkehrsknotenpunkts in Deutschland aus. Außerdem haben wir gezeigt, dass wirtschaftliche Rahmenbedingungen wie die Marktanbindung und die regionale wirtschaftliche Aktivität keine Rolle bei der Wahl des Standorts gespielt haben (vgl. Redding, Sturm und Wolf  (2011, S. 829)).
 
 Danke, dass du dich für dieses Problem Set entschieden hast. Ich hoffe du konntest deine Programmierkenntnisse erweitern und hattest Spaß an den Aufgaben.
 Um zu sehen wie viele Awards du in diesem Problem Set gewonnen hast, drücke zuerst `edit` und dann `check`. Es gab insgesamt neun Awards zu gewinnen.
@@ -1755,7 +1751,7 @@ awards()
 
 ## Exercise 8 Quellen
 
-### Quellen
+### Literatur
 
 - Airports Council International (2002): Worldwide Airport Traffic Report. http://www.aci.aero/ (abgerufen am 11. Oktober 2017)
 
@@ -1765,9 +1761,7 @@ awards()
 
 - Bröcker, Johannes / Fritsch, Michael (2012): Ökonomische Geographie. München (Vahlen).
 
-- Bureau van Dijk. https://www.bvdinfo.com/de-de/our-products/company-information/international-products/orbis (abgerufen am 13. Oktober 2017)
-
-- Combes,P-P./ Lafourcade M./ Mayer T. (2005): The Trade-Creating Effects of Business and Social Networks: Evidence from France. Journal of International Economics 66. S.1-29.
+- Combes,P-P./ Lafourcade M./ Mayer T. (2005): The Trade-Creating Effects of Business and Social Networks: Evidence from France. Journal of International Economics 66.
 
 - Davis,D./ Weinstein,D. (2002): Bones, Bombs, and Break Points: The Geography of Economic Activity. (American Economic Review 92)
 
@@ -1783,7 +1777,7 @@ awards()
 
 - Marshall, Alfred 1842-1924 (1920): PRINCIPLES OF ECONOMICS. London (Macmillan).
 
-- Rauch J. (2001): Business and Social Networks in International Trade. Journal of International Economics 39. S.1177-1203
+- Rauch J. (2001): Business and Social Networks in International Trade. Journal of International Economics 39. 
 
 - Redding, Stephen J./ Sturm, Daniel M./ Wolf, Nikolaus (2011): History and industry location: Evidence from german airports (The Review of Economics and Statistics).
 
@@ -1801,7 +1795,7 @@ awards()
 
 - Wickham, Hadley (2009): ggplot2. Elegant Graphics for Data Analysis. Berlin, Heidelberg (Springer).
 
-- Wilken, D./ Berster, P./ Gelhausen, M.(2007): Airport Choice in Germany: New Empirical Evidence of the German Air Traveller Survey 2003. Journal of Airport Management 1. S.165-179.
+- Wilken, D./ Berster, P./ Gelhausen, M.(2007): Airport Choice in Germany: New Empirical Evidence of the German Air Traveller Survey 2003. Journal of Airport Management 1.
 
 - Wollschläger, Daniel (2017): Grundlagen der Datenanalyse mit R. Eine anwendungsorientierte Einführung. Berlin Heidelberg New York (Springer-Verlag).
 
@@ -1854,9 +1848,9 @@ awards()
 - Wickham, Hadley (2017). tidyr: Easily Tidy Data with 'spread()' and 'gather()'
   Functions. R package version 0.6.1. https://CRAN.R-project.org/package=tidyr
 
-### Websites
+### Webseiten
 
-
+- https://www.bvdinfo.com/de-de/our-products/company-information/international-products/orbis (abgerufen am 13. Oktober 2017)
 - http://www.datasciencecentral.com/profiles/blogs/understanding-linear-regression (abgerufen am 15. Oktober 2017)
 
 - https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/17402 (abgerufen am 05. Juli 2017)
