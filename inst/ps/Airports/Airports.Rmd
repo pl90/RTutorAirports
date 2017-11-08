@@ -24,7 +24,7 @@ Dieses Problem Set ist mit Hilfe des Papers **"History and Industry Location: Ev
 
 ## Einführung
 
-Als die Alliierten im Zweiten Weltkrieg japanische Städte bombardierten und damit komplett zerstörten wurde mit Überraschen festgestellt, dass die Bevölkerung recht schnell wieder in ihre Städte zurückkehrte und die wirtschaftliche Aktivität sich dort schnell wieder erholte. Selbst ein großer Schock wie diese Zerstörung, führte also nicht zu einer Standortverlagerung der dort ansässigen Industrien. Das bestätigt verschiedene Theorien, welche besagen, dass es für Branchen- und Industriestandorte einen eindeutigen Gleichgewichtspunkt (Steady State), herbeigeführt durch wirtschaftliche Rahmenbedingungen, gibt. Selbst nach einer vorübergehenden Verlagerung der Aktivitäten aufgrund eines Schocks werden sich die Standorte nach einer gewissen Zeit wieder zum Steady State begeben (vgl. Davis und Weinstein (2002, S. 1269-1289)).
+Als die Alliierten im Zweiten Weltkrieg japanische Städte bombardierten und damit komplett zerstörten wurde mit Überraschen festgestellt, dass die Bevölkerung recht schnell wieder in ihre Städte zurückkehrte und die wirtschaftliche Aktivität sich dort schnell wieder erholte. Selbst ein großer Schock wie diese Zerstörung, führte also nicht zu einer Standortverlagerung der dort ansässigen Industrien. Das bestätigt verschiedene Theorien, welche besagen, dass es für Branchen- und Industriestandorte einen eindeutigen Gleichgewichtspunkt (Steady State), herbeigeführt durch wirtschaftliche Rahmenbedingungen, gibt. Selbst nach einer vorübergehenden Verlagerung der Aktivitäten aufgrund eines Schocks werden sich die Standorte nach einer gewissen Zeit wieder zum Steady State begeben (vgl. Davis und Weinstein (2002, S. 1269-1289) und Redding, Sturm und Wolf  (2011, S. 814)).
 
 Im Gegensatz dazu gibt es die These, dass Branchen- und Industriestandorte nicht eindeutig von wirtschaftlichen Rahmenbedingungen bestimmt werden und multiple Steady States für Standorte existieren. Welcher dieser Steady States gewählt wird, hängt von Anfangsbedingungen und vergangenen Schocks ab. Erfahrungen haben gezeigt, dass kleine, zeitlich begrenzte Schocks große, dauerhafte Auswirkungen haben können. Standorte können von einem Steady State zu einem anderen verschoben werden  (vgl. Marshall (1920) und Krugman (1991, S. 483-499)). 
 
@@ -292,8 +292,8 @@ ggplot(data=atsf,aes(x=year, y=pshare, colour=airport)) +
 Wie der Graphik zu entnehmen ist, war Berlin vor dem Zweiten Weltkrieg der mit großem Abstand meistgenutzte Flughafen in Deutschland. Der Passagieranteil von Berlin im Jahr 1927 betrug fast 30% und war damit mehr als doppelt so groß wie der Passagieranteil des Frankfurter Flughafens. Vor 1938 waren die Flughäfen Frankfurt, München, Hamburg und Köln auf den Plätzen zwei bis fünf. Alle hatten einen Marktanteil von ungefähr 10% (vgl. Redding, Sturm und Wolf  (2011, S. 819)). 
 
 
-Während Berlin im Jahr 1950 immer noch den größten Flughafen Deutschlands hatte, war Frankfurt bereits mit deutlichem Vorsprung der zweitgrößte Flughafen. Von 1950 an ging der Passagieranteil von Berlin stetig zurück und im Jahr 1960 wurde Berlin von Frankfurt als größter deutscher Flughafen abgelöst. In den 1980er Jahren hatte Frankfurt einen  Marktanteil von 35 bis 40%. Berlins Marktanteil fiel zur gleichen Zeit auf unter 10%. Der kleine Anstieg von Berlins Fluggastanteil im Jahr 1990 ist der Tatsache geschuldet, dass wir die Daten der Flughäfen Tempelhof und Tegel in Westberlin und Schönefeld in Ostberlin ab diesem Jahr aufgrund der Widervereinigung zusammengerechnet haben. Abgesehen von dieser kleinen Erhöhung ist der Marktanteil von Berlin seit der Wiedervereinigung im Jahr 1990 stetig gefallen und Frankfurt hat sich klar als bedeutendster deutscher Flughafen etabliert (vgl. Redding, Sturm und Wolf  (2011, S. 819 f)).
-Auf Grundlage aller Daten, die wir bis hierhin haben, gibt es keine Anzeichen die darauf hindeuten, dass Berlin eines Tages wieder der größte deutsche Flughafen werden könnte. Dies ist ein erstes Anzeichen dafür, dass die Verlagerung von Berlin nach Frankfurt eine dauerhafte Verlagerung des Luftverkehrsknotenpunkts zwischen multiple Steady States ist. Dies würde der These von Davis und Weinstein (2002) wiedersprechen, die besagt, dass ein eindeutiger Steady State existiert.
+Während Berlin im Jahr 1950 immer noch den größten Flughafen Deutschlands hatte, war Frankfurt bereits mit deutlichem Vorsprung der zweitgrößte Flughafen. Im Jahr 1960 wurde Berlin von Frankfurt als größter deutscher Flughafen abgelöst. Während Berlins Marktanteil in den 1980ern auf unter 10% fiel, konnte Frankfurt zu dieser Zeit einen Marktanteil von 35 bis 40% verzeichnen. Der kleine Anstieg von Berlins Fluggastanteil im Jahr 1990 ist der Tatsache geschuldet, dass wir die Daten der Flughäfen Tempelhof und Tegel in Westberlin und Schönefeld in Ostberlin ab diesem Jahr aufgrund der Widervereinigung zusammengerechnet haben. Abgesehen von dieser kleinen Erhöhung ist der Marktanteil von Berlin seit der Wiedervereinigung im Jahr 1990 stetig gefallen und Frankfurt hat sich klar als bedeutendster deutscher Flughafen etabliert (vgl. Redding, Sturm und Wolf  (2011, S. 819 f)).
+Auf Grundlage aller Daten, die wir bis hierhin haben, gibt es keine Anzeichen die darauf hindeuten, dass Berlin eines Tages wieder der größte deutsche Flughafen werden könnte. Dies ist ein erstes Anzeichen dafür, dass die Verlagerung von Berlin nach Frankfurt eine dauerhafte Verlagerung des Luftverkehrsknotenpunkts zwischen multiple Steady States ist. Dies würde der These von Davis und Weinstein (2002) widersprechen, die besagt, dass ein eindeutiger Steady State existiert.
 
 
 
@@ -486,7 +486,7 @@ abline(lm)
 ```
 
 
-Die Autoren des Papers gehen hier von heteroskedasten Störgrößen aus. Das bedeutet, dass die Streuung der Punkte um die Gerade nicht konstant ist und sich die Varianz der Störgrößen somit signifikant unterscheiden. Mehr dazu findest du in der InfoBox. 
+Die Autoren des Papers gehen hier von heteroskedastischen Störgrößen aus. Das bedeutet, dass die Streuung der Punkte um die Gerade nicht konstant ist und sich die Varianz der Störgrößen somit signifikant unterscheiden. Mehr dazu findest du in der InfoBox. 
 
 info("Heteroskedastizität") # Run this line (Strg-Enter) to show info
 
@@ -531,7 +531,7 @@ Wir benutzen nun den Befehl `waldtest()` aus dem Package `lfe`.
 
 info("waldtest()") # Run this line (Strg-Enter) to show info
 
-In unserem Fall wollen wir testen, ob der Schätzer $\hat \beta=1$ ist. Der `waldtest()` aus dem Package `lfe` berechnet $H_0: R*beta=r$, weshalb wir $r=1$ und $R=1$ übergeben. Mit type="robust" nehmen die Autoren heteroskedaske Störgrößen an, damit der Test weniger sensibel auf Ausreißer reagiert. 
+In unserem Fall wollen wir testen, ob der Schätzer $\hat \beta=1$ ist. Der `waldtest()` aus dem Package `lfe` berechnet $H_0: R*beta=r$, weshalb wir $r=1$ und $R=1$ übergeben. Mit type="robust" nehmen die Autoren heteroskedastische Störgrößen an, damit der Test weniger sensibel auf Ausreißer reagiert. 
 
 **Aufgabe:** Führe einen Waldtest durch um zu testen ob unsere Lineare Regression die Steigung 1 hat. Entferne dazu `#` und ersetze die ???
 ```{r "3__11"}
@@ -541,7 +541,7 @@ In unserem Fall wollen wir testen, ob der Schätzer $\hat \beta=1$ ist. Der `wal
 
 Für die F-Statistik erhalten wir einen p-Wert von 0,162. Dieser Wert ist größer als das von uns gewählte Signifikanzniveau von 10%. Daraus schließen wir, dass es eine statistisch signifikante Korrelation zwischen den vergangenen und den aktuellen Marktanteilen gibt. Somit verwerfen wir die Nullhypothese, dass der Koeffizient für den Marktanteil von 1937 eins ist, nicht (vgl. Redding, Sturm und Wolf  (2011, S. 822)). 
 
-Da wir weiter oben festgestellt haben, dass wir keine genaue Aussage über die Art der Störgrößen machen können, wollen wir den Waldtest zusätzlich noch für homoskedaske Störgrößen berechnen.
+Da wir weiter oben festgestellt haben, dass wir keine genaue Aussage über die Art der Störgrößen machen können, wollen wir den Waldtest zusätzlich noch für homoskedastische Störgrößen berechnen.
 
 **Aufgabe:** Drücke `check` um das Ergebnis anzeigen zu lassen
 ```{r "3__12"}
@@ -585,7 +585,7 @@ Generiere nun einen neuen Datensatz `temp`, indem nur die Spalten `destination`,
 
 ```
 
-Um zu berechnen, wie viel Prozent der europäischen Flughäfen 1935 von Frankfurt aus angeflogen wurden, benutze folgende Formel: $(y/z)*100$ wobei `y` der Anzahl der Einsen in der Spalte `frankfurt` entspricht und `z` der Anzahl an Reihen insgesamt. Mit `sum()` kannst du die Summe einer Spalte berechnen. Mit `length()` kannst du die Gesamtanzahl der Einträge einer Zeile bestimmen.
+Um zu berechnen, wie viel Prozent der europäischen Flughäfen 1935 von Frankfurt aus angeflogen wurden, benutze folgende Formel: $(y/z)*100$ wobei `y` der Anzahl der Einsen in der Spalte `frankfurt` entspricht und `z` der Anzahl an Reihen insgesamt. Mit `sum()` kannst du die Summe einer Spalte berechnen. Mit `length()` kannst du die Gesamtanzahl der Einträge einer Spalte bestimmen.
 
 **Aufgabe:** Berechne wie viel Prozent der europäischen Flughäfen 1935 von Frankfurt aus angeflogen wurden. Ersetze dazu die ??? und entferne `#` 
 ```{r "3_1__4"}
@@ -611,7 +611,7 @@ Um zu berechnen, wie viel Prozent der europäischen Flughäfen im Jahr 2002 von 
 
 Der Datensatz `Gravity` ist sehr umfänglich. Die Daten stammen alle aus dem Jahr 2002. Wir können unter anderem ablesen wie viel Passagiere jeweils von einem deutschen Flughafen zu einem beliebigen internationalen Flughafen geflogen sind (Spalte `deppass`). Diese Daten entstammen dem Statistischen Bundesamt (2003). Der Datensatz gibt uns aber noch sehr viel mehr Informationen, wie z.B. die exakte Lage des Zielflughafens mit Längen- und Breitengraden, die Anzahl der lokalen Fluggäste und die Anzahl der Durchreisefluggäste. Auch die Einwohnerzahl und das Bruttoinlandsprodukt der Stadt des Herkunftsflughafens können abgelesen werden. Wir werden für unsere Berechnungen nicht alle Spalten benötigen. Was die einzelnen Spalten genau beschreiben werde ich genauer erläutern, sobald wir diese benötigen.
 
-**Aufgabe:** Benutze die `filter` Funktion um herauszufinden wie viel Fluggäste 2002 von Hannover nach Rhodos geflogen sind
+**Aufgabe:** Benutze die `filter` Funktion um herauszufinden wie viele Fluggäste 2002 von Hannover nach Rhodos geflogen sind
 ```{r "3_1__7"}
 #filter(???,expname=="???",???)
 
@@ -665,8 +665,8 @@ print(Karte, tag="chart")
 
 ## Exercise 4 -- Difference in Difference Schätzer- Beispiel
 
-Nachdem wir die Regressionsanalyse kennen gelernt und die wichtigsten Eregnisse der deutschen 
-Geschichte ab 1930 eingeorndet haben, wollen wir nochmals einen Blick auf unsere Graphik aus Aufgabe 1 werfen.
+Nachdem wir die Regressionsanalyse kennen gelernt und die wichtigsten Ergebnisse der deutschen 
+Geschichte ab 1930 eingeordnet haben, wollen wir nochmals einen Blick auf unsere Graphik aus Aufgabe 1 werfen.
 
 
  <figure>
@@ -835,7 +835,7 @@ info("Fortgeschritten: felm()") # Run this line (Strg-Enter) to show info
 **Aufgabe:** Entferne die `#` und ersetze die ???
 ```{r "4_1__11",results='asis'}
 #felmBerlin=felm(???~???|???,data=filter(atsf,airport=="Berlin"))
-#stargazer(felmBerlin,type="html",title="Titel",covariate.labels=c("1927-1938","1950-1989","1990-2002"),align=TRUE)
+#stargazer(felmBerlin,type="html",covariate.labels=c("1927-1938","1950-1989","1990-2002"),align=TRUE)
 
 
 ```
@@ -861,7 +861,7 @@ Nun vergleichen wir die Werte mit `stargazer` die Werte für Berlin und Frankfur
 
 **Aufgabe:** Drücke `check` um das Ergebnis anzeigen zu lassen
 ```{r "4_1__13",results='asis'}
-stargazer(felmBerlin,felmFrankfurt,type="html",title="Titel", column.labels=c("Berlin","Frankfurt"),covariate.labels=c("1927-1938","1950-1989","1990-2002"),align=T)
+stargazer(felmBerlin,felmFrankfurt,type="html", column.labels=c("Berlin","Frankfurt"),covariate.labels=c("1927-1938","1950-1989","1990-2002"),align=T)
 
 ```
 
@@ -1009,7 +1009,7 @@ Wir schauen uns die Ergebnisse für die für uns wichtigen Variablen wieder mit 
 
 **Aufgabe:** Drücke `check` um das Ergebnis anzeigen zu lassen
 ```{r "4_2__5",results='asis'}
-stargazer(felmBerlin,felmFrankfurt,type="html",title="Titel", column.labels=c("Berlin","Frankfurt"),covariate.labels=c("1980-1989","1990-2002"),keep=c("time90","dec80"),align=T)
+stargazer(felmBerlin,felmFrankfurt,type="html", column.labels=c("Berlin","Frankfurt"),covariate.labels=c("1980-1989","1990-2002"),keep=c("time90","dec80"),align=T)
 
 ```
 
@@ -1142,7 +1142,7 @@ Bevor wir die Regression durchführen, kannst du das Ergebnis schätzen.
 **Frage:**
 #! addon__quiz__Sch�tzfrage
 
-Wir berechnen die Regression mit dem Befehl `felm` und betrachten die Ergebnisse mit `stargazer()`
+Wir berechnen die Regression mit dem Befehl `felm` und betrachten die Ergebnisse mit `stargazer()`.
 
 **Aufgabe:** Drücke `check` und schaue dir das Ergebnis an
 ```{r "5__8",results='asis'}
@@ -1186,7 +1186,7 @@ Als letzten Schritt schätzen wir `ldeppass` mit den Variablen `ldist`, `lformig
 
 ```
 
-Diese ganzen Ergebnisse lassen sich übersichtlich mit dem Befehl `stargazer` als Tabelle anzeigen. Wir werden nur die Werte für `ldist`,`lsubsy` und `lformig` angezeigen, da in dieser Aufgabe nur diese Variablen von Bedeutung sind. Die Werte für die Fixeffekte der verschiedenen Herkunftsflughäfen werden wir in **Aufgabe 6** behandeln.
+Diese ganzen Ergebnisse lassen sich übersichtlich mit dem Befehl `stargazer` als Tabelle anzeigen. Wir werden nur die Werte für `ldist`, `lsubsy` und `lformig` angezeigen, da in dieser Aufgabe nur diese Variablen von Bedeutung sind. Die Werte für die Fixeffekte der verschiedenen Herkunftsflughäfen werden wir in **Aufgabe 6** behandeln.
 
 **Aufgabe:** Drücke `check` um ein übersichtliches Ergebnis der vier Regressionen zu erhalten
 ```{r "5__12",results='asis'}
@@ -1195,7 +1195,7 @@ stargazer(fe1,fe2,fe3,fe4,title="Determinants of Bilateral Passenger Departures"
 
 <br>
 
-Unsere vier Regressionen sind nun von links nach rechts in den verschiedenen Spalten aufgelistet. Der Koeffizient für die geographische Distanz bleibt in allen Fällen negativ und statistisch hoch signifikant. Für Regressionen (3) - (4) besitzen die Maße für Soziale Netzwerke und Unternehmensnetzwerke eine positive Beziehung zu den Abflugzahlen (vgl. Redding, Sturm und Wolf  (2011, S. 824)). 
+Unsere vier Regressionen sind nun von links nach rechts in den verschiedenen Spalten aufgelistet. Der Koeffizient für die geographische Distanz bleibt in allen Fällen negativ und statistisch hoch signifikant. Für die Regressionen (3) - (4) besitzen die Maße für Soziale Netzwerke und Unternehmensnetzwerke eine positive Beziehung zu den Abflugzahlen (vgl. Redding, Sturm und Wolf  (2011, S. 824)). 
 
 **Frage:**
 #! addon__quiz__lformig
@@ -1319,7 +1319,7 @@ Zu Beginn müssen wir die vorhergesagten Werte $\widehat{A_{ij}}$ bestimmen. Hie
 
 ```
 
-`fit_ldp` ist ein Zahlenvektor mit den 5130 vorhergesagten Werten für diee 5130 Zeilen der `Gravity` Tabelle. Es gilt nun $A_{ij}=exp(\text{fit_ldp})$.
+`fit_ldp` ist ein Zahlenvektor mit den 5130 vorhergesagten Werten für die 5130 Zeilen der `Gravity` Tabelle. Es gilt nun $A_{ij}=exp(\text{fit_ldp})$.
 
 **Aufgabe:** Erstelle eine Tabelle `A` in der du der Tabelle `Gravity` die Spalte `A_ij` hinzufügst 
 ```{r "5_1__6"}
@@ -1436,7 +1436,7 @@ Diese Unterteilung benutzen wir, um in **Aufgabe 6.2** die Beziehung zwischen re
 
 ## Exercise 6.1 -- Zerlegung der Passagieranteile  
 
-Wir unterteilen Passagiere die von unseren 15 deutschen Flughäfen abgeflogen sind in folgende vier Kategorien:
+Redding, Sturm und Wolf  (2011, S. 825) unterteilen Passagiere die von unseren 15 deutschen Flughäfen abgeflogen sind in folgende vier Kategorien:
 
 I) ***internationale Transitpassagiere*** (international air transit passenger): Alle Passagiere, die am Flughafen umsteigen und sich sowohl deren Herkunftsflughafen als auch deren Zielflughafen im Ausland befinden.
 
